@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#undef main
+
 using namespace std;
 
 //Variables to store the screen dimensions

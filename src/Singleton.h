@@ -17,9 +17,9 @@
 #include "randomNumber.h"
 
 #define _FontPath "opensans.ttf"
-#define _PlayerPath "C:/Programming/C++/Projects/SDL_Platformer/data/png/Player.png"
-#define _BlockPath "C:/Programming/C++/Projects/SDL_Platformer/data/png/Block.png"
-#define _BackgroundPath "C:/Programming/C++/Projects/SDL_Platformer/data/png/Background.png"
+#define _PlayerPath "../data/png/Player.png"
+#define _BlockPath "../data/png/Block.png"
+#define _BackgroundPath "../data/png/Background.png"
 
 struct double_Rect {
 
