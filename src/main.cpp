@@ -23,7 +23,7 @@ int main(int argc, char* argv[]){
     SDL_DisplayMode dM;
     SDL_GetCurrentDisplayMode(0, &dM);
     
-	//Check if the device is vertical of horizontal
+	//Check if the device is vertical or horizontal
     if(dM.h > dM.w)
     {
         SCREEN_WIDTH = dM.h;
