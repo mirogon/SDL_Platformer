@@ -36,7 +36,7 @@ void C_GameObject::CreateStaticObjects()
 
 void C_GameObject::DeleteStaticObjects()
 {
-    std::vector<C_Texture>().swap(gameObjects);
+	gameObjects.clear();
 }
 
 unsigned short C_GameObject::gameObjectCount = 0;
