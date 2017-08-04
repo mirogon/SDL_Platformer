@@ -20,6 +20,9 @@
 #define _PlayerPath "../data/png/Player.png"
 #define _BlockPath "../data/png/Block.png"
 #define _BackgroundPath "../data/png/Background.png"
+#define _PlayButtonPath "../data/png/PlayButton.png"
+#define _EditorButtonPath "../data/png/EditorButton.png"
+#define _QuitButtonPath "../data/png/QuitButton.png"
 
 struct double_Rect {
 
@@ -180,4 +183,5 @@ namespace m1{
         }
     }
     
+
 }

@@ -12,6 +12,24 @@ int SCREEN_HEIGHT;
 float SCALE_W;
 float SCALE_H;
 
+enum e_GameState{state_Menu = 0, state_Play = 1, state_Editor = 2};
+
+struct S_GameState 
+{
+	short currentState; // 0 = Menu, 1 = Play, 2 = Editor
+
+	S_GameState(short cState) : currentState{ cState }
+	{
+
+	}
+
+	void changeState(short newState) 
+	{
+		currentState = newState;
+	}
+};
+
+
 int main(int argc, char* argv[]){
     
     //Init SDL, IMG and TTF
@@ -61,13 +79,16 @@ int main(int argc, char* argv[]){
     
 	//Is used to check if the main game loop is valid
     bool quitPollEvent = false;
-
+	bool leftMousePressed = false;
     //Event to check the current event
     SDL_Event e;
     
     //The main Game
     C_Game mainGame;
         
+	//Stores the current game state
+	S_GameState gameState = state_Menu;
+
     while(quitPollEvent == false)
 	{
         static int fps = 0;
@@ -92,13 +113,42 @@ int main(int argc, char* argv[]){
                     quitPollEvent = true;
                 }
             }
+
+			if (e.type == SDL_MOUSEBUTTONDOWN)
+			{
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					leftMousePressed = true;
+				}
+				else
+				{
+					leftMousePressed = false;
+				}
+				
+			}
+
+			else
+			{
+				leftMousePressed = false;
+			}
+			
+
         }
         
         //Clear screen with the default render color
         SDL_RenderClear(_GetRenderer);
 
+		if (gameState.currentState == state_Menu)
+		{
+			gameState.currentState = mainGame.Game_Menu(leftMousePressed);
+		}
+
 		//Call the main game play function
-        mainGame.Game_Play();
+		if(gameState.currentState == state_Play)
+		{
+			mainGame.Game_Play();
+		}
+        
         
         //Sync the renderer
         SDL_RenderPresent(_GetRenderer);

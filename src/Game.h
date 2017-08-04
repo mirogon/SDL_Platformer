@@ -6,8 +6,6 @@ enum E_CollisionDirection { Left = 0, Right = 1, Bot = 2, Top = 3 };
 
 E_CollisionDirection CollisionDetection( const double_Rect& pCollisionBox, const double_Rect& collisionBox);
 
-const float playerSpeed = 2 * SCALE_W;
-
 class C_Game{
     
 public:
@@ -22,7 +20,7 @@ public:
     void Game_Play();
 
 	//Game menu function
-    void Game_Menu();
+    short Game_Menu(bool mousePressed);
  
 	void PlayerInBorders();
 
@@ -33,6 +31,10 @@ public:
 	void HandlePlayerCollision();
 
 private:
+
+	C_Texture playButton;
+	C_Texture editorButton;
+	C_Texture quitButton;
 
 	//The background texture
 	C_Texture background;
@@ -74,10 +76,28 @@ inline void C_Game::Game_Play()
 
 }
 
-inline void C_Game::Game_Menu()
+inline short C_Game::Game_Menu(bool mousePressed)
 {
-}
 
+	static int mousePosX = 0, mousePosY = 0;
+	
+	SDL_GetMouseState(&mousePosX, &mousePosY);
+
+	playButton.RenderTexture(SCREEN_WIDTH / 2 - playButton.GetRect()->w / 2 , SCREEN_HEIGHT * 0.25 - playButton.GetRect()->h );
+	editorButton.RenderTexture(SCREEN_WIDTH / 2 - editorButton.GetRect()->w / 2, SCREEN_HEIGHT / 2 - editorButton.GetRect()->h / 2);
+	quitButton.RenderTexture(SCREEN_WIDTH / 2 - quitButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.75);
+
+	if (m1::IsInCollisionBox(mousePosX, mousePosY, *playButton.GetRect()) && mousePressed == true)
+	{
+		return 1;
+	}
+	
+	else
+	{
+		return 0;
+	}
+
+}
 
 
 inline bool C_Game::PlayerIsOnGround()
