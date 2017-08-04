@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 
+enum E_BlockType { Dirt = 0, GrassDirt = 1 };
 
 class C_GameObject{
     

@@ -18,7 +18,7 @@
 
 #define _FontPath "opensans.ttf"
 #define _PlayerPath "../data/png/Player.png"
-#define _BlockPath "../data/png/Block.png"
+#define _DirtPath "../data/png/Dirt.png"
 #define _BackgroundPath "../data/png/Background.png"
 #define _PlayButtonPath "../data/png/PlayButton.png"
 #define _EditorButtonPath "../data/png/EditorButton.png"

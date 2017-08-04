@@ -26,7 +26,7 @@ void C_GameObject::CreateStaticObjects()
     {
         // Block = 0
         gameObjects.push_back(C_Texture() );
-        gameObjects[0].InitTexture(_BlockPath);
+        gameObjects[0].InitTexture(_DirtPath);
         ++gameObjectCount;
         
         firstTime = false;

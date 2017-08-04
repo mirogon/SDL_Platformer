@@ -87,13 +87,30 @@ inline short C_Game::Game_Menu(bool mousePressed)
 	editorButton.RenderTexture(SCREEN_WIDTH / 2 - editorButton.GetRect()->w / 2, SCREEN_HEIGHT / 2 - editorButton.GetRect()->h / 2);
 	quitButton.RenderTexture(SCREEN_WIDTH / 2 - quitButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.75);
 
-	if (m1::IsInCollisionBox(mousePosX, mousePosY, *playButton.GetRect()) && mousePressed == true)
+	if ( m1::IsInCollisionBox( mousePosX, mousePosY, *playButton.GetRect() ) )
 	{
-		return 1;
+		SDL_SetTextureAlphaMod(playButton.GetTexture(), 128);
+
+		if (mousePressed)
+		{
+			return 1;
+		}
+		
 	}
-	
+
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *quitButton.GetRect()))
+	{
+		SDL_SetTextureAlphaMod(quitButton.GetTexture(), 128);
+		if (mousePressed)
+		{
+			return -1;
+		}
+	}
+
 	else
 	{
+		SDL_SetTextureAlphaMod(playButton.GetTexture(), 255);
+		SDL_SetTextureAlphaMod(quitButton.GetTexture(), 255);
 		return 0;
 	}
 

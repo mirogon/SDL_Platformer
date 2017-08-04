@@ -12,11 +12,11 @@ int SCREEN_HEIGHT;
 float SCALE_W;
 float SCALE_H;
 
-enum e_GameState{state_Menu = 0, state_Play = 1, state_Editor = 2};
+enum e_GameState { state_Quit = -1, state_Menu = 0, state_Play = 1, state_Editor = 2 };
 
 struct S_GameState 
 {
-	short currentState; // 0 = Menu, 1 = Play, 2 = Editor
+	short currentState; //-1 = Quit, 0 = Menu, 1 = Play, 2 = Editor
 
 	S_GameState(short cState) : currentState{ cState }
 	{
@@ -80,6 +80,7 @@ int main(int argc, char* argv[]){
 	//Is used to check if the main game loop is valid
     bool quitPollEvent = false;
 	bool leftMousePressed = false;
+
     //Event to check the current event
     SDL_Event e;
     
@@ -149,6 +150,10 @@ int main(int argc, char* argv[]){
 			mainGame.Game_Play();
 		}
         
+		if (gameState.currentState == state_Quit)
+		{
+			quitPollEvent = true;
+		}
         
         //Sync the renderer
         SDL_RenderPresent(_GetRenderer);
