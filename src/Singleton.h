@@ -16,13 +16,12 @@
 #include <iostream>
 #include "randomNumber.h"
 
-#define _FontPath "opensans.ttf"
+#define _MenuFontPath "../data/ttf/opensans.ttf"
+#define _FontPath "../data/ttf/opensans.ttf"
 #define _PlayerPath "../data/png/Player.png"
 #define _DirtPath "../data/png/Dirt.png"
 #define _BackgroundPath "../data/png/Background.png"
-#define _PlayButtonPath "../data/png/PlayButton.png"
-#define _EditorButtonPath "../data/png/EditorButton.png"
-#define _QuitButtonPath "../data/png/QuitButton.png"
+
 
 struct double_Rect {
 

@@ -33,7 +33,7 @@ private:
     SDL_Window* mainWindow;
 
     SDL_Renderer* mainRenderer;
-    
+
 };
 
 inline C_Base* C_Base::getInstance()

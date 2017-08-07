@@ -60,14 +60,14 @@ bool C_Texture::InitTexture(std::string path, float scale_w, float scale_h)
 
 }
 
-/*bool C_Texture::InitTextureFromText(std::string text, float scale, SDL_Color color){
+bool C_Texture::InitTextureFromText(std::string text, TTF_Font* font, SDL_Color color, float scale_w , float scale_h) {
 
     FreeTexture();
 
-    SDL_Surface* loadText = TTF_RenderText_Solid(_GetFont, text.c_str(), color);
+    SDL_Surface* loadText = TTF_RenderText_Solid(font, text.c_str(), color);
     if(loadText==nullptr){
 
-        //std::cout<<"TTF Surface konnte nicht erstellt werden"<<std::endl;
+        std::cout<<"TTF Surface konnte nicht erstellt werden"<<std::endl;
 
     }
 
@@ -75,11 +75,11 @@ bool C_Texture::InitTexture(std::string path, float scale_w, float scale_h)
 
     texture = SDL_CreateTextureFromSurface(_GetRenderer, loadText);
 
-    textureRect->w = loadText->w * scale;
-    textureRect->h = loadText->h * scale;
+    textureRect->w = loadText->w * scale_w;
+    textureRect->h = loadText->h * scale_h;
 
     SDL_FreeSurface(loadText);
 
     return texture != nullptr;
 
-}*/
+}

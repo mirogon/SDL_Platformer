@@ -8,12 +8,31 @@ C_Game::C_Game()
 	player.MoveObjectDirect(SCREEN_WIDTH / 2 - player.GetObjectRect().w / 2, SCREEN_HEIGHT - player.GetObjectRect().h);
 	playerIsOnGameObject = false;
 
+
+	menuFont = TTF_OpenFont(_MenuFontPath, 90);
+	if (menuFont == nullptr)
+	{
+		m1::Log("menuFont could not be intialized ( Game.cpp )");
+	}
+	menu_SettingsFont = TTF_OpenFont(_MenuFontPath, 60);
+	if (menuFont == nullptr)
+	{
+		m1::Log("menu_SettingsFont could not be intialized ( Game.cpp )");
+	}
+
 	background.InitTexture(_BackgroundPath);
 	
+	
 	//Menu buttons
-	playButton.InitTexture(_PlayButtonPath);
-	editorButton.InitTexture(_EditorButtonPath);
-	quitButton.InitTexture(_QuitButtonPath);
+	playButton.InitTextureFromText("Play", menuFont);
+	editorButton.InitTextureFromText("Map Editor", menuFont);
+	settingsButton.InitTextureFromText("Settings", menuFont);
+	quitButton.InitTextureFromText("Quit", menuFont);
+	
+	resolutionLabel.InitTextureFromText("Resolution:", menu_SettingsFont);
+	applyButton.InitTextureFromText("Apply", menu_SettingsFont);
+
+	currentResolution.InitTextureFromText(m1::to_string(SCREEN_WIDTH) + "x" + m1::to_string(SCREEN_HEIGHT), menu_SettingsFont);
 
 }
 
@@ -21,5 +40,7 @@ C_Game::~C_Game()
 {
 
 	std::vector<C_GameObject>().swap(gameObjects);
+	TTF_CloseFont(menuFont);
+	TTF_CloseFont(menu_SettingsFont);
 
 }

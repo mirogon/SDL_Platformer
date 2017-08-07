@@ -18,7 +18,7 @@ virtual ~C_Texture();
 
 //Function to init the texture from an image
 bool InitTexture (std::string path, float scale_w = SCALE_W, float scale_h = SCALE_H);
-/*bool InitTextureFromText(std::string text, float scale = (SCALE_W + SCALE_H) / 2 , SDL_Color = {0,0,0,0});*/
+bool InitTextureFromText(std::string text, TTF_Font* font, SDL_Color color = SDL_Color{ 0,0,0 }, float scale_w = SCALE_W, float scale_h = SCALE_H);
 
 //Free the texture from the current image
 void FreeTexture ();

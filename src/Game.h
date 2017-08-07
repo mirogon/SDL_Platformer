@@ -22,6 +22,8 @@ public:
 	//Game menu function
     short Game_Menu(bool mousePressed);
  
+	void Game_Menu_Settings(bool mousePressed);
+
 	void PlayerInBorders();
 
 	//Check and return if the player is on the ground
@@ -32,17 +34,27 @@ public:
 
 private:
 
+	//Menu
+
 	C_Texture playButton;
 	C_Texture editorButton;
+	C_Texture settingsButton;
 	C_Texture quitButton;
 
-	//The background texture
+	//Menu_Settings
+	C_Texture applyButton;
+	C_Texture resolutionLabel;
+	C_Texture currentResolution;
+
+	TTF_Font* menuFont;
+	TTF_Font* menu_SettingsFont;
+
 	C_Texture background;
 
-	//The player
+	//Game
+
     C_Player player;
 
-	//The game objects
     std::vector<C_GameObject> gameObjects;
 
 	bool playerIsOnGameObject;
@@ -83,9 +95,11 @@ inline short C_Game::Game_Menu(bool mousePressed)
 	
 	SDL_GetMouseState(&mousePosX, &mousePosY);
 
-	playButton.RenderTexture(SCREEN_WIDTH / 2 - playButton.GetRect()->w / 2 , SCREEN_HEIGHT * 0.25 - playButton.GetRect()->h );
-	editorButton.RenderTexture(SCREEN_WIDTH / 2 - editorButton.GetRect()->w / 2, SCREEN_HEIGHT / 2 - editorButton.GetRect()->h / 2);
-	quitButton.RenderTexture(SCREEN_WIDTH / 2 - quitButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.75);
+	background.RenderTexture(0, 0);
+	playButton.RenderTexture(SCREEN_WIDTH / 2 - playButton.GetRect()->w / 2 , SCREEN_HEIGHT * 0.2 - playButton.GetRect()->h /2 );
+	editorButton.RenderTexture(SCREEN_WIDTH / 2 - editorButton.GetRect()->w / 2, SCREEN_HEIGHT *0.4 - editorButton.GetRect()->h / 2);
+	settingsButton.RenderTexture(SCREEN_WIDTH / 2 - settingsButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.6 - settingsButton.GetRect()->h / 2 );
+	quitButton.RenderTexture(SCREEN_WIDTH / 2 - quitButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.8 - quitButton.GetRect()->h / 2 );
 
 	if ( m1::IsInCollisionBox( mousePosX, mousePosY, *playButton.GetRect() ) )
 	{
@@ -107,15 +121,74 @@ inline short C_Game::Game_Menu(bool mousePressed)
 		}
 	}
 
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *editorButton.GetRect()))
+	{
+		SDL_SetTextureAlphaMod(editorButton.GetTexture(), 128);
+		if (mousePressed)
+		{
+			return 2;
+		}
+	}
+
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *settingsButton.GetRect()))
+	{
+		SDL_SetTextureAlphaMod(settingsButton.GetTexture(), 128);
+		if (mousePressed)
+		{
+			return 3;
+		}
+	}
+
 	else
 	{
 		SDL_SetTextureAlphaMod(playButton.GetTexture(), 255);
 		SDL_SetTextureAlphaMod(quitButton.GetTexture(), 255);
+		SDL_SetTextureAlphaMod(editorButton.GetTexture(), 255);
+		SDL_SetTextureAlphaMod(settingsButton.GetTexture(), 255);
+
 		return 0;
 	}
 
 }
 
+
+inline void C_Game::Game_Menu_Settings(bool mousePressed)
+{
+
+	static int mousePosX = 0, mousePosY = 0;
+
+	SDL_GetMouseState(&mousePosX, &mousePosY);
+
+	background.RenderTexture(0, 0);
+	resolutionLabel.RenderTexture(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.15);
+
+	applyButton.RenderTexture(SCREEN_WIDTH - applyButton.GetRect()->w, SCREEN_HEIGHT - applyButton.GetRect()->h );
+
+	currentResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.15);
+
+	if (m1::IsInCollisionBox(mousePosX, mousePosY, *applyButton.GetRect()))
+	{
+		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 128);
+		if (mousePressed)
+		{
+			
+		}
+	}
+
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *currentResolution.GetRect()))
+	{
+		if (mousePressed)
+		{
+			currentResolution.InitTextureFromText("0", menu_SettingsFont);
+		}
+	}
+			
+	else
+	{
+		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 255);
+	}
+
+}
 
 inline bool C_Game::PlayerIsOnGround()
 {

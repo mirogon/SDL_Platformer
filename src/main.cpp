@@ -7,16 +7,17 @@ using namespace std;
 //Variables to store the screen dimensions
 int SCREEN_WIDTH;
 int SCREEN_HEIGHT;
+Uint32 WINDOWFLAGS;
 
 //Variables to store the scale in comparison to 720p
 float SCALE_W;
 float SCALE_H;
 
-enum e_GameState { state_Quit = -1, state_Menu = 0, state_Play = 1, state_Editor = 2 };
+enum e_GameState { state_Quit = -1, state_Menu = 0, state_Play = 1, state_Editor = 2, state_Menu_Settings = 3};
 
 struct S_GameState 
 {
-	short currentState; //-1 = Quit, 0 = Menu, 1 = Play, 2 = Editor
+	short currentState; //-1 = Quit, 0 = Menu, 1 = Play, 2 = Editor, 3 = Menu_Settings
 
 	S_GameState(short cState) : currentState{ cState }
 	{
@@ -144,13 +145,18 @@ int main(int argc, char* argv[]){
 			gameState.currentState = mainGame.Game_Menu(leftMousePressed);
 		}
 
+		else if (gameState.currentState == state_Menu_Settings)
+		{
+			mainGame.Game_Menu_Settings(leftMousePressed);
+		}
+
 		//Call the main game play function
-		if(gameState.currentState == state_Play)
+		else if(gameState.currentState == state_Play)
 		{
 			mainGame.Game_Play();
 		}
         
-		if (gameState.currentState == state_Quit)
+		else if (gameState.currentState == state_Quit)
 		{
 			quitPollEvent = true;
 		}
