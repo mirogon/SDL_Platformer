@@ -45,6 +45,9 @@ private:
 	C_Texture applyButton;
 	C_Texture resolutionLabel;
 	C_Texture currentResolution;
+	C_Texture lowerResolution;
+
+	C_Texture fullscreenLabel;
 
 	TTF_Font* menuFont;
 	TTF_Font* menu_SettingsFont;
@@ -166,12 +169,16 @@ inline void C_Game::Game_Menu_Settings(bool mousePressed)
 
 	currentResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.15);
 
+	lowerResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.3);
+
+	fullscreenLabel.RenderTexture(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.8);
+
 	if (m1::IsInCollisionBox(mousePosX, mousePosY, *applyButton.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 128);
 		if (mousePressed)
 		{
-			
+			_GetBase->SyncSettings();
 		}
 	}
 
@@ -179,10 +186,40 @@ inline void C_Game::Game_Menu_Settings(bool mousePressed)
 	{
 		if (mousePressed)
 		{
-			currentResolution.InitTextureFromText("0", menu_SettingsFont);
+			_GetBase->SetResolution(SCREEN_WIDTH, SCREEN_HEIGHT);
+			SDL_SetTextureAlphaMod(currentResolution.GetTexture(), 128);
+			SDL_SetTextureAlphaMod(lowerResolution.GetTexture(), 255);
 		}
 	}
-			
+
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *lowerResolution.GetRect()))
+	{
+		if (mousePressed)
+		{
+			_GetBase->SetResolution(1280, 720);
+			SDL_SetTextureAlphaMod(lowerResolution.GetTexture(), 128);
+			SDL_SetTextureAlphaMod(currentResolution.GetTexture(), 255);
+		}
+	}
+
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *fullscreenLabel.GetRect()))
+	{
+		if (mousePressed)
+		{
+			if (_GetBase->IsFullscreen() == true)
+			{
+				fullscreenLabel.InitTextureFromText("Fullscreen: Off", menu_SettingsFont);
+				_GetBase->SetFullscreen(false);
+			}
+
+			else
+			{
+				fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
+				_GetBase->SetFullscreen(true);
+			}
+		}
+	}
+
 	else
 	{
 		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 255);

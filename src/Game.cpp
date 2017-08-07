@@ -29,11 +29,12 @@ C_Game::C_Game()
 	settingsButton.InitTextureFromText("Settings", menuFont);
 	quitButton.InitTextureFromText("Quit", menuFont);
 	
+	//Menu_Settings buttons
 	resolutionLabel.InitTextureFromText("Resolution:", menu_SettingsFont);
+	fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
 	applyButton.InitTextureFromText("Apply", menu_SettingsFont);
-
 	currentResolution.InitTextureFromText(m1::to_string(SCREEN_WIDTH) + "x" + m1::to_string(SCREEN_HEIGHT), menu_SettingsFont);
-
+	lowerResolution.InitTextureFromText("1280x720", menu_SettingsFont);
 }
 
 C_Game::~C_Game()

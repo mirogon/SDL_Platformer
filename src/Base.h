@@ -11,6 +11,8 @@ extern int SCREEN_HEIGHT;
 //Return the current renderer
 #define _GetRenderer C_Base::getInstance()->GetRenderer()
 
+#define _GetBase C_Base::getInstance()
+
 class C_Base{
 
 
@@ -24,6 +26,17 @@ public:
 
     SDL_Renderer* GetRenderer();
 
+	void SyncSettings();
+
+	void SetFullscreen(bool state);
+
+	void SetResolution(int w, int h);
+
+	bool IsFullscreen()
+	{
+		return isFullscreen;
+	}
+
 private:
     
     C_Base();
@@ -33,6 +46,11 @@ private:
     SDL_Window* mainWindow;
 
     SDL_Renderer* mainRenderer;
+
+	bool isFullscreen;
+
+	int resW;
+	int resH;
 
 };
 
