@@ -22,7 +22,7 @@ public:
 	//Game menu function
     short Game_Menu(bool mousePressed);
  
-	void Game_Menu_Settings(bool mousePressed);
+	bool Game_Menu_Settings(bool mousePressed);
 
 	void PlayerInBorders();
 
@@ -31,6 +31,8 @@ public:
 
 	//Function to handle the collision
 	void HandlePlayerCollision();
+
+	void ResolutionChanged();
 
 private:
 
@@ -44,10 +46,12 @@ private:
 	//Menu_Settings
 	C_Texture applyButton;
 	C_Texture resolutionLabel;
-	C_Texture currentResolution;
-	C_Texture lowerResolution;
+	C_Texture fullHdResolution;
+	C_Texture hdResolution;
 
 	C_Texture fullscreenLabel;
+
+	C_Texture backButton;
 
 	TTF_Font* menuFont;
 	TTF_Font* menu_SettingsFont;
@@ -155,7 +159,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 }
 
 
-inline void C_Game::Game_Menu_Settings(bool mousePressed)
+inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 {
 
 	static int mousePosX = 0, mousePosY = 0;
@@ -167,11 +171,13 @@ inline void C_Game::Game_Menu_Settings(bool mousePressed)
 
 	applyButton.RenderTexture(SCREEN_WIDTH - applyButton.GetRect()->w, SCREEN_HEIGHT - applyButton.GetRect()->h );
 
-	currentResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.15);
+	fullHdResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.15);
 
-	lowerResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.3);
+	hdResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.3);
 
 	fullscreenLabel.RenderTexture(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.8);
+
+	backButton.RenderTexture(0, SCREEN_HEIGHT - backButton.GetRect()->h);
 
 	if (m1::IsInCollisionBox(mousePosX, mousePosY, *applyButton.GetRect()))
 	{
@@ -179,31 +185,34 @@ inline void C_Game::Game_Menu_Settings(bool mousePressed)
 		if (mousePressed)
 		{
 			_GetBase->SyncSettings();
+			ResolutionChanged();
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *currentResolution.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *fullHdResolution.GetRect()))
 	{
 		if (mousePressed)
 		{
-			_GetBase->SetResolution(SCREEN_WIDTH, SCREEN_HEIGHT);
-			SDL_SetTextureAlphaMod(currentResolution.GetTexture(), 128);
-			SDL_SetTextureAlphaMod(lowerResolution.GetTexture(), 255);
+			_GetBase->SetResolution(1920, 1080);
+			SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 128);
+			SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 255);
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *lowerResolution.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *hdResolution.GetRect()))
 	{
 		if (mousePressed)
 		{
 			_GetBase->SetResolution(1280, 720);
-			SDL_SetTextureAlphaMod(lowerResolution.GetTexture(), 128);
-			SDL_SetTextureAlphaMod(currentResolution.GetTexture(), 255);
+			SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 128);
+			SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 255);
 		}
 	}
 
 	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *fullscreenLabel.GetRect()))
 	{
+		SDL_SetTextureAlphaMod(fullscreenLabel.GetTexture(), 128);
+
 		if (mousePressed)
 		{
 			if (_GetBase->IsFullscreen() == true)
@@ -220,11 +229,23 @@ inline void C_Game::Game_Menu_Settings(bool mousePressed)
 		}
 	}
 
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *backButton.GetRect()))
+	{
+		SDL_SetTextureAlphaMod(backButton.GetTexture(), 128);
+		if (mousePressed)
+		{
+			return true;
+		}
+	}
+
 	else
 	{
 		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 255);
+		SDL_SetTextureAlphaMod(backButton.GetTexture(), 255);
+		SDL_SetTextureAlphaMod(fullscreenLabel.GetTexture(), 255);
 	}
 
+	return false;
 }
 
 inline bool C_Game::PlayerIsOnGround()

@@ -32,9 +32,10 @@ C_Game::C_Game()
 	//Menu_Settings buttons
 	resolutionLabel.InitTextureFromText("Resolution:", menu_SettingsFont);
 	fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
+	backButton.InitTextureFromText("Back", menu_SettingsFont);
 	applyButton.InitTextureFromText("Apply", menu_SettingsFont);
-	currentResolution.InitTextureFromText(m1::to_string(SCREEN_WIDTH) + "x" + m1::to_string(SCREEN_HEIGHT), menu_SettingsFont);
-	lowerResolution.InitTextureFromText("1280x720", menu_SettingsFont);
+	fullHdResolution.InitTextureFromText("1920x1080", menu_SettingsFont);
+	hdResolution.InitTextureFromText("1280x720", menu_SettingsFont);
 }
 
 C_Game::~C_Game()
@@ -43,5 +44,43 @@ C_Game::~C_Game()
 	std::vector<C_GameObject>().swap(gameObjects);
 	TTF_CloseFont(menuFont);
 	TTF_CloseFont(menu_SettingsFont);
+
+}
+
+void C_Game::ResolutionChanged()
+{
+
+	//Menu
+	playButton.InitTextureFromText("Play", menuFont);
+	editorButton.InitTextureFromText("Map Editor", menuFont);
+	settingsButton.InitTextureFromText("Settings", menuFont);
+	quitButton.InitTextureFromText("Quit", menuFont);
+
+	//Menu_Settings
+	applyButton.InitTextureFromText("Apply", menu_SettingsFont);
+	resolutionLabel.InitTextureFromText("Resolution:", menu_SettingsFont);
+	fullHdResolution.InitTextureFromText("1920x1080", menu_SettingsFont);
+	hdResolution.InitTextureFromText("1280x720", menu_SettingsFont);
+
+	if (_GetBase->IsFullscreen() == true)
+	{
+		fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
+	}
+	else
+	{
+		fullscreenLabel.InitTextureFromText("Fullscreen: Off", menu_SettingsFont);
+	}
+
+	backButton.InitTextureFromText("Back", menu_SettingsFont);
+
+	background.InitTexture(_BackgroundPath);
+
+	//Game
+
+	player.InitTexture(_PlayerPath);
+
+	C_GameObject::DeleteStaticObjects();
+	C_GameObject::CreateStaticObjects();
+
 
 }

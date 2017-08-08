@@ -147,7 +147,10 @@ int main(int argc, char* argv[]){
 
 		else if (gameState.currentState == state_Menu_Settings)
 		{
-			mainGame.Game_Menu_Settings(leftMousePressed);
+			if (mainGame.Game_Menu_Settings(leftMousePressed) == true)
+			{
+				gameState.changeState(state_Menu);
+			}
 		}
 
 		//Call the main game play function

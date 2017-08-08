@@ -20,16 +20,15 @@ C_GameObject::C_GameObject(unsigned short blockType_)
 
 void C_GameObject::CreateStaticObjects()
 {
-    static bool firstTime = true;
     
-    if(firstTime)
+    if(alreadyCreated == false)
     {
         // Block = 0
         gameObjects.push_back(C_Texture() );
         gameObjects[0].InitTexture(_DirtPath);
         ++gameObjectCount;
         
-        firstTime = false;
+		alreadyCreated = true;;
     }
     
 }
@@ -37,7 +36,10 @@ void C_GameObject::CreateStaticObjects()
 void C_GameObject::DeleteStaticObjects()
 {
 	gameObjects.clear();
+	alreadyCreated = false;
+	gameObjectCount = 0;
 }
 
 unsigned short C_GameObject::gameObjectCount = 0;
 std::vector<C_Texture> C_GameObject::gameObjects;
+bool C_GameObject::alreadyCreated = false;

@@ -44,6 +44,8 @@ public:
     
 private:
 
+	static bool alreadyCreated;
+
     double_Rect gameObjectRect;
     unsigned short blockType;
     static unsigned short gameObjectCount;
