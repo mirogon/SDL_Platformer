@@ -5,6 +5,9 @@
 extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
 
+extern float SCALE_W;
+extern float SCALE_H;
+
 //Return the current window
 #define _GetWindow C_Base::getInstance()->GetWindow()
 
@@ -48,6 +51,8 @@ private:
     SDL_Renderer* mainRenderer;
 
 	bool isFullscreen;
+
+	bool changedFullscreenState;
 
 	int resW;
 	int resH;

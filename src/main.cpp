@@ -63,6 +63,7 @@ int main(int argc, char* argv[]){
         SCREEN_HEIGHT = dM.h;
     }
     
+
     //Log the SCREEN WIDTH and SCREEN HEIGHT
     m1::Log("SCREEN WIDTH: "+ m1::to_string(SCREEN_WIDTH));
     m1::Log("SCREEN HEIGHT: "+ m1::to_string(SCREEN_HEIGHT));
@@ -164,6 +165,11 @@ int main(int argc, char* argv[]){
 			quitPollEvent = true;
 		}
         
+		else
+		{
+			gameState.changeState(state_Menu);
+		}
+
         //Sync the renderer
         SDL_RenderPresent(_GetRenderer);
 

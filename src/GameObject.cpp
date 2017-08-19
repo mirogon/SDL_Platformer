@@ -4,7 +4,7 @@
 
 C_GameObject::C_GameObject(unsigned short blockType_)
 {
-    if(blockType_ >= gameObjectCount){
+    if(blockType_ > gameObjectCount){
         m1::Log("Failed to create a C_GameObject with a non existant blocktype (GameObject.cpp)");
     }
     
@@ -28,7 +28,7 @@ void C_GameObject::CreateStaticObjects()
         gameObjects[0].InitTexture(_DirtPath);
         ++gameObjectCount;
         
-		alreadyCreated = true;;
+		alreadyCreated = true;
     }
     
 }

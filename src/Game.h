@@ -59,7 +59,6 @@ private:
 	C_Texture background;
 
 	//Game
-
     C_Player player;
 
     std::vector<C_GameObject> gameObjects;

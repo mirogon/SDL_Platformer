@@ -44,10 +44,12 @@ public:
     
 private:
 
-	static bool alreadyCreated;
-
     double_Rect gameObjectRect;
     unsigned short blockType;
+
+	//Static member
+
+	static bool alreadyCreated;
     static unsigned short gameObjectCount;
     static std::vector<C_Texture> gameObjects;
     

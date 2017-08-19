@@ -3,12 +3,14 @@
 C_Base::C_Base() :
 
 	//Intializing the mainWindow
-	mainWindow{ SDL_CreateWindow("SDL_Platformer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN) },
+	mainWindow{ SDL_CreateWindow("SDL_Platformer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE) },
 
 	//Intializing the mainRenderer
 	mainRenderer{ SDL_CreateRenderer(mainWindow, -1 , SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) },
 
 	isFullscreen{ true },
+
+	changedFullscreenState{false},
 
 	resW{SCREEN_WIDTH},
 
@@ -45,11 +47,8 @@ C_Base::~C_Base(){
 
 void C_Base::SetFullscreen(bool state)
 {
-
 	isFullscreen = state;
-
-
-
+	changedFullscreenState = true;
 }
 
 void C_Base::SetResolution(int w, int h)
@@ -60,31 +59,25 @@ void C_Base::SetResolution(int w, int h)
 
 void C_Base::SyncSettings()
 {
-
 	if (resW != SCREEN_WIDTH || resH != SCREEN_HEIGHT)
 	{
 		SCREEN_WIDTH = resW;
 		SCREEN_HEIGHT = resH;
+		SCALE_W = (float)SCREEN_WIDTH / 1280;
+		SCALE_H = (float)SCREEN_HEIGHT / 720;
 
-		SDL_DestroyWindow(mainWindow);
-		SDL_DestroyRenderer(mainRenderer);
+		m1::Log("NEW Screen Details");
+		m1::Log("SCREEN_WIDTH: " + m1::to_string(SCREEN_WIDTH));
+		m1::Log("SCREEN_HEIGHT: " + m1::to_string(SCREEN_HEIGHT));
+		m1::Log("SCALE_W: " + m1::to_string(SCALE_W));
+		m1::Log("SCALE_H: " + m1::to_string(SCALE_H));
 
-		if (isFullscreen == true)
-		{
-			mainWindow = SDL_CreateWindow("SDL_Platformer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resW, resH, SDL_WINDOW_FULLSCREEN);
-		}
+		SDL_SetWindowSize(_GetWindow, resW, resH);
 		
-		else
-		{
-			mainWindow = SDL_CreateWindow("SDL_Platformer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resW, resH, 0);
-		}
-
-		mainRenderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-		SDL_SetRenderDrawColor(mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	}
 
-	else {
+	if (changedFullscreenState)
+	{
 
 		if (isFullscreen == true)
 		{
@@ -95,6 +88,10 @@ void C_Base::SyncSettings()
 		{
 			SDL_SetWindowFullscreen(mainWindow, 0);
 		}
+
+		changedFullscreenState = false;
+
 	}
 
 }
+

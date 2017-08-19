@@ -56,6 +56,9 @@ bool C_Texture::InitTexture(std::string path, float scale_w, float scale_h)
     textureRect->h = surface->h * scale_h;
 
     SDL_FreeSurface(surface);
+
+	m1::Log("Texture created with a scale of " + m1::to_string(scale_w) + "x" + m1::to_string(scale_h));
+
     return texture != nullptr;
 
 }

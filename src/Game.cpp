@@ -40,11 +40,9 @@ C_Game::C_Game()
 
 C_Game::~C_Game()
 {
-
 	std::vector<C_GameObject>().swap(gameObjects);
 	TTF_CloseFont(menuFont);
 	TTF_CloseFont(menu_SettingsFont);
-
 }
 
 void C_Game::ResolutionChanged()
@@ -79,8 +77,13 @@ void C_Game::ResolutionChanged()
 
 	player.InitTexture(_PlayerPath);
 
+
+	gameObjects.clear();
+
 	C_GameObject::DeleteStaticObjects();
 	C_GameObject::CreateStaticObjects();
 
+	gameObjects.push_back(C_GameObject(0));
+	gameObjects[0].MoveGameObjectDirect(SCREEN_WIDTH / 2 - gameObjects[0].GetGameObjectRect().w / 2, SCREEN_HEIGHT - gameObjects[0].GetGameObjectRect().h);
 
 }
