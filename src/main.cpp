@@ -62,7 +62,6 @@ int main(int argc, char* argv[]){
         SCREEN_WIDTH = dM.w;
         SCREEN_HEIGHT = dM.h;
     }
-    
 
     //Log the SCREEN WIDTH and SCREEN HEIGHT
     m1::Log("SCREEN WIDTH: "+ m1::to_string(SCREEN_WIDTH));

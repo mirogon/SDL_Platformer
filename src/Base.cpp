@@ -81,12 +81,18 @@ void C_Base::SyncSettings()
 
 		if (isFullscreen == true)
 		{
-			SDL_SetWindowFullscreen(mainWindow, SDL_WINDOW_FULLSCREEN);
+			if (SDL_SetWindowFullscreen(mainWindow, SDL_WINDOW_FULLSCREEN) != 0)
+			{
+				std::cout << SDL_GetError() << std::endl;
+			}
 		}
 
 		else
 		{
-			SDL_SetWindowFullscreen(mainWindow, 0);
+			if (SDL_SetWindowFullscreen(mainWindow, 0) != 0)
+			{
+				std::cout << SDL_GetError() << std::endl;
+			}
 		}
 
 		changedFullscreenState = false;

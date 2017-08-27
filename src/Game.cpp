@@ -75,7 +75,7 @@ void C_Game::ResolutionChanged()
 
 	//Game
 
-	player.InitTexture(_PlayerPath);
+	player.InitObject(_PlayerPath);
 
 
 	gameObjects.clear();
@@ -84,6 +84,6 @@ void C_Game::ResolutionChanged()
 	C_GameObject::CreateStaticObjects();
 
 	gameObjects.push_back(C_GameObject(0));
-	gameObjects[0].MoveGameObjectDirect(SCREEN_WIDTH / 2 - gameObjects[0].GetGameObjectRect().w / 2, SCREEN_HEIGHT - gameObjects[0].GetGameObjectRect().h);
+	gameObjects[0].MoveGameObjectDirect(0,0);
 
 }

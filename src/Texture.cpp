@@ -14,22 +14,21 @@ C_Texture::C_Texture()
 
 C_Texture::~C_Texture()
 {
-    SDL_DestroyTexture(this->texture);
-    
-    delete textureRect;
-    textureRect = nullptr;
+	if (texture != nullptr)
+	{
+		SDL_DestroyTexture(this->texture);
+	}
+  
+	m1::SafeDelete(textureRect);
 
 }
 
 void C_Texture::FreeTexture()
 {
-
     if (texture != nullptr)
     {
-
         SDL_DestroyTexture(texture);
     }
-
 }
 
 bool C_Texture::InitTexture(std::string path, float scale_w, float scale_h)
