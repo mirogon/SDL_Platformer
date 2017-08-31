@@ -21,6 +21,8 @@ virtual void Init(std::string path);
 //Move the player to x/y
 void MoveObjectDirect(int x, int y);
 
+void MoveObjectDirect(const double_Rect& newPos);
+
 //INLINE
 
 //Return the current object rect

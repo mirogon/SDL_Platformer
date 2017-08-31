@@ -1,3 +1,4 @@
+#pragma once
 #include "Object.h"
 
 const float maxVelocity = 20.0f;

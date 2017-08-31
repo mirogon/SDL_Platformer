@@ -7,6 +7,9 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include <M1Serialization.h>
+
+
 #ifdef __ANDROID__
 
 #include <android/log.h>
@@ -43,6 +46,7 @@ struct double_Rect {
 //NAMESPACE FOR USEFUL FUNCTIONS
 namespace m1{
     
+
     //CHECK IF THE KEY WITH THE SCANCODE scancode IS PRESSED
     bool KeyIsPressed(SDL_Scancode scancode);
     

@@ -1,9 +1,12 @@
 #pragma once
 #include "Player.h"
 
-
-class C_GameObject{
+class C_GameObject
+{
     
+	friend std::istream& operator>>(std::istream& is, C_GameObject& obj);
+	friend std::ostream& operator<<(std::ostream& os, const C_GameObject& obj);
+
 public:
     
 	//Default GameObject constructor is invalid
@@ -15,13 +18,15 @@ public:
 	virtual void Init() = 0;
 
 	//Move the GameObject direct to x/y
-    void MoveGameObjectDirect(int x, int y);
+    virtual void MoveGameObjectDirect(int x, int y);
+
+	virtual void MoveGameObjectDirect(const double_Rect& newPos);
  
 	//Move the GameObject +x/+y from the current position
-	void MoveGameObject(float& x, float& y);
+	virtual void MoveGameObject(float& x, float& y);
     
 	//Render the GameObject at the current position
-    void RenderGameObject();
+    virtual void RenderGameObject();
     
 	void PrintGameObjectStats()
 	{
@@ -33,7 +38,7 @@ public:
 	}
 
 	//Return the current GameObjectRect
-	const double_Rect& GetGameObjectRect() const
+	virtual const double_Rect& GetGameObjectRect() const
 	{
 		return object.GetObjectRect();
 	}
@@ -45,9 +50,16 @@ protected:
     
 };
 
+
+
 inline void C_GameObject::MoveGameObjectDirect(int x, int y)
 {
     object.MoveObjectDirect(x, y);
+}
+
+inline void C_GameObject::MoveGameObjectDirect(const double_Rect& newPos)
+{
+	object.MoveObjectDirect(newPos);
 }
 
 inline void C_GameObject::MoveGameObject(float& x, float& y)

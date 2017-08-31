@@ -20,3 +20,8 @@ void C_Object::MoveObjectDirect(int x, int y)
     textureRectDouble.y = y;
 
 }
+
+void C_Object::MoveObjectDirect(const double_Rect& newPos)
+{
+	textureRectDouble = newPos;
+}
