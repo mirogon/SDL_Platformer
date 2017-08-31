@@ -2,9 +2,13 @@
 
 C_Game::C_Game()
 {
-	gameObjects.push_back(C_GameObject(0));
-	gameObjects[0].MoveGameObjectDirect(SCREEN_WIDTH / 2 - gameObjects[0].GetGameObjectRect().w / 2, SCREEN_HEIGHT - gameObjects[0].GetGameObjectRect().h );
-	
+	dirtObjects.push_back(C_GameObject_Dirt());
+	auto dirtObjectsIt = dirtObjects.begin();
+
+	dirtObjectsIt->Init();
+
+	dirtObjectsIt->MoveGameObjectDirect(SCREEN_WIDTH / 2 - dirtObjectsIt->GetGameObjectRect().w / 2, SCREEN_HEIGHT - dirtObjectsIt->GetGameObjectRect().h);
+
 	player.MoveObjectDirect(SCREEN_WIDTH / 2 - player.GetObjectRect().w / 2, SCREEN_HEIGHT - player.GetObjectRect().h);
 	playerIsOnGameObject = false;
 
@@ -20,7 +24,7 @@ C_Game::C_Game()
 		m1::Log("menu_SettingsFont could not be intialized ( Game.cpp )");
 	}
 
-	background.InitTexture(_BackgroundPath);
+	background.Init(_BackgroundPath);
 	
 	
 	//Menu buttons
@@ -40,7 +44,7 @@ C_Game::C_Game()
 
 C_Game::~C_Game()
 {
-	std::vector<C_GameObject>().swap(gameObjects);
+	dirtObjects.clear();
 	TTF_CloseFont(menuFont);
 	TTF_CloseFont(menu_SettingsFont);
 }
@@ -71,19 +75,21 @@ void C_Game::ResolutionChanged()
 
 	backButton.InitTextureFromText("Back", menu_SettingsFont);
 
-	background.InitTexture(_BackgroundPath);
+	background.Init(_BackgroundPath);
 
 	//Game
 
-	player.InitObject(_PlayerPath);
+	player.Init(_PlayerPath);
 
+	dirtObjects.clear();
 
-	gameObjects.clear();
+	dirtObjects.push_back(C_GameObject_Dirt());
 
-	C_GameObject::DeleteStaticObjects();
-	C_GameObject::CreateStaticObjects();
+	auto dirtObjectsIt = dirtObjects.begin();
 
-	gameObjects.push_back(C_GameObject(0));
-	gameObjects[0].MoveGameObjectDirect(0,0);
+	dirtObjectsIt->Init();
 
+	dirtObjectsIt->MoveGameObjectDirect(SCREEN_WIDTH / 2 - dirtObjectsIt->GetGameObjectRect().w / 2, SCREEN_HEIGHT - dirtObjectsIt->GetGameObjectRect().h);
+
+	dirtObjectsIt->PrintGameObjectStats();
 }

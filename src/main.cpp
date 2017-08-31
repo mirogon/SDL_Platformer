@@ -63,6 +63,7 @@ int main(int argc, char* argv[]){
         SCREEN_HEIGHT = dM.h;
     }
 
+
     //Log the SCREEN WIDTH and SCREEN HEIGHT
     m1::Log("SCREEN WIDTH: "+ m1::to_string(SCREEN_WIDTH));
     m1::Log("SCREEN HEIGHT: "+ m1::to_string(SCREEN_HEIGHT));
@@ -75,9 +76,7 @@ int main(int argc, char* argv[]){
     m1::Log( "SCALE_W = " + m1::to_string(SCALE_W) );
     m1::Log( "SCALE_H = " + m1::to_string(SCALE_H) );
     
-    //CREATE THE STATIC GAMEOBJECT TEXTURES
-    C_GameObject::CreateStaticObjects();
-    
+  
 	//Is used to check if the main game loop is valid
     bool quitPollEvent = false;
 	bool leftMousePressed = false;
@@ -178,14 +177,13 @@ int main(int argc, char* argv[]){
         if(SDL_GetTicks() - lt >= 1000)
 		{
             lt = SDL_GetTicks();
-            m1::Log( "FPS: " + m1::to_string(fps) );
+            //m1::Log( "FPS: " + m1::to_string(fps) );
             fps = 0;
         }
     
     }
 
     //CLEAR THE MEMORY
-    C_GameObject::DeleteStaticObjects();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

@@ -5,9 +5,9 @@ C_Object::~C_Object()
     
 }
 
-void C_Object::InitObject(std::string path)
+void C_Object::Init(std::string path)
 {
-    InitTexture(path);
+    C_Texture::Init(path);
     textureRectDouble.w = textureRect->w;
     textureRectDouble.h = textureRect->h;
 }

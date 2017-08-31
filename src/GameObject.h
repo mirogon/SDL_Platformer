@@ -1,21 +1,19 @@
 #pragma once
 #include "Player.h"
 
-enum E_BlockType { Dirt = 0, GrassDirt = 1 };
 
 class C_GameObject{
     
 public:
     
 	//Default GameObject constructor is invalid
-    C_GameObject() = delete;
-
-	//GameObject constructor the parameter is the blocktype which the block should be
-    C_GameObject(unsigned short blockType);
+	C_GameObject() = default;
 
 	//GameObject deconstructor
-    ~C_GameObject() = default;
+    virtual ~C_GameObject() = default;
  
+	virtual void Init() = 0;
+
 	//Move the GameObject direct to x/y
     void MoveGameObjectDirect(int x, int y);
  
@@ -25,51 +23,39 @@ public:
 	//Render the GameObject at the current position
     void RenderGameObject();
     
-    //Use to create the static objects
-    static void CreateStaticObjects();
-
-	//Use to delete the static objects
-    static void DeleteStaticObjects();
+	void PrintGameObjectStats()
+	{
+		m1::Log("Gameobject Stats:");
+		m1::Log("x" + m1::to_string(object.GetObjectRect().x));
+		m1::Log("y" + m1::to_string(object.GetObjectRect().y));
+		m1::Log("w" + m1::to_string(object.GetObjectRect().w));
+		m1::Log("h" + m1::to_string(object.GetObjectRect().h));
+	}
 
 	//Return the current GameObjectRect
 	const double_Rect& GetGameObjectRect() const
 	{
-		return gameObjectRect;
+		return object.GetObjectRect();
 	}
-
-	//Return the current blocktype
-    unsigned short GetBlockType(){
-        return blockType;
-    }
     
-private:
-
-    double_Rect gameObjectRect;
-    unsigned short blockType;
+protected:
 
 	//Static member
-
-	static bool alreadyCreated;
-    static unsigned short gameObjectCount;
-    static std::vector<C_Texture> gameObjects;
+    static C_Object object;
     
 };
 
 inline void C_GameObject::MoveGameObjectDirect(int x, int y)
 {
-    gameObjectRect.x = x;
-    gameObjectRect.y = y;
+    object.MoveObjectDirect(x, y);
 }
 
 inline void C_GameObject::MoveGameObject(float& x, float& y)
 {
-    gameObjectRect.x += x;
-    gameObjectRect.y += y;
+	object.MoveObject(x, y);
 }
 
 inline void C_GameObject::RenderGameObject()
 {
-
-    gameObjects[blockType].RenderTexture(gameObjectRect.x, gameObjectRect.y);
-
+	object.RenderObject();
 }

@@ -2,7 +2,7 @@
 
 C_Player::C_Player()
 {
-    InitObject(_PlayerPath);
+    Init(_PlayerPath);
     
     velocity = 0;
 }

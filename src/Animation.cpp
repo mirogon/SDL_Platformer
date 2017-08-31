@@ -8,5 +8,5 @@ C_Animation::C_Animation(std::string path, int animationLenght, short spriteWidt
 	currentPosition(1)
 
 {
-	InitObject(path);
+	Init(path);
 }

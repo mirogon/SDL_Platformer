@@ -17,7 +17,7 @@ C_Texture();
 virtual ~C_Texture();
 
 //Function to init the texture from an image
-bool InitTexture (std::string path, float scale_w = SCALE_W, float scale_h = SCALE_H);
+virtual bool Init (std::string path, float scale_w = SCALE_W, float scale_h = SCALE_H);
 bool InitTextureFromText(std::string text, TTF_Font* font, SDL_Color color = SDL_Color{ 0,0,0 }, float scale_w = SCALE_W, float scale_h = SCALE_H);
 
 //Free the texture from the current image
@@ -97,5 +97,13 @@ inline void C_Texture::RenderTextureRotated(int x, int y, SDL_Rect* clip, double
 
 inline const SDL_Rect* C_Texture::GetRect()
 {
-    return textureRect;
+	if (textureRect == nullptr)
+	{
+		m1::Log("textureRect is nullptr and cannot be returned");
+	}
+
+	else
+	{
+		return textureRect;
+	}
 }

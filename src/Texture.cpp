@@ -17,6 +17,7 @@ C_Texture::~C_Texture()
 	if (texture != nullptr)
 	{
 		SDL_DestroyTexture(this->texture);
+		texture = nullptr;
 	}
   
 	m1::SafeDelete(textureRect);
@@ -28,10 +29,11 @@ void C_Texture::FreeTexture()
     if (texture != nullptr)
     {
         SDL_DestroyTexture(texture);
+		texture = nullptr;
     }
 }
 
-bool C_Texture::InitTexture(std::string path, float scale_w, float scale_h)
+bool C_Texture::Init(std::string path, float scale_w, float scale_h)
 {
     
     FreeTexture();
@@ -48,15 +50,18 @@ bool C_Texture::InitTexture(std::string path, float scale_w, float scale_h)
     texture = SDL_CreateTextureFromSurface( _GetRenderer , surface );
     if(texture == nullptr)
     {
-        m1::Log("Texturw could not be created (Texture.cpp)");
+        m1::Log("Texture could not be created (Texture.cpp)");
     }
     
-    textureRect->w = surface->w * scale_w;
-    textureRect->h = surface->h * scale_h;
+    textureRect->w =  (surface->w * scale_w);
+    textureRect->h =  (surface->h * scale_h);
+
+	m1::Log("Texture created with w: " + m1::to_string(textureRect->w) + " h:" + m1::to_string(textureRect->h));
+	m1::Log("TextureScale: " + m1::to_string(scale_w) + "x" + m1::to_string(scale_h));
+
 
     SDL_FreeSurface(surface);
-
-	m1::Log("Texture created with a scale of " + m1::to_string(scale_w) + "x" + m1::to_string(scale_h));
+	surface = nullptr;
 
     return texture != nullptr;
 

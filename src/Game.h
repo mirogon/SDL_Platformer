@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "GameObject_Dirt.h"
 
 //Enum to check the collision direction
 enum E_CollisionDirection { Left = 0, Right = 1, Bot = 2, Top = 3 };
@@ -61,7 +61,7 @@ private:
 	//Game
     C_Player player;
 
-    std::vector<C_GameObject> gameObjects;
+    std::vector<C_GameObject_Dirt> dirtObjects;
 
 	bool playerIsOnGameObject;
     
@@ -88,8 +88,10 @@ inline void C_Game::Game_Play()
 
     player.RenderObject();
     
-    gameObjects[0].RenderGameObject();
-
+	for (auto i = dirtObjects.begin(); i != dirtObjects.end(); ++i)
+	{
+		i->RenderGameObject();
+	}
     lastTime = SDL_GetTicks();
 
 }
@@ -287,7 +289,7 @@ inline void C_Game::PlayerInBorders()
 
 inline void C_Game::HandlePlayerCollision()
 {
-	for (auto iT = gameObjects.begin(); iT != gameObjects.end(); ++iT)
+	for (auto iT = dirtObjects.begin(); iT != dirtObjects.end(); ++iT)
 	{
 
 		switch (CollisionDetection(player.GetObjectRect(), iT->GetGameObjectRect()))

@@ -16,7 +16,7 @@ C_Object() = default;
 virtual ~C_Object();
 
 //Init the object with the image at path
-void InitObject(std::string path);
+virtual void Init(std::string path);
 
 //Move the player to x/y
 void MoveObjectDirect(int x, int y);
