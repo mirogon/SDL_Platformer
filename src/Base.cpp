@@ -39,10 +39,11 @@ C_Base::~C_Base(){
 
     //Destroy the mainWindow
     SDL_DestroyWindow(this->mainWindow);
+	mainWindow = nullptr;
 
     //Destroy the mainRenderer
     SDL_DestroyRenderer(this->mainRenderer);
-
+	mainRenderer = nullptr;
 };
 
 void C_Base::SetFullscreen(bool state)

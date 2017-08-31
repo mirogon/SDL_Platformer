@@ -111,7 +111,7 @@ int main(int argc, char* argv[]){
             {
                 if(e.key.keysym.sym == SDLK_ESCAPE)
                 {
-                    quitPollEvent = true;
+					gameState = state_Menu;
                 }
             }
 

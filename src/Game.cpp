@@ -46,7 +46,9 @@ C_Game::~C_Game()
 {
 	dirtObjects.clear();
 	TTF_CloseFont(menuFont);
+	menuFont = nullptr;
 	TTF_CloseFont(menu_SettingsFont);
+	menu_SettingsFont = nullptr;
 }
 
 void C_Game::ResolutionChanged()
