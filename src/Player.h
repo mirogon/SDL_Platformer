@@ -1,10 +1,6 @@
 #pragma once
 #include "Object.h"
 
-const float maxVelocity = 20.0f;
-const float velocityChangeFall = 0.075;
-const float playerWalkSpeed = 7.5f;
-
 
 class C_Player : public C_Object{
     
@@ -53,7 +49,7 @@ inline void C_Player::Fall(Uint32 deltaTime)
             velocity = maxVelocity;
         }
         
-        MoveObject(0, velocity * SCALE_H );
+        MoveObject(0, velocity * _SCALE_H );
         velocity += float( deltaTime*velocityChangeFall );
 }
 
@@ -61,11 +57,11 @@ inline void C_Player::PlayerWalk()
 {
 	if (m1::KeyIsPressed(SDL_SCANCODE_A))
 	{
-		MoveObject(-playerWalkSpeed * SCALE_W, 0);
+		MoveObject(-playerWalkSpeed * _SCALE_W, 0);
 	}
 
 	if (m1::KeyIsPressed(SDL_SCANCODE_D))
 	{
-		MoveObject(playerWalkSpeed * SCALE_W, 0);
+		MoveObject(playerWalkSpeed * _SCALE_W, 0);
 	}
 }

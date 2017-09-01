@@ -18,6 +18,8 @@ virtual ~C_Object();
 //Init the object with the image at path
 virtual void Init(std::string path);
 
+virtual void Init(SDL_Texture* newTexture, double_Rect& newRect);
+
 //Move the player to x/y
 void MoveObjectDirect(int x, int y);
 
@@ -26,7 +28,7 @@ void MoveObjectDirect(const double_Rect& newPos);
 //INLINE
 
 //Return the current object rect
-const double_Rect& GetObjectRect() const;
+const double_Rect& GetRect() const;
 
 //Move the player +x/+y from the current position
 void MoveObject(double x, double y);
@@ -51,21 +53,21 @@ inline void C_Object::MoveObject(double x, double y)
 
 inline void C_Object::RenderObject()
 {
-    textureRect->x = textureRectDouble.x;
-    textureRect->y = textureRectDouble.y;
+    textureRect.x = textureRectDouble.x;
+    textureRect.y = textureRectDouble.y;
 
-    SDL_RenderCopy(_GetRenderer, this->texture, NULL, textureRect);
+    SDL_RenderCopy(_GetRenderer, this->texture, NULL, &textureRect);
 }
 
 inline void C_Object::RenderObject(const SDL_Rect& imageRect)
 {
-	textureRect->x = textureRectDouble.x;
-	textureRect->y = textureRectDouble.y;
+	textureRect.x = textureRectDouble.x;
+	textureRect.y = textureRectDouble.y;
 
-	SDL_RenderCopy(_GetRenderer, this->texture, &imageRect, textureRect);
+	SDL_RenderCopy(_GetRenderer, this->texture, &imageRect, &textureRect);
 }
 
-inline const double_Rect& C_Object::GetObjectRect() const
+inline const double_Rect& C_Object::GetRect() const
 {
     return textureRectDouble;
 }

@@ -4,31 +4,7 @@
 
 using namespace std;
 
-//Variables to store the screen dimensions
-int SCREEN_WIDTH;
-int SCREEN_HEIGHT;
-Uint32 WINDOWFLAGS;
 
-//Variables to store the scale in comparison to 720p
-float SCALE_W;
-float SCALE_H;
-
-enum e_GameState { state_Quit = -1, state_Menu = 0, state_Play = 1, state_Editor = 2, state_Menu_Settings = 3};
-
-struct S_GameState 
-{
-	short currentState; //-1 = Quit, 0 = Menu, 1 = Play, 2 = Editor, 3 = Menu_Settings
-
-	S_GameState(short cState) : currentState{ cState }
-	{
-
-	}
-
-	void changeState(short newState) 
-	{
-		currentState = newState;
-	}
-};
 
 
 int main(int argc, char* argv[]){
@@ -47,34 +23,34 @@ int main(int argc, char* argv[]){
 	//Check if the device is vertical or horizontal
     if(dM.h > dM.w)
     {
-        SCREEN_WIDTH = dM.h;
-        SCREEN_HEIGHT = dM.w;
+        _SCREEN_WIDTH = dM.h;
+        _SCREEN_HEIGHT = dM.w;
     }
     
     else if (dM.w > dM.h)
     {
-        SCREEN_WIDTH = dM.w;
-        SCREEN_HEIGHT = dM.h;
+        _SCREEN_WIDTH = dM.w;
+        _SCREEN_HEIGHT = dM.h;
     }
     
     else
     {
-        SCREEN_WIDTH = dM.w;
-        SCREEN_HEIGHT = dM.h;
+        _SCREEN_WIDTH = dM.w;
+        _SCREEN_HEIGHT = dM.h;
     }
 
 
     //Log the SCREEN WIDTH and SCREEN HEIGHT
-    m1::Log("SCREEN WIDTH: "+ m1::to_string(SCREEN_WIDTH));
-    m1::Log("SCREEN HEIGHT: "+ m1::to_string(SCREEN_HEIGHT));
+    m1::Log("SCREEN WIDTH: "+ m1::to_string(_SCREEN_WIDTH));
+    m1::Log("SCREEN HEIGHT: "+ m1::to_string(_SCREEN_HEIGHT));
     
     //DEFINE THE SCALE
-    SCALE_W = (float)SCREEN_WIDTH/1280;
-    SCALE_H = (float)SCREEN_HEIGHT/720;
+    _SCALE_W = (float)_SCREEN_WIDTH/1280;
+    _SCALE_H = (float)_SCREEN_HEIGHT/720;
     
     //LOG THE SCALE
-    m1::Log( "SCALE_W = " + m1::to_string(SCALE_W) );
-    m1::Log( "SCALE_H = " + m1::to_string(SCALE_H) );
+    m1::Log( "_SCALE_W = " + m1::to_string(_SCALE_W) );
+    m1::Log( "_SCALE_H = " + m1::to_string(_SCALE_H) );
     
   
 	//Is used to check if the main game loop is valid

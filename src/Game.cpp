@@ -1,15 +1,13 @@
 #include "Game.h"
 
+
 C_Game::C_Game()
 {
-	dirtObjects.push_back(C_GameObject_Dirt());
-	auto dirtObjectsIt = dirtObjects.begin();
+	gameMap.NewObject(Dirt, double_Coordinate());
+	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT - gameMap.GetMapObjects().back().GetRect().h);
 
-	dirtObjectsIt->Init();
 
-	dirtObjectsIt->MoveGameObjectDirect(SCREEN_WIDTH / 2 - dirtObjectsIt->GetGameObjectRect().w / 2, SCREEN_HEIGHT - dirtObjectsIt->GetGameObjectRect().h);
-
-	player.MoveObjectDirect(SCREEN_WIDTH / 2 - player.GetObjectRect().w / 2, SCREEN_HEIGHT - player.GetObjectRect().h);
+	player.MoveObjectDirect(_SCREEN_WIDTH / 2 - player.GetRect().w / 2, _SCREEN_HEIGHT - player.GetRect().h);
 	playerIsOnGameObject = false;
 
 
@@ -44,7 +42,6 @@ C_Game::C_Game()
 
 C_Game::~C_Game()
 {
-	dirtObjects.clear();
 	TTF_CloseFont(menuFont);
 	menuFont = nullptr;
 	TTF_CloseFont(menu_SettingsFont);
@@ -83,15 +80,9 @@ void C_Game::ResolutionChanged()
 
 	player.Init(_PlayerPath);
 
-	dirtObjects.clear();
+	gameMap.ClearMap();
+	C_GameObject::InitStaticTextures();
+	gameMap.NewObject(Dirt, double_Coordinate());
+	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT - gameMap.GetMapObjects().back().GetRect().h);
 
-	dirtObjects.push_back(C_GameObject_Dirt());
-
-	auto dirtObjectsIt = dirtObjects.begin();
-
-	dirtObjectsIt->Init();
-
-	dirtObjectsIt->MoveGameObjectDirect(SCREEN_WIDTH / 2 - dirtObjectsIt->GetGameObjectRect().w / 2, SCREEN_HEIGHT - dirtObjectsIt->GetGameObjectRect().h);
-
-	dirtObjectsIt->PrintGameObjectStats();
 }

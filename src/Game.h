@@ -1,10 +1,5 @@
 #pragma once
-#include "GameObject_Dirt.h"
-
-//Enum to check the collision direction
-enum E_CollisionDirection { Left = 0, Right = 1, Bot = 2, Top = 3 };
-
-E_CollisionDirection CollisionDetection( const double_Rect& pCollisionBox, const double_Rect& collisionBox);
+#include "Map_GameObject.h"
 
 class C_Game{
     
@@ -61,7 +56,7 @@ private:
 	//Game
     C_Player player;
 
-    std::vector<C_GameObject_Dirt> dirtObjects;
+	C_Map_GameObject gameMap;
 
 	bool playerIsOnGameObject;
     
@@ -88,10 +83,8 @@ inline void C_Game::Game_Play()
 
     player.RenderObject();
     
-	for (auto i = dirtObjects.begin(); i != dirtObjects.end(); ++i)
-	{
-		i->RenderGameObject();
-	}
+	gameMap.RenderMap();
+
     lastTime = SDL_GetTicks();
 
 }
@@ -104,12 +97,12 @@ inline short C_Game::Game_Menu(bool mousePressed)
 	SDL_GetMouseState(&mousePosX, &mousePosY);
 
 	background.RenderTexture(0, 0);
-	playButton.RenderTexture(SCREEN_WIDTH / 2 - playButton.GetRect()->w / 2 , SCREEN_HEIGHT * 0.2 - playButton.GetRect()->h /2 );
-	editorButton.RenderTexture(SCREEN_WIDTH / 2 - editorButton.GetRect()->w / 2, SCREEN_HEIGHT *0.4 - editorButton.GetRect()->h / 2);
-	settingsButton.RenderTexture(SCREEN_WIDTH / 2 - settingsButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.6 - settingsButton.GetRect()->h / 2 );
-	quitButton.RenderTexture(SCREEN_WIDTH / 2 - quitButton.GetRect()->w / 2, SCREEN_HEIGHT * 0.8 - quitButton.GetRect()->h / 2 );
+	playButton.RenderTexture(_SCREEN_WIDTH / 2 - playButton.GetRect().w / 2 , _SCREEN_HEIGHT * 0.2 - playButton.GetRect().h /2 );
+	editorButton.RenderTexture(_SCREEN_WIDTH / 2 - editorButton.GetRect().w / 2, _SCREEN_HEIGHT *0.4 - editorButton.GetRect().h / 2);
+	settingsButton.RenderTexture(_SCREEN_WIDTH / 2 - settingsButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.6 - settingsButton.GetRect().h / 2 );
+	quitButton.RenderTexture(_SCREEN_WIDTH / 2 - quitButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.8 - quitButton.GetRect().h / 2 );
 
-	if ( m1::IsInCollisionBox( mousePosX, mousePosY, *playButton.GetRect() ) )
+	if ( m1::IsInCollisionBox( mousePosX, mousePosY, playButton.GetRect() ) )
 	{
 		SDL_SetTextureAlphaMod(playButton.GetTexture(), 128);
 
@@ -120,7 +113,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 		
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *quitButton.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, quitButton.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(quitButton.GetTexture(), 128);
 		if (mousePressed)
@@ -129,7 +122,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *editorButton.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, editorButton.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(editorButton.GetTexture(), 128);
 		if (mousePressed)
@@ -138,7 +131,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *settingsButton.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, settingsButton.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(settingsButton.GetTexture(), 128);
 		if (mousePressed)
@@ -168,19 +161,19 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 	SDL_GetMouseState(&mousePosX, &mousePosY);
 
 	background.RenderTexture(0, 0);
-	resolutionLabel.RenderTexture(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.15);
+	resolutionLabel.RenderTexture(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.15);
 
-	applyButton.RenderTexture(SCREEN_WIDTH - applyButton.GetRect()->w, SCREEN_HEIGHT - applyButton.GetRect()->h );
+	applyButton.RenderTexture(_SCREEN_WIDTH - applyButton.GetRect().w, _SCREEN_HEIGHT - applyButton.GetRect().h );
 
-	fullHdResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.15);
+	fullHdResolution.RenderTexture(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.15);
 
-	hdResolution.RenderTexture(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.3);
+	hdResolution.RenderTexture(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.3);
 
-	fullscreenLabel.RenderTexture(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.8);
+	fullscreenLabel.RenderTexture(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.8);
 
-	backButton.RenderTexture(0, SCREEN_HEIGHT - backButton.GetRect()->h);
+	backButton.RenderTexture(0, _SCREEN_HEIGHT - backButton.GetRect().h);
 
-	if (m1::IsInCollisionBox(mousePosX, mousePosY, *applyButton.GetRect()))
+	if (m1::IsInCollisionBox(mousePosX, mousePosY, applyButton.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 128);
 		if (mousePressed)
@@ -190,7 +183,7 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *fullHdResolution.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, fullHdResolution.GetRect()))
 	{
 		if (mousePressed)
 		{
@@ -200,7 +193,7 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *hdResolution.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, hdResolution.GetRect()))
 	{
 		if (mousePressed)
 		{
@@ -210,7 +203,7 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *fullscreenLabel.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, fullscreenLabel.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(fullscreenLabel.GetTexture(), 128);
 
@@ -230,7 +223,7 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, *backButton.GetRect()))
+	else if (m1::IsInCollisionBox(mousePosX, mousePosY, backButton.GetRect()))
 	{
 		SDL_SetTextureAlphaMod(backButton.GetTexture(), 128);
 		if (mousePressed)
@@ -251,7 +244,7 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 
 inline bool C_Game::PlayerIsOnGround()
 {
-    if(player.GetObjectRect().y + player.GetObjectRect().h >= SCREEN_HEIGHT || playerIsOnGameObject == true)
+    if(player.GetRect().y + player.GetRect().h >= _SCREEN_HEIGHT || playerIsOnGameObject == true)
     {
         return true;
     }
@@ -264,24 +257,24 @@ inline bool C_Game::PlayerIsOnGround()
 
 inline void C_Game::PlayerInBorders()
 {
-	if (player.GetObjectRect().x < 0) 
+	if (player.GetRect().x < 0) 
 	{
-		player.MoveObjectDirect(0, player.GetObjectRect().y);
+		player.MoveObjectDirect(0, player.GetRect().y);
 	}
 
-	else if (player.GetObjectRect().x > SCREEN_WIDTH - player.GetObjectRect().w)
+	else if (player.GetRect().x > _SCREEN_WIDTH - player.GetRect().w)
 	{
-		player.MoveObjectDirect(SCREEN_WIDTH - player.GetObjectRect().w, player.GetObjectRect().y);
+		player.MoveObjectDirect(_SCREEN_WIDTH - player.GetRect().w, player.GetRect().y);
 	}
 
-	if (player.GetObjectRect().y < 0)
+	if (player.GetRect().y < 0)
 	{
-		player.MoveObjectDirect(player.GetObjectRect().x, 0);
+		player.MoveObjectDirect(player.GetRect().x, 0);
 	}
 
-	else if (player.GetObjectRect().y > SCREEN_HEIGHT - player.GetObjectRect().h)
+	else if (player.GetRect().y > _SCREEN_HEIGHT - player.GetRect().h)
 	{
-		player.MoveObjectDirect(player.GetObjectRect().x, SCREEN_HEIGHT - player.GetObjectRect().h);
+		player.MoveObjectDirect(player.GetRect().x, _SCREEN_HEIGHT - player.GetRect().h);
 	}
 
 
@@ -289,74 +282,30 @@ inline void C_Game::PlayerInBorders()
 
 inline void C_Game::HandlePlayerCollision()
 {
-	for (auto iT = dirtObjects.begin(); iT != dirtObjects.end(); ++iT)
+	for (auto iT = gameMap.GetMapObjects().begin(); iT != gameMap.GetMapObjects().end(); ++iT)
 	{
 
-		switch (CollisionDetection(player.GetObjectRect(), iT->GetGameObjectRect()))
+		switch (CollisionDetection(player.GetRect(), iT->GetRect()))
 		{
 
 			case Bot:	player.ResetVelocity();
-						player.MoveObjectDirect(player.GetObjectRect().x, iT->GetGameObjectRect().y + iT->GetGameObjectRect().h + 1);
+						player.MoveObjectDirect(player.GetRect().x, iT->GetRect().y + iT->GetRect().h + 1);
 						playerIsOnGameObject = false;
 						break;
 
-			case Top:	player.MoveObjectDirect(player.GetObjectRect().x, iT->GetGameObjectRect().y - player.GetObjectRect().h);
+			case Top:	player.MoveObjectDirect(player.GetRect().x, iT->GetRect().y - player.GetRect().h);
 						playerIsOnGameObject = true;
 						break;
 
-			case Left:	player.MoveObjectDirect(iT->GetGameObjectRect().x - player.GetObjectRect().w, player.GetObjectRect().y);
+			case Left:	player.MoveObjectDirect(iT->GetRect().x - player.GetRect().w, player.GetRect().y);
 						playerIsOnGameObject = false;
 						break;
 
-			case Right: player.MoveObjectDirect(iT->GetGameObjectRect().x + iT->GetGameObjectRect().w, player.GetObjectRect().y);
+			case Right: player.MoveObjectDirect(iT->GetRect().x + iT->GetRect().w, player.GetRect().y);
 						playerIsOnGameObject = false;
 						break;
 
 			default:	playerIsOnGameObject = false;
-
-		}
-
-	}
-
-}
-
-inline E_CollisionDirection CollisionDetection(const double_Rect& pCollisionBox, const double_Rect& collisionBox)
-{
-	float w = 0.5 * (pCollisionBox.w + collisionBox.w);
-	float h = 0.5 * (pCollisionBox.h + collisionBox.h);
-	float dx = double_Rect::GetCenterX(pCollisionBox) - double_Rect::GetCenterX(collisionBox);
-	float dy = double_Rect::GetCenterY(pCollisionBox) - double_Rect::GetCenterY(collisionBox);
-
-	if (abs(dx) <= w && abs(dy) <= h)
-	{
-		/* collision! */
-		float wy = w * dy;
-		float hx = h * dx;
-
-		if (wy > hx)
-		{
-			if (wy > -hx)
-			{
-				return Bot;
-			}
-
-			else
-			{
-				return Left;
-			}
-		}
-
-		else
-		{
-			if (wy > -hx)
-			{
-				return Right;
-			}
-
-			else
-			{
-				return Top;
-			}
 
 		}
 

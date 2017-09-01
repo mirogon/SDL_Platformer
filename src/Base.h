@@ -1,20 +1,5 @@
 #pragma once
-
-#include "Singleton.h"
-
-extern int SCREEN_WIDTH;
-extern int SCREEN_HEIGHT;
-
-extern float SCALE_W;
-extern float SCALE_H;
-
-//Return the current window
-#define _GetWindow C_Base::getInstance()->GetWindow()
-
-//Return the current renderer
-#define _GetRenderer C_Base::getInstance()->GetRenderer()
-
-#define _GetBase C_Base::getInstance()
+#include "Global.h"
 
 class C_Base{
 
@@ -22,7 +7,16 @@ class C_Base{
 public:
 
     //INLINE
-    
+	//Variables to store the screen dimensions
+	static int SCREEN_WIDTH;
+	static int SCREEN_HEIGHT;
+	static Uint32 WINDOWFLAGS;
+
+	//Variables to store the scale in comparison to 720p
+	static float SCALE_W;
+	static float SCALE_H;
+
+
     static C_Base* getInstance();
 
     SDL_Window* GetWindow();

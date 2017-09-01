@@ -70,7 +70,7 @@ void C_Base::SyncSettings()
 		m1::Log("NEW Screen Details");
 		m1::Log("SCREEN_WIDTH: " + m1::to_string(SCREEN_WIDTH));
 		m1::Log("SCREEN_HEIGHT: " + m1::to_string(SCREEN_HEIGHT));
-		m1::Log("SCALE_W: " + m1::to_string(SCALE_W));
+		m1::Log("_SCALE_W: " + m1::to_string(_SCALE_W));
 		m1::Log("SCALE_H: " + m1::to_string(SCALE_H));
 
 		SDL_SetWindowSize(_GetWindow, resW, resH);
@@ -102,3 +102,11 @@ void C_Base::SyncSettings()
 
 }
 
+//Variables to store the screen dimensions
+int C_Base::SCREEN_WIDTH = 0;
+int C_Base::SCREEN_HEIGHT = 0;
+Uint32 C_Base::WINDOWFLAGS = 0;
+
+//Variables to store the scale in comparison to 720p
+float C_Base::SCALE_W = 0;
+float C_Base::SCALE_H = 0;

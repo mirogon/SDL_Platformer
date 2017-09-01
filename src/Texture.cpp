@@ -2,11 +2,10 @@
 
 C_Texture::C_Texture()
 {
-    textureRect = new SDL_Rect;
-    textureRect->x = 0;
-    textureRect->y = 0;
-    textureRect->w = 0;
-    textureRect->h = 0;
+    textureRect.x = 0;
+    textureRect.y = 0;
+    textureRect.w = 0;
+    textureRect.h = 0;
 
     texture = nullptr;
 
@@ -20,8 +19,6 @@ C_Texture::~C_Texture()
 		texture = nullptr;
 	}
   
-	m1::SafeDelete(textureRect);
-
 }
 
 void C_Texture::FreeTexture()
@@ -53,10 +50,10 @@ bool C_Texture::Init(std::string path, float scale_w, float scale_h)
         m1::Log("Texture could not be created (Texture.cpp)");
     }
     
-    textureRect->w =  (surface->w * scale_w);
-    textureRect->h =  (surface->h * scale_h);
+    textureRect.w =  (surface->w * scale_w);
+    textureRect.h =  (surface->h * scale_h);
 
-	m1::Log("Texture created with w: " + m1::to_string(textureRect->w) + " h:" + m1::to_string(textureRect->h));
+	m1::Log("Texture created with w: " + m1::to_string(textureRect.w) + " h:" + m1::to_string(textureRect.h));
 	m1::Log("TextureScale: " + m1::to_string(scale_w) + "x" + m1::to_string(scale_h));
 
 
@@ -82,8 +79,8 @@ bool C_Texture::InitTextureFromText(std::string text, TTF_Font* font, SDL_Color 
 
     texture = SDL_CreateTextureFromSurface(_GetRenderer, loadText);
 
-    textureRect->w = loadText->w * scale_w;
-    textureRect->h = loadText->h * scale_h;
+    textureRect.w = loadText->w * scale_w;
+    textureRect.h = loadText->h * scale_h;
 
     SDL_FreeSurface(loadText);
 
