@@ -35,8 +35,10 @@
 //Return the current renderer
 #define _GetRenderer C_Base::getInstance()->GetRenderer()
 
+//Return the static C_Base instance
 #define _GetBase C_Base::getInstance()
 
+//Player
 const float maxVelocity = 20.0f;
 const float velocityChangeFall = 0.075;
 const float playerWalkSpeed = 7.5f;
@@ -65,6 +67,9 @@ namespace m1 {
 		int h;
 
 		double_Rect(): x(0), y(0), w(0), h(0)
+		{}
+
+		double_Rect(double x_, double y_, int w_, int h_): x{x_}, y{y_}, w{w_}, h{h_}
 		{}
 
 		static int GetCenterX(const double_Rect& a)
@@ -257,8 +262,6 @@ namespace m1 {
 #endif
 
 	//WRITE CHAR STRING IN FILE
-	void SDL_WriteChar(SDL_RWops* rops, const char* c);
-
 	inline void SDL_WriteChar(SDL_RWops* rops, const char* c)
 	{
 		SDL_RWwrite(rops, c, 1, SDL_strlen(c));

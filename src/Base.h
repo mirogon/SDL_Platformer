@@ -16,7 +16,6 @@ public:
 	static float SCALE_W;
 	static float SCALE_H;
 
-
     static C_Base* getInstance();
 
     SDL_Window* GetWindow();

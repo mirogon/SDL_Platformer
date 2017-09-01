@@ -69,6 +69,7 @@ inline void C_Game::Game_Play()
     if(m1::KeyIsPressed(SDL_SCANCODE_SPACE) && PlayerIsOnGround())
     {
         player.Jump();
+		playerIsOnGameObject = false;
     }
     
     player.Fall(SDL_GetTicks() - lastTime);
@@ -290,7 +291,6 @@ inline void C_Game::HandlePlayerCollision()
 
 			case Bot:	player.ResetVelocity();
 						player.MoveObjectDirect(player.GetRect().x, iT->GetRect().y + iT->GetRect().h + 1);
-						playerIsOnGameObject = false;
 						break;
 
 			case Top:	player.MoveObjectDirect(player.GetRect().x, iT->GetRect().y - player.GetRect().h);
@@ -298,14 +298,12 @@ inline void C_Game::HandlePlayerCollision()
 						break;
 
 			case Left:	player.MoveObjectDirect(iT->GetRect().x - player.GetRect().w, player.GetRect().y);
-						playerIsOnGameObject = false;
 						break;
 
 			case Right: player.MoveObjectDirect(iT->GetRect().x + iT->GetRect().w, player.GetRect().y);
-						playerIsOnGameObject = false;
 						break;
 
-			default:	playerIsOnGameObject = false;
+			default: break;	
 
 		}
 

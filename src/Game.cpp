@@ -5,6 +5,8 @@ C_Game::C_Game()
 {
 	gameMap.NewObject(Dirt, double_Coordinate());
 	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT - gameMap.GetMapObjects().back().GetRect().h);
+	gameMap.NewObject(Dirt, double_Coordinate());
+	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT / 2);
 
 
 	player.MoveObjectDirect(_SCREEN_WIDTH / 2 - player.GetRect().w / 2, _SCREEN_HEIGHT - player.GetRect().h);
@@ -75,8 +77,6 @@ void C_Game::ResolutionChanged()
 	backButton.InitTextureFromText("Back", menu_SettingsFont);
 
 	background.Init(_BackgroundPath);
-
-	//Game
 
 	player.Init(_PlayerPath);
 
