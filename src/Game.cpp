@@ -9,6 +9,9 @@ C_Game::C_Game()
 	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT / 2);
 
 
+	gameMap.SaveMap("savetest.m1s");
+	gameMap.LoadMap("savetest.m1s");
+
 	player.MoveObjectDirect(_SCREEN_WIDTH / 2 - player.GetRect().w / 2, _SCREEN_HEIGHT - player.GetRect().h);
 	playerIsOnGameObject = false;
 
@@ -40,6 +43,11 @@ C_Game::C_Game()
 	applyButton.InitTextureFromText("Apply", menu_SettingsFont);
 	fullHdResolution.InitTextureFromText("1920x1080", menu_SettingsFont);
 	hdResolution.InitTextureFromText("1280x720", menu_SettingsFont);
+
+	//Editor_Menu Buttons
+	newMapButton.InitTextureFromText("New Map", menuFont);
+
+
 }
 
 C_Game::~C_Game()

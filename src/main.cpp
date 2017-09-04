@@ -138,7 +138,17 @@ int main(int argc, char* argv[]){
 		{
 			quitPollEvent = true;
 		}
+
+		else if (gameState.currentState == state_Editor_Load)
+		{
+			mainGame.Game_Editor_Load(leftMousePressed);
+		}
         
+		else if (gameState.currentState == state_Editor_Edit)
+		{
+			mainGame.Game_Editor_Edit(leftMousePressed);
+		}
+
 		else
 		{
 			gameState.changeState(state_Menu);

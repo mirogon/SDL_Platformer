@@ -83,7 +83,7 @@ namespace m1 {
 	};
 	enum E_BlockType { Dirt = 0 };
 
-	enum e_GameState { state_Quit = -1, state_Menu = 0, state_Play = 1, state_Editor = 2, state_Menu_Settings = 3 };
+	enum e_GameState { state_Quit = -1, state_Menu = 0, state_Menu_Settings = 1, state_Play = 2, state_Editor_Edit = 3, state_Editor_Load = 4 };
 
 	struct S_GameState
 	{

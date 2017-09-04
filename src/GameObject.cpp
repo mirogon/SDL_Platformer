@@ -37,10 +37,10 @@ std::istream& operator>>(std::istream& is, C_GameObject& obj)
 std::ostream& operator<<(std::ostream& os, const C_GameObject& obj)
 {
 
-	os << obj.GetRect().x;
-	os << obj.GetRect().y;
+	os << obj.GetRect().x <<" ";
+	os << obj.GetRect().y<<" ";
 
-	os << obj.blockType;
+	os << obj.blockType<<" ";
 
 	return os;
 }

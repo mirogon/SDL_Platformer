@@ -16,7 +16,11 @@ public:
 
 	//Game menu function
     short Game_Menu(bool mousePressed);
+
+	void Game_Editor_Edit(bool mousePressed);
  
+	void Game_Editor_Load(bool mousePressed);
+
 	bool Game_Menu_Settings(bool mousePressed);
 
 	void PlayerInBorders();
@@ -52,6 +56,10 @@ private:
 	TTF_Font* menu_SettingsFont;
 
 	C_Texture background;
+
+	//Editor_Menu
+
+	C_Texture newMapButton;
 
 	//Game
     C_Player player;
@@ -109,7 +117,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 
 		if (mousePressed)
 		{
-			return 1;
+			return 2;
 		}
 		
 	}
@@ -128,7 +136,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 		SDL_SetTextureAlphaMod(editorButton.GetTexture(), 128);
 		if (mousePressed)
 		{
-			return 2;
+			return 4;
 		}
 	}
 
@@ -137,7 +145,7 @@ inline short C_Game::Game_Menu(bool mousePressed)
 		SDL_SetTextureAlphaMod(settingsButton.GetTexture(), 128);
 		if (mousePressed)
 		{
-			return 3;
+			return 1;
 		}
 	}
 
@@ -153,6 +161,19 @@ inline short C_Game::Game_Menu(bool mousePressed)
 
 }
 
+
+inline void C_Game::Game_Editor_Edit(bool mousePressed)
+{
+
+	gameMap.RenderMap();
+
+}
+
+inline void C_Game::Game_Editor_Load(bool mousePressed)
+{
+	background.RenderTexture(0, 0);
+	newMapButton.RenderTexture(_SCREEN_WIDTH / 2 - newMapButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.1);
+}
 
 inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 {
