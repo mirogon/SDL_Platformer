@@ -23,7 +23,7 @@ virtual void Init(SDL_Texture* newTexture, double_Rect& newRect);
 //Move the player to x/y
 void MoveObjectDirect(int x, int y);
 
-void MoveObjectDirect(const double_Rect& newPos);
+void MoveObjectDirect(const double_Coordinate& newPos);
 
 //INLINE
 

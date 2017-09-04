@@ -5,10 +5,22 @@ class C_Button : public C_Object
 
 public:
 
+	C_Button() = default;
+	~C_Button() = default;
+
+	void Init(char* buttonText, TTF_Font& font);
+
+	void Render();
+
 	void MouseOnButton();
 	bool ButtonPressed(bool mousePressed);
 
 };
+
+inline void C_Button::Render()
+{
+	this->RenderObject();
+}
 
 inline void C_Button::MouseOnButton()
 {

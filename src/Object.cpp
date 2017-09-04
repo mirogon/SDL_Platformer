@@ -26,7 +26,8 @@ void C_Object::MoveObjectDirect(int x, int y)
 
 }
 
-void C_Object::MoveObjectDirect(const double_Rect& newPos)
+void C_Object::MoveObjectDirect(const double_Coordinate& newPos)
 {
-	textureRectDouble = newPos;
+	textureRectDouble.x = newPos.x;
+	textureRectDouble.y = newPos.y;
 }

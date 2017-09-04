@@ -37,20 +37,20 @@ private:
 
 	//Menu
 
-	C_Texture playButton;
-	C_Texture editorButton;
-	C_Texture settingsButton;
-	C_Texture quitButton;
+	C_Button playButton;
+	C_Button editorButton;
+	C_Button settingsButton;
+	C_Button quitButton;
 
 	//Menu_Settings
-	C_Texture applyButton;
-	C_Texture resolutionLabel;
-	C_Texture fullHdResolution;
-	C_Texture hdResolution;
+	C_Button applyButton;
+	C_Button backButton;
 
-	C_Texture fullscreenLabel;
+	C_Button fullHdResolution;
+	C_Button hdResolution;
 
-	C_Texture backButton;
+	C_Button resolutionLabel;
+	C_Button fullscreenLabel;
 
 	TTF_Font* menuFont;
 	TTF_Font* menu_SettingsFont;
@@ -59,7 +59,7 @@ private:
 
 	//Editor_Menu
 
-	C_Texture newMapButton;
+	C_Button newMapButton;
 
 	//Game
     C_Player player;
@@ -101,61 +101,42 @@ inline void C_Game::Game_Play()
 inline short C_Game::Game_Menu(bool mousePressed)
 {
 
-	static int mousePosX = 0, mousePosY = 0;
-	
-	SDL_GetMouseState(&mousePosX, &mousePosY);
-
 	background.RenderTexture(0, 0);
-	playButton.RenderTexture(_SCREEN_WIDTH / 2 - playButton.GetRect().w / 2 , _SCREEN_HEIGHT * 0.2 - playButton.GetRect().h /2 );
-	editorButton.RenderTexture(_SCREEN_WIDTH / 2 - editorButton.GetRect().w / 2, _SCREEN_HEIGHT *0.4 - editorButton.GetRect().h / 2);
-	settingsButton.RenderTexture(_SCREEN_WIDTH / 2 - settingsButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.6 - settingsButton.GetRect().h / 2 );
-	quitButton.RenderTexture(_SCREEN_WIDTH / 2 - quitButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.8 - quitButton.GetRect().h / 2 );
+	playButton.Render();
+	editorButton.Render();
+	settingsButton.Render();
+	quitButton.Render();
 
-	if ( m1::IsInCollisionBox( mousePosX, mousePosY, playButton.GetRect() ) )
+	playButton.MouseOnButton();
+	quitButton.MouseOnButton();
+	editorButton.MouseOnButton();
+	settingsButton.MouseOnButton();
+
+	if (playButton.ButtonPressed(mousePressed) == true)
 	{
-		SDL_SetTextureAlphaMod(playButton.GetTexture(), 128);
-
-		if (mousePressed)
-		{
-			return 2;
-		}
-		
+		return 2;
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, quitButton.GetRect()))
+	
+	else if ( quitButton.ButtonPressed(mousePressed) == true )
 	{
-		SDL_SetTextureAlphaMod(quitButton.GetTexture(), 128);
-		if (mousePressed)
-		{
-			return -1;
-		}
+		return -1;
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, editorButton.GetRect()))
+	
+	else if (editorButton.ButtonPressed(mousePressed) == true)
 	{
-		SDL_SetTextureAlphaMod(editorButton.GetTexture(), 128);
-		if (mousePressed)
-		{
-			return 4;
-		}
+		return 4;
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, settingsButton.GetRect()))
+	
+	else if (settingsButton.ButtonPressed(mousePressed) == true)
 	{
-		SDL_SetTextureAlphaMod(settingsButton.GetTexture(), 128);
-		if (mousePressed)
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	else
 	{
-		SDL_SetTextureAlphaMod(playButton.GetTexture(), 255);
-		SDL_SetTextureAlphaMod(quitButton.GetTexture(), 255);
-		SDL_SetTextureAlphaMod(editorButton.GetTexture(), 255);
-		SDL_SetTextureAlphaMod(settingsButton.GetTexture(), 255);
-
 		return 0;
 	}
 
@@ -172,93 +153,69 @@ inline void C_Game::Game_Editor_Edit(bool mousePressed)
 inline void C_Game::Game_Editor_Load(bool mousePressed)
 {
 	background.RenderTexture(0, 0);
-	newMapButton.RenderTexture(_SCREEN_WIDTH / 2 - newMapButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.1);
+	newMapButton.MouseOnButton();
+	newMapButton.Render();
+
 }
 
 inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 {
-
-	static int mousePosX = 0, mousePosY = 0;
-
-	SDL_GetMouseState(&mousePosX, &mousePosY);
-
 	background.RenderTexture(0, 0);
-	resolutionLabel.RenderTexture(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.15);
 
-	applyButton.RenderTexture(_SCREEN_WIDTH - applyButton.GetRect().w, _SCREEN_HEIGHT - applyButton.GetRect().h );
+	resolutionLabel.MouseOnButton();
+	fullHdResolution.MouseOnButton();
+	applyButton.MouseOnButton();
+	fullHdResolution.MouseOnButton();
+	hdResolution.MouseOnButton();
+	backButton.MouseOnButton();
 
-	fullHdResolution.RenderTexture(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.15);
+	resolutionLabel.Render();
+	fullscreenLabel.Render();
+	applyButton.Render();
+	fullHdResolution.Render();
+	hdResolution.Render();
+	backButton.Render();
 
-	hdResolution.RenderTexture(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.3);
 
-	fullscreenLabel.RenderTexture(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.8);
 
-	backButton.RenderTexture(0, _SCREEN_HEIGHT - backButton.GetRect().h);
-
-	if (m1::IsInCollisionBox(mousePosX, mousePosY, applyButton.GetRect()))
+	if (applyButton.ButtonPressed(mousePressed) == true)
 	{
-		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 128);
-		if (mousePressed)
+		_GetBase->SyncSettings();
+		ResolutionChanged();
+	}
+
+	else if (fullHdResolution.ButtonPressed(mousePressed) == true)
+	{
+		_GetBase->SetResolution(1920, 1080);
+		SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 128);
+		SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 255);
+	}
+
+	else if (hdResolution.ButtonPressed(mousePressed) == true)
+	{
+		_GetBase->SetResolution(1280, 720);
+		SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 128);
+		SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 255);
+	}
+
+	else if (fullscreenLabel.ButtonPressed(mousePressed) == true)
+	{
+		if (_GetBase->IsFullscreen() == true)
 		{
-			_GetBase->SyncSettings();
-			ResolutionChanged();
+			fullscreenLabel.InitTextureFromText("Fullscreen: Off", menu_SettingsFont);
+			_GetBase->SetFullscreen(false);
+		}
+
+		else
+		{
+			fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
+			_GetBase->SetFullscreen(true);
 		}
 	}
 
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, fullHdResolution.GetRect()))
+	else if ( backButton.ButtonPressed(mousePressed) == true)
 	{
-		if (mousePressed)
-		{
-			_GetBase->SetResolution(1920, 1080);
-			SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 128);
-			SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 255);
-		}
-	}
-
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, hdResolution.GetRect()))
-	{
-		if (mousePressed)
-		{
-			_GetBase->SetResolution(1280, 720);
-			SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 128);
-			SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 255);
-		}
-	}
-
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, fullscreenLabel.GetRect()))
-	{
-		SDL_SetTextureAlphaMod(fullscreenLabel.GetTexture(), 128);
-
-		if (mousePressed)
-		{
-			if (_GetBase->IsFullscreen() == true)
-			{
-				fullscreenLabel.InitTextureFromText("Fullscreen: Off", menu_SettingsFont);
-				_GetBase->SetFullscreen(false);
-			}
-
-			else
-			{
-				fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
-				_GetBase->SetFullscreen(true);
-			}
-		}
-	}
-
-	else if (m1::IsInCollisionBox(mousePosX, mousePosY, backButton.GetRect()))
-	{
-		SDL_SetTextureAlphaMod(backButton.GetTexture(), 128);
-		if (mousePressed)
-		{
-			return true;
-		}
-	}
-
-	else
-	{
-		SDL_SetTextureAlphaMod(applyButton.GetTexture(), 255);
-		SDL_SetTextureAlphaMod(backButton.GetTexture(), 255);
-		SDL_SetTextureAlphaMod(fullscreenLabel.GetTexture(), 255);
+		return true;
 	}
 
 	return false;
