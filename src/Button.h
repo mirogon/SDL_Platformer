@@ -8,7 +8,7 @@ public:
 	C_Button() = default;
 	~C_Button() = default;
 
-	void Init(char* buttonText, TTF_Font& font);
+	void Init(const char* buttonText, TTF_Font& font);
 
 	void Render();
 

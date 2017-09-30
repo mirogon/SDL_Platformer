@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <filesystem>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -44,6 +45,7 @@ const float velocityChangeFall = 0.075;
 const float playerWalkSpeed = 7.5f;
 
 using namespace m1;
+using namespace std::experimental;
 
 namespace m1 {
 

@@ -19,7 +19,7 @@ public:
 
 	void Game_Editor_Edit(bool mousePressed);
  
-	void Game_Editor_Load(bool mousePressed);
+	bool Game_Editor_Load(bool mousePressed);
 
 	bool Game_Menu_Settings(bool mousePressed);
 
@@ -60,6 +60,12 @@ private:
 	//Editor_Menu
 
 	C_Button newMapButton;
+	std::vector<C_Button> m1mapLabels;
+	std::vector<std::string> m1mapPaths;
+
+	//Editor_Edit
+	C_Button editorSaveButton;
+	std::string currentMapPath;
 
 	//Game
     C_Player player;
@@ -145,16 +151,45 @@ inline short C_Game::Game_Menu(bool mousePressed)
 
 inline void C_Game::Game_Editor_Edit(bool mousePressed)
 {
-
+	background.RenderTexture(0, 0);
 	gameMap.RenderMap();
+
+	editorSaveButton.MouseOnButton();
+	editorSaveButton.Render();
+
+	if (editorSaveButton.ButtonPressed(mousePressed) == true)
+	{
+		gameMap.SaveMap(currentMapPath.c_str());
+	}
 
 }
 
-inline void C_Game::Game_Editor_Load(bool mousePressed)
+inline bool C_Game::Game_Editor_Load(bool mousePressed)
 {
 	background.RenderTexture(0, 0);
 	newMapButton.MouseOnButton();
 	newMapButton.Render();
+
+	static int l = 0;
+	l = 0;
+
+	for (auto i = m1mapLabels.begin(); i != m1mapLabels.end(); ++i)
+	{
+
+		i->MouseOnButton();
+		i->Render();
+		if (i->ButtonPressed(mousePressed) == true)
+		{
+			gameMap.LoadMap( m1mapPaths.at(l).c_str() );
+			currentMapPath = m1mapPaths.at(l);
+
+			return 1;
+		}
+
+		++l;
+	}
+
+	return 0;
 
 }
 

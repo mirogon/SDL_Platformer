@@ -60,6 +60,22 @@ C_Game::C_Game()
 	newMapButton.Init("New Map", *menuFont );
 	newMapButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - newMapButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.1);
 
+	//Editor_Edit Buttons
+	editorSaveButton.Init("Save", *menu_SettingsFont);
+	editorSaveButton.MoveObjectDirect(_SCREEN_WIDTH - editorSaveButton.GetRect().w, _SCREEN_HEIGHT - editorSaveButton.GetRect().h);
+
+	static int l = 0;
+	l = 0;
+
+	for (auto i : filesystem::directory_iterator("../data/m1map"))
+	{
+		m1mapLabels.push_back(C_Button());
+		m1mapLabels.back().Init(i.path().string().c_str(), *menu_SettingsFont);
+		m1mapLabels.back().MoveObjectDirect( _SCREEN_WIDTH / 2 - m1mapLabels.back().GetRect().w / 2, _SCREEN_HEIGHT * ( 0.1 * ( l + 3) ) );
+		m1mapPaths.push_back(std::string(i.path().string()));
+
+		++l;
+	}
 }
 
 C_Game::~C_Game()
@@ -73,9 +89,7 @@ C_Game::~C_Game()
 void C_Game::ResolutionChanged()
 {
 
-
 	//Menu buttons
-
 	playButton.Init("Play", *menuFont);
 	playButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - playButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.2 - playButton.GetRect().h / 2);
 	editorButton.Init("Map Editor", *menuFont);
@@ -103,6 +117,10 @@ void C_Game::ResolutionChanged()
 	//Editor_Menu Buttons
 	newMapButton.Init("New Map", *menuFont);
 	newMapButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - newMapButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.1);
+
+	//Editor_Edit Buttons
+	editorSaveButton.Init("Save", *menu_SettingsFont);
+	editorSaveButton.MoveObjectDirect(_SCREEN_WIDTH - editorSaveButton.GetRect().w, _SCREEN_HEIGHT - editorButton.GetRect().h);
 
 	if (_GetBase->IsFullscreen() == true)
 	{

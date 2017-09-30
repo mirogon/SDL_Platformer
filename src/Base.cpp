@@ -17,18 +17,17 @@ C_Base::C_Base() :
 	resH{SCREEN_HEIGHT}
 
 {
-    if(!mainWindow){
-
+    if(!mainWindow)
+	{
         //std::cout<<"mainWindow could not be intialized"<<std::endl;
         m1::Log("Window could not be created!");
     }
 
-    if(!mainRenderer){
-
+    if(!mainRenderer)
+	{
         //std::cout<<"mainRenderer could not be intialized"<<std::endl;
         m1::Log("mainRenderer could not be created!");
     }
-
 
     //Set the default renderer color
     SDL_SetRenderDrawColor(mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);

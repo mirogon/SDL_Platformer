@@ -4,9 +4,6 @@
 
 using namespace std;
 
-
-
-
 int main(int argc, char* argv[]){
     
     //Init SDL, IMG and TTF
@@ -141,7 +138,10 @@ int main(int argc, char* argv[]){
 
 		else if (gameState.currentState == state_Editor_Load)
 		{
-			mainGame.Game_Editor_Load(leftMousePressed);
+			if (mainGame.Game_Editor_Load(leftMousePressed) == true)
+			{
+				gameState.changeState(state_Editor_Edit);
+			}
 		}
         
 		else if (gameState.currentState == state_Editor_Edit)
