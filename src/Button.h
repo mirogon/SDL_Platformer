@@ -1,34 +1,34 @@
 #pragma once
 #include "Object.h"
-class C_Button : public C_Object
+class Button : public Object
 {
 
 public:
 
-	C_Button() = default;
-	~C_Button() = default;
+	Button() = default;
+	~Button() = default;
 
-	void Init(const char* buttonText, TTF_Font& font);
+	void init(const char* button_text, TTF_Font& font);
 
-	void Render();
+	void render();
 
-	void MouseOnButton();
-	bool ButtonPressed(bool mousePressed);
+	void mouse_on_button();
+	bool button_pressed(bool mouse_pressed);
 
 };
 
-inline void C_Button::Render()
+inline void Button::render()
 {
-	this->RenderObject();
+	this->render_object();
 }
 
-inline void C_Button::MouseOnButton()
+inline void Button::mouse_on_button()
 {
-	static int mousePosX = 0, mousePosY = 0;
+	static int mouse_pos_x = 0, mouse_pos_y = 0;
 
-	SDL_GetMouseState(&mousePosX, &mousePosY);
+	SDL_GetMouseState(&mouse_pos_x, &mouse_pos_y);
 
-	if (IsInCollisionBox(mousePosX, mousePosY, textureRectDouble) == true)
+	if (is_in_collision_box(mouse_pos_x, mouse_pos_y, texture_rect_double) == true)
 	{
 		SDL_SetTextureAlphaMod(texture, 128);
 	}
@@ -39,15 +39,15 @@ inline void C_Button::MouseOnButton()
 	}
 }
 
-inline bool C_Button::ButtonPressed(bool mousePressed)
+inline bool Button::button_pressed(bool mouse_pressed)
 {
-	static int mousePosX = 0, mousePosY = 0;
+	static int mouse_pos_x = 0, mouse_pos_y = 0;
 
-	SDL_GetMouseState(&mousePosX, &mousePosY);
+	SDL_GetMouseState(&mouse_pos_x, &mouse_pos_y);
 
-	if (IsInCollisionBox(mousePosX, mousePosY, textureRectDouble) == true)
+	if (is_in_collision_box(mouse_pos_x, mouse_pos_y, texture_rect_double) == true)
 	{
-		if (mousePressed == true)
+		if (mouse_pressed == true)
 		{
 			return true;
 		}

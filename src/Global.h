@@ -2,11 +2,11 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <filesystem>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <M1Serialization.h>
+#include <experimental/filesystem>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <M1Serialization/M1Serialization.h>
 
 
 #ifdef __ANDROID__
@@ -16,33 +16,32 @@
 #endif
 
 #include <iostream>
-#include "randomNumber.h"
 
-#define _MenuFontPath "../data/ttf/opensans.ttf"
-#define _FontPath "../data/ttf/opensans.ttf"
-#define _PlayerPath "../data/png/Player.png"
-#define _DirtPath "../data/png/Dirt.png"
-#define _BackgroundPath "../data/png/Background.png"
+#define _PATH_MENU_FONT "../data/ttf/opensans.ttf"
+#define _PATH_FONT "../data/ttf/opensans.ttf"
+#define _PATH_PLAYER "../data/png/Player.png"
+#define _PATH_DIRT "../data/png/Dirt.png"
+#define _PATH_BACKGROUND "../data/png/Background.png"
 
-#define _SCREEN_WIDTH C_Base::SCREEN_WIDTH
-#define _SCREEN_HEIGHT C_Base::SCREEN_HEIGHT
-#define _WINDOWFLAGS C_Base::WINDOWFLAGS
-#define _SCALE_W C_Base::SCALE_W
-#define _SCALE_H C_Base::SCALE_H
+#define _SCREEN_WIDTH Base::screen_width
+#define _SCREEN_HEIGHT Base::screen_height
+#define _WINDOWFLAGS Base::windowflags
+#define _SCALE_W Base::scale_w
+#define _SCALE_H Base::scale_h
 
 //Return the current window
-#define _GetWindow C_Base::getInstance()->GetWindow()
+#define _get_window Base::get_instance()->get_window()
 
 //Return the current renderer
-#define _GetRenderer C_Base::getInstance()->GetRenderer()
+#define _get_renderer Base::get_instance()->get_renderer()
 
-//Return the static C_Base instance
-#define _GetBase C_Base::getInstance()
+//Return the static Base instance
+#define _get_base Base::get_instance()
 
 //Player
-const float maxVelocity = 20.0f;
-const float velocityChangeFall = 0.075;
-const float playerWalkSpeed = 7.5f;
+const float MAX_VELOCITY = 20.0f;
+const float VELOCITY_CHANGE_FALL = 0.075;
+const float PLAYER_WALKSPEED = 7.5f;
 
 using namespace m1;
 using namespace std::experimental;
@@ -83,34 +82,34 @@ namespace m1 {
 			return a.y + a.h / 2;
 		}
 	};
-	enum E_BlockType { Dirt = 0 };
+	enum E_BlockType { DIRT = 0 };
 
-	enum e_GameState { state_Quit = -1, state_Menu = 0, state_Menu_Settings = 1, state_Play = 2, state_Editor_Edit = 3, state_Editor_Load = 4 };
+	enum E_GameState { state_Quit = -1, state_Menu = 0, state_menu_settings = 1, state_Play = 2, state_Editor_Edit = 3, state_Editor_Load = 4 };
 
 	struct S_GameState
 	{
-		short currentState; //-1 = Quit, 0 = Menu, 1 = Play, 2 = Editor, 3 = Menu_Settings
+		short current_state; //-1 = Quit, 0 = Menu, 1 = Play, 2 = Editor, 3 = menu_settings
 
-		S_GameState(short cState) : currentState{ cState }
+		S_GameState(short c_state) : current_state{ c_state }
 		{
 
 		}
 
-		void changeState(short newState)
+		void changeState(short new_state)
 		{
-			currentState = newState;
+			current_state = new_state;
 		}
 	};
 
 	//Enum to check the collision direction
 	enum E_CollisionDirection { Left = 0, Right = 1, Bot = 2, Top = 3 };
 
-	inline E_CollisionDirection CollisionDetection(const double_Rect& pCollisionBox, const double_Rect& collisionBox)
+	inline E_CollisionDirection collision_detection(const double_Rect& p_collision_box, const double_Rect& collision_box)
 	{
-		float w = 0.5 * (pCollisionBox.w + collisionBox.w);
-		float h = 0.5 * (pCollisionBox.h + collisionBox.h);
-		float dx = double_Rect::GetCenterX(pCollisionBox) - double_Rect::GetCenterX(collisionBox);
-		float dy = double_Rect::GetCenterY(pCollisionBox) - double_Rect::GetCenterY(collisionBox);
+		float w = 0.5 * (p_collision_box.w + collision_box.w);
+		float h = 0.5 * (p_collision_box.h + collision_box.h);
+		float dx = double_Rect::GetCenterX(p_collision_box) - double_Rect::GetCenterX(collision_box);
+		float dy = double_Rect::GetCenterY(p_collision_box) - double_Rect::GetCenterY(collision_box);
 
 		if (abs(dx) <= w && abs(dy) <= h)
 		{
@@ -149,14 +148,14 @@ namespace m1 {
 
 	}
 	//CHECK IF THE KEY WITH THE SCANCODE scancode IS PRESSED
-	bool KeyIsPressed(SDL_Scancode scancode);
+	bool key_is_pressed(SDL_Scancode scancode);
 
-	inline bool KeyIsPressed(SDL_Scancode scancode)
+	inline bool key_is_pressed(SDL_Scancode scancode)
 	{
-		static const Uint8* keyStatus = SDL_GetKeyboardState(NULL);
-		keyStatus = SDL_GetKeyboardState(NULL);
+		static const Uint8* key_status = SDL_GetKeyboardState(NULL);
+		key_status = SDL_GetKeyboardState(NULL);
 
-		if (keyStatus[scancode] == 1)
+		if (key_status[scancode] == 1)
 		{
 			return true;
 		}
@@ -169,14 +168,14 @@ namespace m1 {
 	}
 
 	//CHECK IF A COORDINATE IS IN A RECT
-	bool IsInCollisionBox(int x, int y, const SDL_Rect& collisionBox);
-	bool IsInCollisionBox(int x, int y, const double_Rect& collisionBox);
+	bool is_in_collision_box(int x, int y, const SDL_Rect& collision_box);
+	bool is_in_collision_box(int x, int y, const double_Rect& collision_box);
 
-	inline bool IsInCollisionBox(int x, int y, const SDL_Rect& collisionBox)
+	inline bool is_in_collision_box(int x, int y, const SDL_Rect& collision_box)
 	{
-		if (x < (collisionBox.x + collisionBox.w) && (x > collisionBox.x))
+		if (x < (collision_box.x + collision_box.w) && (x > collision_box.x))
 		{
-			if (y < (collisionBox.y + collisionBox.h) && (y > collisionBox.y))
+			if (y < (collision_box.y + collision_box.h) && (y > collision_box.y))
 			{
 				return true;
 			}
@@ -184,11 +183,11 @@ namespace m1 {
 		return false;
 	}
 
-	inline bool IsInCollisionBox(int x, int y, const double_Rect& collisionBox)
+	inline bool is_in_collision_box(int x, int y, const double_Rect& collision_box)
 	{
-		if (x < (collisionBox.x + collisionBox.w) && (x > collisionBox.x))
+		if (x < (collision_box.x + collision_box.w) && (x > collision_box.x))
 		{
-			if (y < (collisionBox.y + collisionBox.h) && (y > collisionBox.y))
+			if (y < (collision_box.y + collision_box.h) && (y > collision_box.y))
 			{
 				return true;
 			}
@@ -216,26 +215,26 @@ namespace m1 {
 		return rt;
 	}
 
-	//MULTIPLATFORM LOG
-	void Log(std::string str, int delay = 0);
+	//MULTIPLATFORM log
+	void log(std::string str, int delay = 0);
 
 #ifdef __ANDROID__
 
-	inline void Log(std::string str, int delay)
+	inline void log(std::string str, int delay)
 	{
 		if (delay>0)
 		{
 			SDL_Delay(delay);
 		}
 
-		__android_log_print(ANDROID_LOG_FATAL, "TRACKER_M1", "%s", str.c_str());
+		__android_log_print(ANDROID_log_FATAL, "TRACKER_M1", "%s", str.c_str());
 	}
 
 #endif
 
 #ifdef __LINUX__
 
-	inline void Log(std::string str, int delay)
+	inline void log(std::string str, int delay)
 	{
 
 		if (delay>0)
@@ -251,7 +250,7 @@ namespace m1 {
 
 #ifdef __WINDOWS__
 
-	inline void Log(std::string str, int delay)
+	inline void log(std::string str, int delay)
 	{
 		if (delay>0)
 		{
@@ -270,7 +269,7 @@ namespace m1 {
 	}
 
 	template<typename T>
-	void SafeDelete(T* t)
+	void safe_delete(T* t)
 	{
 		if (t != nullptr)
 		{

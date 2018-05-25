@@ -2,11 +2,9 @@
 
 #undef main
 
-using namespace std;
-
 int main(int argc, char* argv[]){
     
-    //Init SDL, IMG and TTF
+    //init SDL, IMG and TTF
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
@@ -14,56 +12,56 @@ int main(int argc, char* argv[]){
     //Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024);
     
 	//Create a SDL_Displaymode which has information about the current screen
-    SDL_DisplayMode dM;
-    SDL_GetCurrentDisplayMode(0, &dM);
+    SDL_DisplayMode dm;
+    SDL_GetCurrentDisplayMode(0, &dm);
     
 	//Check if the device is vertical or horizontal
-    if(dM.h > dM.w)
+    if(dm.h > dm.w)
     {
-        _SCREEN_WIDTH = dM.h;
-        _SCREEN_HEIGHT = dM.w;
+        _SCREEN_WIDTH = dm.h;
+        _SCREEN_HEIGHT = dm.w;
     }
     
-    else if (dM.w > dM.h)
+    else if (dm.w > dm.h)
     {
-        _SCREEN_WIDTH = dM.w;
-        _SCREEN_HEIGHT = dM.h;
+        _SCREEN_WIDTH = dm.w;
+        _SCREEN_HEIGHT = dm.h;
     }
     
     else
     {
-        _SCREEN_WIDTH = dM.w;
-        _SCREEN_HEIGHT = dM.h;
+        _SCREEN_WIDTH = dm.w;
+        _SCREEN_HEIGHT = dm.h;
     }
 
 
-    //Log the SCREEN WIDTH and SCREEN HEIGHT
-    m1::Log("SCREEN WIDTH: "+ m1::to_string(_SCREEN_WIDTH));
-    m1::Log("SCREEN HEIGHT: "+ m1::to_string(_SCREEN_HEIGHT));
+    //log the SCREEN WIDTH and SCREEN HEIGHT
+    m1::log("SCREEN WIDTH: "+ m1::to_string(_SCREEN_WIDTH));
+    m1::log("SCREEN HEIGHT: "+ m1::to_string(_SCREEN_HEIGHT));
     
     //DEFINE THE SCALE
     _SCALE_W = (float)_SCREEN_WIDTH/1280;
     _SCALE_H = (float)_SCREEN_HEIGHT/720;
     
-    //LOG THE SCALE
-    m1::Log( "_SCALE_W = " + m1::to_string(_SCALE_W) );
-    m1::Log( "_SCALE_H = " + m1::to_string(_SCALE_H) );
+    //log THE SCALE
+    m1::log( "_SCALE_W = " + m1::to_string(_SCALE_W) );
+    m1::log( "_SCALE_H = " + m1::to_string(_SCALE_H) );
     
   
 	//Is used to check if the main game loop is valid
-    bool quitPollEvent = false;
-	bool leftMousePressed = false;
+    bool quit_pollevent = false;
+	bool left_mousebutton_pressed = false;
 
     //Event to check the current event
     SDL_Event e;
     
     //The main Game
-    C_Game mainGame;
+    Game main_game;
         
 	//Stores the current game state
-	S_GameState gameState = state_Menu;
+	S_GameState game_state = state_Menu;
 
-    while(quitPollEvent == false)
+    while(quit_pollevent == false)
 	{
         static int fps = 0;
         static Uint32 lt = 0;
@@ -75,7 +73,7 @@ int main(int argc, char* argv[]){
             if(e.type == SDL_QUIT){
 
                 //End the application loop
-                quitPollEvent = true;
+                quit_pollevent = true;
                 
             }
             
@@ -84,7 +82,7 @@ int main(int argc, char* argv[]){
             {
                 if(e.key.keysym.sym == SDLK_ESCAPE)
                 {
-					gameState = state_Menu;
+					game_state = state_Menu;
                 }
             }
 
@@ -92,70 +90,70 @@ int main(int argc, char* argv[]){
 			{
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
-					leftMousePressed = true;
+					left_mousebutton_pressed = true;
 				}
 				else
 				{
-					leftMousePressed = false;
+					left_mousebutton_pressed = false;
 				}
 				
 			}
 
 			else
 			{
-				leftMousePressed = false;
+				left_mousebutton_pressed = false;
 			}
 			
 
         }
         
         //Clear screen with the default render color
-        SDL_RenderClear(_GetRenderer);
+        SDL_RenderClear(_get_renderer);
 
-		if (gameState.currentState == state_Menu)
+		if (game_state.current_state == state_Menu)
 		{
-			gameState.currentState = mainGame.Game_Menu(leftMousePressed);
+			game_state.current_state = main_game.menu(left_mousebutton_pressed);
 		}
 
-		else if (gameState.currentState == state_Menu_Settings)
+		else if (game_state.current_state == state_menu_settings)
 		{
-			if (mainGame.Game_Menu_Settings(leftMousePressed) == true)
+			if (main_game.menu_settings(left_mousebutton_pressed) == true)
 			{
-				gameState.changeState(state_Menu);
+				game_state.changeState(state_Menu);
 			}
 		}
 
 		//Call the main game play function
-		else if(gameState.currentState == state_Play)
+		else if(game_state.current_state == state_Play)
 		{
-			mainGame.Game_Play();
+			main_game.play();
 		}
         
-		else if (gameState.currentState == state_Quit)
+		else if (game_state.current_state == state_Quit)
 		{
-			quitPollEvent = true;
+			quit_pollevent = true;
 		}
 
-		else if (gameState.currentState == state_Editor_Load)
+		else if (game_state.current_state == state_Editor_Load)
 		{
-			if (mainGame.Game_Editor_Load(leftMousePressed) == true)
+			if (main_game.editor_load(left_mousebutton_pressed) == true)
 			{
-				gameState.changeState(state_Editor_Edit);
+				game_state.changeState(state_Editor_Edit);
 			}
 		}
         
-		else if (gameState.currentState == state_Editor_Edit)
+		else if (game_state.current_state == state_Editor_Edit)
 		{
-			mainGame.Game_Editor_Edit(leftMousePressed);
+			main_game.editor_edit(left_mousebutton_pressed);
 		}
 
 		else
 		{
-			gameState.changeState(state_Menu);
+			game_state.changeState(state_Menu);
 		}
 
         //Sync the renderer
-        SDL_RenderPresent(_GetRenderer);
+        SDL_RenderPresent(_get_renderer);
 
         ++fps;
         
@@ -163,7 +161,7 @@ int main(int argc, char* argv[]){
         if(SDL_GetTicks() - lt >= 1000)
 		{
             lt = SDL_GetTicks();
-            //m1::Log( "FPS: " + m1::to_string(fps) );
+            //m1::log( "FPS: " + m1::to_string(fps) );
             fps = 0;
         }
     

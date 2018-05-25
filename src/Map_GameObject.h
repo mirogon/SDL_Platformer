@@ -1,37 +1,37 @@
 #pragma once
 #include "GameObject.h"
 
-class C_Map_GameObject
+class Map_GameObject
 {
 public:
 
-	C_Map_GameObject() = default;
-	~C_Map_GameObject() = default;
+	Map_GameObject() = default;
+	~Map_GameObject() = default;
 
-	void SaveMap(const char* mapName);
-	void LoadMap(const char* mapName);
+	void save_map(const char* mapName);
+	void load_map(const char* mapName);
 
-	void NewObject(unsigned short blockType, double_Coordinate& rect);
+	void new_object(unsigned short block_type, const double_Coordinate& rect);
 
-	void RenderMap();
+	void render_map();
 
-	void ClearMap();
+	void clear_map();
 
-	std::vector<C_GameObject>& GetMapObjects()
+	std::vector<GameObject>& get_map_objects()
 	{
-		return mapObjects;
+		return map_objects;
 	}
 
 private:
 
-	std::vector<C_GameObject> mapObjects;
-	m1::S_Serialization<C_GameObject> serialization;
+	std::vector<GameObject> map_objects;
+	m1::S_Serialization<GameObject> serialization;
 };
 
-inline void C_Map_GameObject::RenderMap()
+inline void Map_GameObject::render_map()
 {
-	for (auto i = mapObjects.begin(); i != mapObjects.end(); ++i)
+	for (auto i = map_objects.begin(); i != map_objects.end(); ++i)
 	{
-		i->Render();
+		i->render();
 	}
 }

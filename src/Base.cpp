@@ -1,87 +1,87 @@
 #include "Base.h"
 
-C_Base::C_Base() :
+Base::Base() :
 
-	//Intializing the mainWindow
-	mainWindow{ SDL_CreateWindow("SDL_Platformer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE) },
+	//Intializing the main_window
+	main_window{ SDL_CreateWindow("SDL_Platformer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE) },
 
-	//Intializing the mainRenderer
-	mainRenderer{ SDL_CreateRenderer(mainWindow, -1 , SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) },
+	//Intializing the main_renderer
+	main_renderer{ SDL_CreateRenderer(main_window, -1 , SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) },
 
-	isFullscreen{ true },
+	is_fullscreen{ true },
 
-	changedFullscreenState{false},
+	changed_fullscreen_state{false},
 
-	resW{SCREEN_WIDTH},
+	res_w{_SCREEN_WIDTH},
 
-	resH{SCREEN_HEIGHT}
+	res_h{_SCREEN_HEIGHT}
 
 {
-    if(!mainWindow)
+    if(!main_window)
 	{
-        //std::cout<<"mainWindow could not be intialized"<<std::endl;
-        m1::Log("Window could not be created!");
+        //std::cout<<"main_window could not be intialized"<<std::endl;
+        m1::log("Window could not be created!");
     }
 
-    if(!mainRenderer)
+    if(!main_renderer)
 	{
-        //std::cout<<"mainRenderer could not be intialized"<<std::endl;
-        m1::Log("mainRenderer could not be created!");
+        //std::cout<<"main_renderer could not be intialized"<<std::endl;
+        m1::log("main_renderer could not be created!");
     }
 
     //Set the default renderer color
-    SDL_SetRenderDrawColor(mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_SetRenderDrawColor(main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 };
 
-C_Base::~C_Base(){
+Base::~Base(){
 
-    //Destroy the mainWindow
-    SDL_DestroyWindow(this->mainWindow);
-	mainWindow = nullptr;
+    //Destroy the main_window
+    SDL_DestroyWindow(this->main_window);
+	main_window = nullptr;
 
-    //Destroy the mainRenderer
-    SDL_DestroyRenderer(this->mainRenderer);
-	mainRenderer = nullptr;
+    //Destroy the main_renderer
+    SDL_DestroyRenderer(this->main_renderer);
+	main_renderer = nullptr;
 };
 
-void C_Base::SetFullscreen(bool state)
+void Base::set_fullscreen(bool state)
 {
-	isFullscreen = state;
-	changedFullscreenState = true;
+	is_fullscreen = state;
+	changed_fullscreen_state = true;
 }
 
-void C_Base::SetResolution(int w, int h)
+void Base::set_resolution(int w, int h)
 {
-	resW = w;
-	resH = h;
+	res_w = w;
+	res_h = h;
 }
 
-void C_Base::SyncSettings()
+void Base::sync_settings()
 {
-	if (resW != SCREEN_WIDTH || resH != SCREEN_HEIGHT)
+	if (res_w != screen_width || res_h != screen_height)
 	{
-		SCREEN_WIDTH = resW;
-		SCREEN_HEIGHT = resH;
-		SCALE_W = (float)SCREEN_WIDTH / 1280;
-		SCALE_H = (float)SCREEN_HEIGHT / 720;
+		screen_width = res_w;
+		screen_height = res_h;
+		scale_w = (float)screen_width / 1280;
+		scale_h = (float)screen_height / 720;
 
-		m1::Log("NEW Screen Details");
-		m1::Log("SCREEN_WIDTH: " + m1::to_string(SCREEN_WIDTH));
-		m1::Log("SCREEN_HEIGHT: " + m1::to_string(SCREEN_HEIGHT));
-		m1::Log("_SCALE_W: " + m1::to_string(_SCALE_W));
-		m1::Log("SCALE_H: " + m1::to_string(SCALE_H));
+		m1::log("NEW Screen Details");
+		m1::log("screen_width: " + m1::to_string(screen_width));
+		m1::log("screen_height: " + m1::to_string(screen_height));
+		m1::log("_SCALE_W: " + m1::to_string(_SCALE_W));
+		m1::log("scale_h: " + m1::to_string(scale_h));
 
-		SDL_SetWindowSize(_GetWindow, resW, resH);
+		SDL_SetWindowSize(_get_window, res_w, res_h);
 		
 	}
 
-	if (changedFullscreenState)
+	if (changed_fullscreen_state)
 	{
 
-		if (isFullscreen == true)
+		if (is_fullscreen == true)
 		{
-			if (SDL_SetWindowFullscreen(mainWindow, SDL_WINDOW_FULLSCREEN) != 0)
+			if (SDL_SetWindowFullscreen(main_window, SDL_WINDOW_FULLSCREEN) != 0)
 			{
 				std::cout << SDL_GetError() << std::endl;
 			}
@@ -89,23 +89,23 @@ void C_Base::SyncSettings()
 
 		else
 		{
-			if (SDL_SetWindowFullscreen(mainWindow, 0) != 0)
+			if (SDL_SetWindowFullscreen(main_window, 0) != 0)
 			{
 				std::cout << SDL_GetError() << std::endl;
 			}
 		}
 
-		changedFullscreenState = false;
+		changed_fullscreen_state = false;
 
 	}
 
 }
 
 //Variables to store the screen dimensions
-int C_Base::SCREEN_WIDTH = 0;
-int C_Base::SCREEN_HEIGHT = 0;
-Uint32 C_Base::WINDOWFLAGS = 0;
+int Base::screen_width = 0;
+int Base::screen_height = 0;
+Uint32 Base::windowflags = 0;
 
 //Variables to store the scale in comparison to 720p
-float C_Base::SCALE_W = 0;
-float C_Base::SCALE_H = 0;
+float Base::scale_w = 0;
+float Base::scale_h = 0;

@@ -1,17 +1,17 @@
 #include "Texture.h"
 
-C_Texture::C_Texture()
+Texture::Texture()
 {
-    textureRect.x = 0;
-    textureRect.y = 0;
-    textureRect.w = 0;
-    textureRect.h = 0;
+    texture_rect.x = 0;
+    texture_rect.y = 0;
+    texture_rect.w = 0;
+    texture_rect.h = 0;
 
     texture = nullptr;
 
 }
 
-C_Texture::~C_Texture()
+Texture::~Texture()
 {
 	if (texture != nullptr)
 	{
@@ -21,7 +21,7 @@ C_Texture::~C_Texture()
   
 }
 
-void C_Texture::FreeTexture()
+void Texture::free_texture()
 {
     if (texture != nullptr)
     {
@@ -30,31 +30,33 @@ void C_Texture::FreeTexture()
     }
 }
 
-bool C_Texture::Init(std::string path, float scale_w, float scale_h)
+bool Texture::init(std::string path, float scale_w, float scale_h)
 {
     
-    FreeTexture();
+    free_texture();
     
     SDL_Surface* surface = IMG_Load(path.c_str());
     
     if(surface==nullptr)
     {
-        m1::Log("Surface could not be created (Texture.cpp) ");
+        std::string s = "Surface could not be created (Texture.cpp) " + path;
+
+        m1::log(s);
     }
     
     SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 255, 255) );
 
-    texture = SDL_CreateTextureFromSurface( _GetRenderer , surface );
+    texture = SDL_CreateTextureFromSurface( _get_renderer , surface );
     if(texture == nullptr)
     {
-        m1::Log("Texture could not be created (Texture.cpp)");
+        m1::log("Texture could not be created (Texture.cpp)");
     }
     
-    textureRect.w =  (surface->w * scale_w);
-    textureRect.h =  (surface->h * scale_h);
+    texture_rect.w =  (surface->w * scale_w);
+    texture_rect.h =  (surface->h * scale_h);
 
-	m1::Log("Texture created with w: " + m1::to_string(textureRect.w) + " h:" + m1::to_string(textureRect.h));
-	m1::Log("TextureScale: " + m1::to_string(scale_w) + "x" + m1::to_string(scale_h));
+	m1::log("Texture created with w: " + m1::to_string(texture_rect.w) + " h:" + m1::to_string(texture_rect.h));
+	m1::log("TextureScale: " + m1::to_string(scale_w) + "x" + m1::to_string(scale_h));
 
 
     SDL_FreeSurface(surface);
@@ -64,25 +66,25 @@ bool C_Texture::Init(std::string path, float scale_w, float scale_h)
 
 }
 
-bool C_Texture::InitTextureFromText(std::string text, TTF_Font* font, SDL_Color color, float scale_w , float scale_h) {
+bool Texture::init_texture_from_text(std::string text, TTF_Font* font, SDL_Color color, float scale_w , float scale_h) {
 
-    FreeTexture();
+    free_texture();
 
-    SDL_Surface* loadText = TTF_RenderText_Solid(font, text.c_str(), color);
-    if(loadText==nullptr){
+    SDL_Surface* load_text = TTF_RenderText_Solid(font, text.c_str(), color);
+    if(load_text==nullptr){
 
         std::cout<<"TTF Surface konnte nicht erstellt werden"<<std::endl;
 
     }
 
-    SDL_SetColorKey(loadText, SDL_TRUE, SDL_MapRGB(loadText->format, 0, 255, 255));
+    SDL_SetColorKey(load_text, SDL_TRUE, SDL_MapRGB(load_text->format, 0, 255, 255));
 
-    texture = SDL_CreateTextureFromSurface(_GetRenderer, loadText);
+    texture = SDL_CreateTextureFromSurface(_get_renderer, load_text);
 
-    textureRect.w = loadText->w * scale_w;
-    textureRect.h = loadText->h * scale_h;
+    texture_rect.w = load_text->w * scale_w;
+    texture_rect.h = load_text->h * scale_h;
 
-    SDL_FreeSurface(loadText);
+    SDL_FreeSurface(load_text);
 
     return texture != nullptr;
 

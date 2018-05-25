@@ -1,142 +1,142 @@
 #pragma once
 #include "Map_GameObject.h"
 
-class C_Game{
+class Game{
     
 public:
     
 	//Game class constructor
-    C_Game();
+    Game();
 
 	//Game class deconstructor
-	~C_Game();
+	~Game();
     
 	//Game play function
-    void Game_Play();
+    void play();
 
 	//Game menu function
-    short Game_Menu(bool mousePressed);
+    short menu(bool mouse_pressed);
 
-	void Game_Editor_Edit(bool mousePressed);
+	void editor_edit(bool mouse_pressed);
  
-	bool Game_Editor_Load(bool mousePressed);
+	bool editor_load(bool mouse_pressed);
 
-	bool Game_Menu_Settings(bool mousePressed);
+	bool menu_settings(bool mouse_pressed);
 
-	void PlayerInBorders();
+	void player_in_borders();
 
 	//Check and return if the player is on the ground
-	bool PlayerIsOnGround();
+	bool player_is_on_ground();
 
 	//Function to handle the collision
-	void HandlePlayerCollision();
+	void handle_player_collision();
 
-	void ResolutionChanged();
+	void resolution_changed();
 
 private:
 
 	//Menu
 
-	C_Button playButton;
-	C_Button editorButton;
-	C_Button settingsButton;
-	C_Button quitButton;
+	Button button_play;
+	Button button_editor;
+	Button button_settings;
+	Button button_quit;
 
-	//Menu_Settings
-	C_Button applyButton;
-	C_Button backButton;
+	//menu_settings
+	Button button_apply;
+	Button button_back;
 
-	C_Button fullHdResolution;
-	C_Button hdResolution;
+	Button button_fullhd;
+	Button button_hd;
 
-	C_Button resolutionLabel;
-	C_Button fullscreenLabel;
+	Button label_resolution;
+	Button label_fullscreen;
 
-	TTF_Font* menuFont;
-	TTF_Font* menu_SettingsFont;
+	TTF_Font* font_menu;
+	TTF_Font* font_menu_settings;
 
-	C_Texture background;
+	Texture background;
 
 	//Editor_Menu
 
-	C_Button newMapButton;
-	std::vector<C_Button> m1mapLabels;
-	std::vector<std::string> m1mapPaths;
+	Button button_new_map;
+	std::vector<Button> m1map_labels;
+	std::vector<std::string> m1map_paths;
 
 	//Editor_Edit
-	C_Button editorSaveButton;
-	std::string currentMapPath;
+	Button button_editor_save;
+	std::string current_mappath;
 
 	//Game
-    C_Player player;
+    Player player;
 
-	C_Map_GameObject gameMap;
+	Map_GameObject game_map;
 
-	bool playerIsOnGameObject;
+	bool player_is_on_gameobject;
     
 };
 
-inline void C_Game::Game_Play()
+inline void Game::play()
 {
-    static Uint32 lastTime = SDL_GetTicks();
+    static Uint32 last_time = SDL_GetTicks();
     
-    if(m1::KeyIsPressed(SDL_SCANCODE_SPACE) && PlayerIsOnGround())
+    if(m1::key_is_pressed(SDL_SCANCODE_SPACE) && player_is_on_ground())
     {
-        player.Jump();
-		playerIsOnGameObject = false;
+        player.jump();
+		player_is_on_gameobject = false;
     }
     
-    player.Fall(SDL_GetTicks() - lastTime);
+    player.fall(SDL_GetTicks() - last_time);
 
-	player.PlayerWalk();
+	player.player_walk();
 
-	PlayerInBorders();
+	player_in_borders();
 
-	HandlePlayerCollision();
+	handle_player_collision();
     
-	background.RenderTexture(0, 0);
+	background.render_texture(0, 0);
 
-    player.RenderObject();
+    player.render_object();
     
-	gameMap.RenderMap();
+	game_map.render_map();
 
-    lastTime = SDL_GetTicks();
+    last_time = SDL_GetTicks();
 
 }
 
-inline short C_Game::Game_Menu(bool mousePressed)
+inline short Game::menu(bool mouse_pressed)
 {
 
-	background.RenderTexture(0, 0);
-	playButton.Render();
-	editorButton.Render();
-	settingsButton.Render();
-	quitButton.Render();
+	background.render_texture(0, 0);
+	button_play.render();
+	button_editor.render();
+	button_settings.render();
+	button_quit.render();
 
-	playButton.MouseOnButton();
-	quitButton.MouseOnButton();
-	editorButton.MouseOnButton();
-	settingsButton.MouseOnButton();
+	button_play.mouse_on_button();
+	button_quit.mouse_on_button();
+	button_editor.mouse_on_button();
+	button_settings.mouse_on_button();
 
-	if (playButton.ButtonPressed(mousePressed) == true)
+	if (button_play.button_pressed(mouse_pressed) == true)
 	{
 		return 2;
 	}
 
 	
-	else if ( quitButton.ButtonPressed(mousePressed) == true )
+	else if ( button_quit.button_pressed(mouse_pressed) == true )
 	{
 		return -1;
 	}
 
 	
-	else if (editorButton.ButtonPressed(mousePressed) == true)
+	else if (button_editor.button_pressed(mouse_pressed) == true)
 	{
 		return 4;
 	}
 
 	
-	else if (settingsButton.ButtonPressed(mousePressed) == true)
+	else if (button_settings.button_pressed(mouse_pressed) == true)
 	{
 		return 1;
 	}
@@ -149,39 +149,39 @@ inline short C_Game::Game_Menu(bool mousePressed)
 }
 
 
-inline void C_Game::Game_Editor_Edit(bool mousePressed)
+inline void Game::editor_edit(bool mouse_pressed)
 {
-	background.RenderTexture(0, 0);
-	gameMap.RenderMap();
+	background.render_texture(0, 0);
+	game_map.render_map();
 
-	editorSaveButton.MouseOnButton();
-	editorSaveButton.Render();
+	button_editor_save.mouse_on_button();
+	button_editor_save.render();
 
-	if (editorSaveButton.ButtonPressed(mousePressed) == true)
+	if (button_editor_save.button_pressed(mouse_pressed) == true)
 	{
-		gameMap.SaveMap(currentMapPath.c_str());
+		game_map.save_map(current_mappath.c_str());
 	}
 
 }
 
-inline bool C_Game::Game_Editor_Load(bool mousePressed)
+inline bool Game::editor_load(bool mouse_pressed)
 {
-	background.RenderTexture(0, 0);
-	newMapButton.MouseOnButton();
-	newMapButton.Render();
+	background.render_texture(0, 0);
+	button_new_map.mouse_on_button();
+	button_new_map.render();
 
 	static int l = 0;
 	l = 0;
 
-	for (auto i = m1mapLabels.begin(); i != m1mapLabels.end(); ++i)
+	for (auto i = m1map_labels.begin(); i != m1map_labels.end(); ++i)
 	{
 
-		i->MouseOnButton();
-		i->Render();
-		if (i->ButtonPressed(mousePressed) == true)
+		i->mouse_on_button();
+		i->render();
+		if (i->button_pressed(mouse_pressed) == true)
 		{
-			gameMap.LoadMap( m1mapPaths.at(l).c_str() );
-			currentMapPath = m1mapPaths.at(l);
+			game_map.load_map( m1map_paths.at(l).c_str() );
+			current_mappath = m1map_paths.at(l);
 
 			return 1;
 		}
@@ -193,62 +193,62 @@ inline bool C_Game::Game_Editor_Load(bool mousePressed)
 
 }
 
-inline bool C_Game::Game_Menu_Settings(bool mousePressed)
+inline bool Game::menu_settings(bool mouse_pressed)
 {
-	background.RenderTexture(0, 0);
+	background.render_texture(0, 0);
 
-	resolutionLabel.MouseOnButton();
-	fullHdResolution.MouseOnButton();
-	applyButton.MouseOnButton();
-	fullHdResolution.MouseOnButton();
-	hdResolution.MouseOnButton();
-	backButton.MouseOnButton();
+	label_resolution.mouse_on_button();
+	button_fullhd.mouse_on_button();
+	button_apply.mouse_on_button();
+	button_fullhd.mouse_on_button();
+	button_hd.mouse_on_button();
+	button_back.mouse_on_button();
 
-	resolutionLabel.Render();
-	fullscreenLabel.Render();
-	applyButton.Render();
-	fullHdResolution.Render();
-	hdResolution.Render();
-	backButton.Render();
+	label_resolution.render();
+	label_fullscreen.render();
+	button_apply.render();
+	button_fullhd.render();
+	button_hd.render();
+	button_back.render();
 
 
 
-	if (applyButton.ButtonPressed(mousePressed) == true)
+	if (button_apply.button_pressed(mouse_pressed) == true)
 	{
-		_GetBase->SyncSettings();
-		ResolutionChanged();
+		_get_base->sync_settings();
+		resolution_changed();
 	}
 
-	else if (fullHdResolution.ButtonPressed(mousePressed) == true)
+	else if (button_fullhd.button_pressed(mouse_pressed) == true)
 	{
-		_GetBase->SetResolution(1920, 1080);
-		SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 128);
-		SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 255);
+		_get_base->set_resolution(1920, 1080);
+		SDL_SetTextureAlphaMod(button_fullhd.get_texture(), 128);
+		SDL_SetTextureAlphaMod(button_hd.get_texture(), 255);
 	}
 
-	else if (hdResolution.ButtonPressed(mousePressed) == true)
+	else if (button_hd.button_pressed(mouse_pressed) == true)
 	{
-		_GetBase->SetResolution(1280, 720);
-		SDL_SetTextureAlphaMod(hdResolution.GetTexture(), 128);
-		SDL_SetTextureAlphaMod(fullHdResolution.GetTexture(), 255);
+		_get_base->set_resolution(1280, 720);
+		SDL_SetTextureAlphaMod(button_hd.get_texture(), 128);
+		SDL_SetTextureAlphaMod(button_fullhd.get_texture(), 255);
 	}
 
-	else if (fullscreenLabel.ButtonPressed(mousePressed) == true)
+	else if (label_fullscreen.button_pressed(mouse_pressed) == true)
 	{
-		if (_GetBase->IsFullscreen() == true)
+		if (_get_base->check_if_fullscreen() == true)
 		{
-			fullscreenLabel.InitTextureFromText("Fullscreen: Off", menu_SettingsFont);
-			_GetBase->SetFullscreen(false);
+			label_fullscreen.init_texture_from_text("Fullscreen: Off", font_menu_settings);
+			_get_base->set_fullscreen(false);
 		}
 
 		else
 		{
-			fullscreenLabel.InitTextureFromText("Fullscreen: On", menu_SettingsFont);
-			_GetBase->SetFullscreen(true);
+			label_fullscreen.init_texture_from_text("Fullscreen: On", font_menu_settings);
+			_get_base->set_fullscreen(true);
 		}
 	}
 
-	else if ( backButton.ButtonPressed(mousePressed) == true)
+	else if ( button_back.button_pressed(mouse_pressed) == true)
 	{
 		return true;
 	}
@@ -256,9 +256,9 @@ inline bool C_Game::Game_Menu_Settings(bool mousePressed)
 	return false;
 }
 
-inline bool C_Game::PlayerIsOnGround()
+inline bool Game::player_is_on_ground()
 {
-    if(player.GetRect().y + player.GetRect().h >= _SCREEN_HEIGHT || playerIsOnGameObject == true)
+    if(player.get_rect().y + player.get_rect().h >= _SCREEN_HEIGHT || player_is_on_gameobject == true)
     {
         return true;
     }
@@ -269,51 +269,51 @@ inline bool C_Game::PlayerIsOnGround()
     }
 }
 
-inline void C_Game::PlayerInBorders()
+inline void Game::player_in_borders()
 {
-	if (player.GetRect().x < 0) 
+	if (player.get_rect().x < 0) 
 	{
-		player.MoveObjectDirect(0, player.GetRect().y);
+		player.move_object_direct(0, player.get_rect().y);
 	}
 
-	else if (player.GetRect().x > _SCREEN_WIDTH - player.GetRect().w)
+	else if (player.get_rect().x > _SCREEN_WIDTH - player.get_rect().w)
 	{
-		player.MoveObjectDirect(_SCREEN_WIDTH - player.GetRect().w, player.GetRect().y);
+		player.move_object_direct(_SCREEN_WIDTH - player.get_rect().w, player.get_rect().y);
 	}
 
-	if (player.GetRect().y < 0)
+	if (player.get_rect().y < 0)
 	{
-		player.MoveObjectDirect(player.GetRect().x, 0);
+		player.move_object_direct(player.get_rect().x, 0);
 	}
 
-	else if (player.GetRect().y > _SCREEN_HEIGHT - player.GetRect().h)
+	else if (player.get_rect().y > _SCREEN_HEIGHT - player.get_rect().h)
 	{
-		player.MoveObjectDirect(player.GetRect().x, _SCREEN_HEIGHT - player.GetRect().h);
+		player.move_object_direct(player.get_rect().x, _SCREEN_HEIGHT - player.get_rect().h);
 	}
 
 
 }
 
-inline void C_Game::HandlePlayerCollision()
+inline void Game::handle_player_collision()
 {
-	for (auto iT = gameMap.GetMapObjects().begin(); iT != gameMap.GetMapObjects().end(); ++iT)
+	for (auto it = game_map.get_map_objects().begin(); it != game_map.get_map_objects().end(); ++it)
 	{
 
-		switch (CollisionDetection(player.GetRect(), iT->GetRect()))
+		switch (collision_detection(player.get_rect(), it->get_rect()))
 		{
 
-			case Bot:	player.ResetVelocity();
-						player.MoveObjectDirect(player.GetRect().x, iT->GetRect().y + iT->GetRect().h + 1);
+			case Bot:	player.reset_velocity();
+						player.move_object_direct(player.get_rect().x, it->get_rect().y + it->get_rect().h + 1);
 						break;
 
-			case Top:	player.MoveObjectDirect(player.GetRect().x, iT->GetRect().y - player.GetRect().h);
-						playerIsOnGameObject = true;
+			case Top:	player.move_object_direct(player.get_rect().x, it->get_rect().y - player.get_rect().h);
+						player_is_on_gameobject = true;
 						break;
 
-			case Left:	player.MoveObjectDirect(iT->GetRect().x - player.GetRect().w, player.GetRect().y);
+			case Left:	player.move_object_direct(it->get_rect().x - player.get_rect().w, player.get_rect().y);
 						break;
 
-			case Right: player.MoveObjectDirect(iT->GetRect().x + iT->GetRect().w, player.GetRect().y);
+			case Right: player.move_object_direct(it->get_rect().x + it->get_rect().w, player.get_rect().y);
 						break;
 
 			default: break;	

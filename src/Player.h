@@ -2,33 +2,33 @@
 #include "Button.h"
 
 
-class C_Player : public C_Object{
+class Player : public Object{
     
 public:
     
 	//Player class constructor
-    C_Player();
+    Player();
 
 	//Player class deconstructor
-    ~C_Player() = default;
+    ~Player() = default;
     
 	//Return the current velocity
-    float GetVelocity()
+    float get_velocity()
 	{
         return velocity;
     }
     
 	//Check if a walk key is pressed and walk
-	void PlayerWalk();
+	void player_walk();
 
 	//Let the player jump
-    void Jump();
+    void jump();
 
 	//Let the player fall
-    void Fall(Uint32 deltaTime);
+    void fall(Uint32 delta_time);
 
 	//Reset the current velocity
-	void ResetVelocity();
+	void reset_velocity();
     
 private:
     
@@ -36,32 +36,32 @@ private:
     
 };
 
-inline void C_Player::Jump()
+inline void Player::jump()
 {   
-    velocity = -maxVelocity;
+    velocity = -MAX_VELOCITY;
 }
     
 
-inline void C_Player::Fall(Uint32 deltaTime)
+inline void Player::fall(Uint32 delta_time)
 {
-        if(velocity > maxVelocity)
+        if(velocity > MAX_VELOCITY)
         {
-            velocity = maxVelocity;
+            velocity = MAX_VELOCITY;
         }
         
-        MoveObject(0, velocity * _SCALE_H );
-        velocity += float( deltaTime*velocityChangeFall );
+        move_object(0, velocity * _SCALE_H );
+        velocity += float( delta_time*VELOCITY_CHANGE_FALL );
 }
 
-inline void C_Player::PlayerWalk()
+inline void Player::player_walk()
 {
-	if (m1::KeyIsPressed(SDL_SCANCODE_A))
+	if (m1::key_is_pressed(SDL_SCANCODE_A))
 	{
-		MoveObject(-playerWalkSpeed * _SCALE_W, 0);
+		move_object(-PLAYER_WALKSPEED * _SCALE_W, 0);
 	}
 
-	if (m1::KeyIsPressed(SDL_SCANCODE_D))
+	if (m1::key_is_pressed(SDL_SCANCODE_D))
 	{
-		MoveObject(playerWalkSpeed * _SCALE_W, 0);
+		move_object(PLAYER_WALKSPEED * _SCALE_W, 0);
 	}
 }

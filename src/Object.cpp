@@ -1,33 +1,33 @@
 #include "Object.h"
 
-C_Object::~C_Object()
+Object::~Object()
 {
     
 }
 
-void C_Object::Init(std::string path)
+void Object::init(std::string path)
 {
-    C_Texture::Init(path);
-    textureRectDouble.w = textureRect.w;
-    textureRectDouble.h = textureRect.h;
+    Texture::init(path);
+    texture_rect_double.w = texture_rect.w;
+    texture_rect_double.h = texture_rect.h;
 }
 
-void C_Object::Init(SDL_Texture* newTexture, double_Rect& newRect)
+void Object::init(SDL_Texture* new_texture, double_Rect& new_rect)
 {
-	FreeTexture();
-	texture = newTexture;
-	textureRectDouble = newRect;
+	free_texture();
+	texture = new_texture;
+	texture_rect_double = new_rect;
 }
 
-void C_Object::MoveObjectDirect(int x, int y)
+void Object::move_object_direct(int x, int y)
 {
-    textureRectDouble.x = x;
-    textureRectDouble.y = y;
+    texture_rect_double.x = x;
+    texture_rect_double.y = y;
 
 }
 
-void C_Object::MoveObjectDirect(const double_Coordinate& newPos)
+void Object::move_object_direct(const double_Coordinate& new_pos)
 {
-	textureRectDouble.x = newPos.x;
-	textureRectDouble.y = newPos.y;
+	texture_rect_double.x = new_pos.x;
+	texture_rect_double.y = new_pos.y;
 }

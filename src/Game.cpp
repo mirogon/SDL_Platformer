@@ -1,146 +1,146 @@
 #include "Game.h"
 
 
-C_Game::C_Game()
+Game::Game()
 {
-	gameMap.NewObject(Dirt, double_Coordinate());
-	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT - gameMap.GetMapObjects().back().GetRect().h);
-	gameMap.NewObject(Dirt, double_Coordinate());
-	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT / 2);
+	game_map.new_object(DIRT, double_Coordinate());
+	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT - game_map.get_map_objects().back().get_rect().h);
+	game_map.new_object(DIRT, double_Coordinate());
+	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT / 2);
 
 
-	gameMap.SaveMap("../data/m1map/savetest.m1map");
-	gameMap.LoadMap("../data/m1map/savetest.m1map");
+	game_map.save_map("../data/m1map/savetest.m1map");
+	game_map.load_map("../data/m1map/savetest.m1map");
 
-	player.MoveObjectDirect(_SCREEN_WIDTH / 2 - player.GetRect().w / 2, _SCREEN_HEIGHT - player.GetRect().h);
-	playerIsOnGameObject = false;
+	player.move_object_direct(_SCREEN_WIDTH / 2 - player.get_rect().w / 2, _SCREEN_HEIGHT - player.get_rect().h);
+	player_is_on_gameobject = false;
 
 
-	menuFont = TTF_OpenFont(_MenuFontPath, 90);
-	if (menuFont == nullptr)
+	font_menu = TTF_OpenFont(_PATH_MENU_FONT, 90);
+	if (font_menu == nullptr)
 	{
-		m1::Log("menuFont could not be intialized ( Game.cpp )");
+		m1::log("font_menu could not be intialized ( Game.cpp )");
 	}
-	menu_SettingsFont = TTF_OpenFont(_MenuFontPath, 60);
-	if (menuFont == nullptr)
+	font_menu_settings = TTF_OpenFont(_PATH_MENU_FONT, 60);
+	if (font_menu == nullptr)
 	{
-		m1::Log("menu_SettingsFont could not be intialized ( Game.cpp )");
+		m1::log("font_menu_settings could not be intialized ( Game.cpp )");
 	}
 
-	background.Init(_BackgroundPath);
+	background.init(_PATH_BACKGROUND);
 	
 	
 	//Menu buttons
 
-	playButton.Init("Play", *menuFont);
-	playButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - playButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.2 - playButton.GetRect().h / 2);
-	editorButton.Init("Map Editor", *menuFont);
-	editorButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - editorButton.GetRect().w / 2, _SCREEN_HEIGHT *0.4 - editorButton.GetRect().h / 2);
-	settingsButton.Init("Settings", *menuFont );
-	settingsButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - settingsButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.6 - settingsButton.GetRect().h / 2);
-	quitButton.Init("Quit", *menuFont);
-	quitButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - quitButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.8 - quitButton.GetRect().h / 2);
+	button_play.init("Play", *font_menu);
+	button_play.move_object_direct(_SCREEN_WIDTH / 2 - button_play.get_rect().w / 2, _SCREEN_HEIGHT * 0.2 - button_play.get_rect().h / 2);
+	button_editor.init("Map Editor", *font_menu);
+	button_editor.move_object_direct(_SCREEN_WIDTH / 2 - button_editor.get_rect().w / 2, _SCREEN_HEIGHT *0.4 - button_editor.get_rect().h / 2);
+	button_settings.init("Settings", *font_menu );
+	button_settings.move_object_direct(_SCREEN_WIDTH / 2 - button_settings.get_rect().w / 2, _SCREEN_HEIGHT * 0.6 - button_settings.get_rect().h / 2);
+	button_quit.init("Quit", *font_menu);
+	button_quit.move_object_direct(_SCREEN_WIDTH / 2 - button_quit.get_rect().w / 2, _SCREEN_HEIGHT * 0.8 - button_quit.get_rect().h / 2);
 
-	//Menu_Settings buttons
-	resolutionLabel.Init("Resolution:", *menu_SettingsFont);
-	resolutionLabel.MoveObjectDirect(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.15);
-	fullscreenLabel.Init("Fullscreen: On", *menu_SettingsFont);
-	fullscreenLabel.MoveObjectDirect(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.8);
+	//menu_settings buttons
+	label_resolution.init("Resolution:", *font_menu_settings);
+	label_resolution.move_object_direct(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.15);
+	label_fullscreen.init("Fullscreen: On", *font_menu_settings);
+	label_fullscreen.move_object_direct(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.8);
 
-	backButton.Init("Back", *menu_SettingsFont);
-	backButton.MoveObjectDirect( 0, _SCREEN_HEIGHT - backButton.GetRect().h);
-	applyButton.Init("Apply", *menu_SettingsFont);
-	applyButton.MoveObjectDirect( _SCREEN_WIDTH - applyButton.GetRect().w, _SCREEN_HEIGHT - applyButton.GetRect().h);
-	fullHdResolution.Init("1920x1080", *menu_SettingsFont);
-	fullHdResolution.MoveObjectDirect(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.15);
-	hdResolution.Init("1280x720", *menu_SettingsFont);
-	hdResolution.MoveObjectDirect(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.3);
+	button_back.init("Back", *font_menu_settings);
+	button_back.move_object_direct( 0, _SCREEN_HEIGHT - button_back.get_rect().h);
+	button_apply.init("Apply", *font_menu_settings);
+	button_apply.move_object_direct( _SCREEN_WIDTH - button_apply.get_rect().w, _SCREEN_HEIGHT - button_apply.get_rect().h);
+	button_fullhd.init("1920x1080", *font_menu_settings);
+	button_fullhd.move_object_direct(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.15);
+	button_hd.init("1280x720", *font_menu_settings);
+	button_hd.move_object_direct(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.3);
 
 	//Editor_Menu Buttons
-	newMapButton.Init("New Map", *menuFont );
-	newMapButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - newMapButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.1);
+	button_new_map.init("New Map", *font_menu );
+	button_new_map.move_object_direct(_SCREEN_WIDTH / 2 - button_new_map.get_rect().w / 2, _SCREEN_HEIGHT * 0.1);
 
 	//Editor_Edit Buttons
-	editorSaveButton.Init("Save", *menu_SettingsFont);
-	editorSaveButton.MoveObjectDirect(_SCREEN_WIDTH - editorSaveButton.GetRect().w, _SCREEN_HEIGHT - editorSaveButton.GetRect().h);
+	button_editor_save.init("Save", *font_menu_settings);
+	button_editor_save.move_object_direct(_SCREEN_WIDTH - button_editor_save.get_rect().w, _SCREEN_HEIGHT - button_editor_save.get_rect().h);
 
 	static int l = 0;
 	l = 0;
 
-	for (auto i : filesystem::directory_iterator("../data/m1map"))
+	for (auto i : std::experimental::filesystem::directory_iterator("../data/m1map"))
 	{
-		m1mapLabels.push_back(C_Button());
-		m1mapLabels.back().Init(i.path().string().c_str(), *menu_SettingsFont);
-		m1mapLabels.back().MoveObjectDirect( _SCREEN_WIDTH / 2 - m1mapLabels.back().GetRect().w / 2, _SCREEN_HEIGHT * ( 0.1 * ( l + 3) ) );
-		m1mapPaths.push_back(std::string(i.path().string()));
+		m1map_labels.push_back(Button());
+		m1map_labels.back().init(i.path().string().c_str(), *font_menu_settings);
+		m1map_labels.back().move_object_direct( _SCREEN_WIDTH / 2 - m1map_labels.back().get_rect().w / 2, _SCREEN_HEIGHT * ( 0.1 * ( l + 3) ) );
+		m1map_paths.push_back(std::string(i.path().string()));
 
 		++l;
 	}
 }
 
-C_Game::~C_Game()
+Game::~Game()
 {
-	TTF_CloseFont(menuFont);
-	menuFont = nullptr;
-	TTF_CloseFont(menu_SettingsFont);
-	menu_SettingsFont = nullptr;
+	TTF_CloseFont(font_menu);
+	font_menu = nullptr;
+	TTF_CloseFont(font_menu_settings);
+	font_menu_settings = nullptr;
 }
 
-void C_Game::ResolutionChanged()
+void Game::resolution_changed()
 {
 
 	//Menu buttons
-	playButton.Init("Play", *menuFont);
-	playButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - playButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.2 - playButton.GetRect().h / 2);
-	editorButton.Init("Map Editor", *menuFont);
-	editorButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - editorButton.GetRect().w / 2, _SCREEN_HEIGHT *0.4 - editorButton.GetRect().h / 2);
-	settingsButton.Init("Settings", *menuFont);
-	settingsButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - settingsButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.6 - settingsButton.GetRect().h / 2);
-	quitButton.Init("Quit", *menuFont);
-	quitButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - quitButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.8 - quitButton.GetRect().h / 2);
+	button_play.init("Play", *font_menu);
+	button_play.move_object_direct(_SCREEN_WIDTH / 2 - button_play.get_rect().w / 2, _SCREEN_HEIGHT * 0.2 - button_play.get_rect().h / 2);
+	button_editor.init("Map Editor", *font_menu);
+	button_editor.move_object_direct(_SCREEN_WIDTH / 2 - button_editor.get_rect().w / 2, _SCREEN_HEIGHT *0.4 - button_editor.get_rect().h / 2);
+	button_settings.init("Settings", *font_menu);
+	button_settings.move_object_direct(_SCREEN_WIDTH / 2 - button_settings.get_rect().w / 2, _SCREEN_HEIGHT * 0.6 - button_settings.get_rect().h / 2);
+	button_quit.init("Quit", *font_menu);
+	button_quit.move_object_direct(_SCREEN_WIDTH / 2 - button_quit.get_rect().w / 2, _SCREEN_HEIGHT * 0.8 - button_quit.get_rect().h / 2);
 
-	//Menu_Settings buttons
-	resolutionLabel.Init("Resolution:", *menu_SettingsFont);
-	resolutionLabel.MoveObjectDirect(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.15);
-	fullscreenLabel.Init("Fullscreen: On", *menu_SettingsFont);
-	fullscreenLabel.MoveObjectDirect(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.8);
+	//menu_settings buttons
+	label_resolution.init("Resolution:", *font_menu_settings);
+	label_resolution.move_object_direct(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.15);
+	label_fullscreen.init("Fullscreen: On", *font_menu_settings);
+	label_fullscreen.move_object_direct(_SCREEN_WIDTH * 0.1, _SCREEN_HEIGHT * 0.8);
 
-	backButton.Init("Back", *menu_SettingsFont);
-	backButton.MoveObjectDirect(0, _SCREEN_HEIGHT - backButton.GetRect().h);
-	applyButton.Init("Apply", *menu_SettingsFont);
-	applyButton.MoveObjectDirect(_SCREEN_WIDTH - applyButton.GetRect().w, _SCREEN_HEIGHT - applyButton.GetRect().h);
-	fullHdResolution.Init("1920x1080", *menu_SettingsFont);
-	fullHdResolution.MoveObjectDirect(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.15);
-	hdResolution.Init("1280x720", *menu_SettingsFont);
-	hdResolution.MoveObjectDirect(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.3);
+	button_back.init("Back", *font_menu_settings);
+	button_back.move_object_direct(0, _SCREEN_HEIGHT - button_back.get_rect().h);
+	button_apply.init("Apply", *font_menu_settings);
+	button_apply.move_object_direct(_SCREEN_WIDTH - button_apply.get_rect().w, _SCREEN_HEIGHT - button_apply.get_rect().h);
+	button_fullhd.init("1920x1080", *font_menu_settings);
+	button_fullhd.move_object_direct(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.15);
+	button_hd.init("1280x720", *font_menu_settings);
+	button_hd.move_object_direct(_SCREEN_WIDTH * 0.5, _SCREEN_HEIGHT * 0.3);
 
 	//Editor_Menu Buttons
-	newMapButton.Init("New Map", *menuFont);
-	newMapButton.MoveObjectDirect(_SCREEN_WIDTH / 2 - newMapButton.GetRect().w / 2, _SCREEN_HEIGHT * 0.1);
+	button_new_map.init("New Map", *font_menu);
+	button_new_map.move_object_direct(_SCREEN_WIDTH / 2 - button_new_map.get_rect().w / 2, _SCREEN_HEIGHT * 0.1);
 
 	//Editor_Edit Buttons
-	editorSaveButton.Init("Save", *menu_SettingsFont);
-	editorSaveButton.MoveObjectDirect(_SCREEN_WIDTH - editorSaveButton.GetRect().w, _SCREEN_HEIGHT - editorButton.GetRect().h);
+	button_editor_save.init("Save", *font_menu_settings);
+	button_editor_save.move_object_direct(_SCREEN_WIDTH - button_editor_save.get_rect().w, _SCREEN_HEIGHT - button_editor.get_rect().h);
 
-	if (_GetBase->IsFullscreen() == true)
+	if (_get_base->check_if_fullscreen() == true)
 	{
-		fullscreenLabel.Init("Fullscreen: On", *menu_SettingsFont);
+		label_fullscreen.init("Fullscreen: On", *font_menu_settings);
 	}
 	else
 	{
-		fullscreenLabel.Init("Fullscreen: Off", *menu_SettingsFont);
+		label_fullscreen.init("Fullscreen: Off", *font_menu_settings);
 	}
 
-	backButton.InitTextureFromText("Back", menu_SettingsFont);
+	button_back.init_texture_from_text("Back", font_menu_settings);
 
-	background.Init(_BackgroundPath);
+	background.init(_PATH_BACKGROUND);
 
-	player.Init(_PlayerPath);
+	player.init(_PATH_PLAYER);
 
-	gameMap.ClearMap();
-	C_GameObject::InitStaticTextures();
-	gameMap.NewObject(Dirt, double_Coordinate());
-	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT - gameMap.GetMapObjects().back().GetRect().h);
-	gameMap.NewObject(Dirt, double_Coordinate());
-	gameMap.GetMapObjects().back().MoveDirect(_SCREEN_WIDTH / 2 - gameMap.GetMapObjects().back().GetRect().w / 2, _SCREEN_HEIGHT / 2);
+	game_map.clear_map();
+	GameObject::init_static_textures();
+	game_map.new_object(DIRT, double_Coordinate());
+	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT - game_map.get_map_objects().back().get_rect().h);
+	game_map.new_object(DIRT, double_Coordinate());
+	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT / 2);
 }

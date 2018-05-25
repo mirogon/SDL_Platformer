@@ -1,45 +1,45 @@
 #pragma once
 #include "Base.h"
 
-class C_Texture{
+class Texture{
 
 public:
 
 //METHODS
 
 //Texture class constructor
-C_Texture();
+Texture();
 
 //Texture class deconstructor
-virtual ~C_Texture();
+virtual ~Texture();
 
 //Function to init the texture from an image
-virtual bool Init (std::string path, float SCALE_W = _SCALE_W, float scale_h = _SCALE_H);
-bool InitTextureFromText(std::string text, TTF_Font* font, SDL_Color color = SDL_Color{ 0,0,0 }, float SCALE_W = _SCALE_W, float SCALE_H = _SCALE_H);
+virtual bool init (std::string path, float scale_w = _SCALE_W, float scale_h = _SCALE_H);
+bool init_texture_from_text(std::string text, TTF_Font* font, SDL_Color color = SDL_Color{ 0,0,0 }, float scale_w = _SCALE_W, float scale_h = _SCALE_H);
 
 //Free the texture from the current image
-void FreeTexture ();
+void free_texture ();
 
 //INLINE
 
-//Render the texture at x/y
-void RenderTexture (int x, int y);
+//render the texture at x/y
+void render_texture (int x, int y);
 
-//Render the clip from the texture at x/y
-void RenderTexture (int x, int y, SDL_Rect* clip);
+//render the clip from the texture at x/y
+void render_texture (int x, int y, SDL_Rect* clip);
 
-//Render the clip from the texture on the clip of the screen at x/y
-void RenderTexture(int x, int y, SDL_Rect* clip, SDL_Rect* clip1);
+//render the clip from the texture on the clip of the screen at x/y
+void render_texture(int x, int y, SDL_Rect* clip, SDL_Rect* clip1);
 
-//Render the clip from the texture at x/y with a rotation of degree
-void RenderTextureRotated(int x, int y, SDL_Rect* clip, double degree = 0);
+//render the clip from the texture at x/y with a rotation of degree
+void render_texture_rotated(int x, int y, SDL_Rect* clip, double degree = 0);
 
 //Return the current texture rect
-virtual const SDL_Rect GetRect();
+virtual const SDL_Rect get_rect();
 
 
 //Return the current texture
-virtual SDL_Texture* GetTexture(){
+virtual SDL_Texture* get_texture(){
 
     return texture;
 
@@ -47,61 +47,61 @@ virtual SDL_Texture* GetTexture(){
 
 protected:
 
-SDL_Rect textureRect;
+SDL_Rect texture_rect;
 SDL_Texture* texture;
 
 };
 
-inline void C_Texture::RenderTexture(int x, int y)
+inline void Texture::render_texture(int x, int y)
 {
 
-    textureRect.x = x;
-    textureRect.y = y;
+    texture_rect.x = x;
+    texture_rect.y = y;
 
-    SDL_RenderCopy(_GetRenderer, texture, NULL, &textureRect);
+    SDL_RenderCopy(_get_renderer, texture, NULL, &texture_rect);
 
 }
 
 
-inline void C_Texture::RenderTexture(int x, int y, SDL_Rect* clip)
+inline void Texture::render_texture(int x, int y, SDL_Rect* clip)
 {
 
-    textureRect.x = x;
-    textureRect.y = y;
+    texture_rect.x = x;
+    texture_rect.y = y;
 
-    SDL_RenderCopy(_GetRenderer, texture, clip, &textureRect);
+    SDL_RenderCopy(_get_renderer, texture, clip, &texture_rect);
 
 }
 
-inline void C_Texture::RenderTexture(int x, int y, SDL_Rect* clip, SDL_Rect* clip2)
+inline void Texture::render_texture(int x, int y, SDL_Rect* clip, SDL_Rect* clip2)
 {
 
-    textureRect.x = x;
-    textureRect.y = y;
+    texture_rect.x = x;
+    texture_rect.y = y;
 
-    SDL_RenderCopy(_GetRenderer, texture, clip, clip2);
+    SDL_RenderCopy(_get_renderer, texture, clip, clip2);
 
 }
 
-inline void C_Texture::RenderTextureRotated(int x, int y, SDL_Rect* clip, double degree)
+inline void Texture::render_texture_rotated(int x, int y, SDL_Rect* clip, double degree)
 {
 
-    textureRect.x = x;
-    textureRect.y = y;
+    texture_rect.x = x;
+    texture_rect.y = y;
 
-    SDL_RenderCopyEx(_GetRenderer, texture, clip, &textureRect, degree, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(_get_renderer, texture, clip, &texture_rect, degree, NULL, SDL_FLIP_NONE);
 
 }
 
-inline const SDL_Rect C_Texture::GetRect()
+inline const SDL_Rect Texture::get_rect()
 {
-	if (&textureRect == nullptr)
+	if (&texture_rect == nullptr)
 	{
-		m1::Log("textureRect is nullptr and cannot be returned");
+		m1::log("texture_rect is nullptr and cannot be returned");
 	}
 
 	else
 	{
-		return textureRect;
+		return texture_rect;
 	}
 }

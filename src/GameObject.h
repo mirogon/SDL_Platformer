@@ -2,89 +2,89 @@
 #include "Player.h"
 
 
-class C_GameObject
+class GameObject
 {
 	
-	friend std::istream& operator>>(std::istream& is, C_GameObject& obj);
-	friend std::ostream& operator<<(std::ostream& os, const C_GameObject& obj);
+	friend std::istream& operator>>(std::istream& is, GameObject& obj);
+	friend std::ostream& operator<<(std::ostream& os, const GameObject& obj);
 
 public:
     
 	//Default GameObject constructor is invalid
-	C_GameObject();
+	GameObject();
 
 	//GameObject deconstructor
-    virtual ~C_GameObject() = default;
+    virtual ~GameObject() = default;
  
-	virtual void Init(unsigned short blockType_, double_Coordinate& pos);
+	virtual void init(unsigned short block_type_, const double_Coordinate& pos);
 
-	//Move the GameObject direct to x/y
-    virtual void MoveDirect(int x, int y);
+	//move the GameObject direct to x/y
+    virtual void move_direct(int x, int y);
 
-	virtual void MoveDirect(const double_Coordinate& newPos);
+	virtual void move_direct(const double_Coordinate& new_pos);
  
-	//Move the GameObject +x/+y from the current position
-	virtual void Move(float& x, float& y);
+	//move the GameObject +x/+y from the current position
+	virtual void move(float& x, float& y);
     
-	//Render the GameObject at the current position
-    virtual void Render();
+	//render the GameObject at the current position
+    virtual void render();
     
-	void PrintGameObjectStats()
+	void print_gameobject_info()
 	{
-		m1::Log("Gameobject Stats:");
-		m1::Log("x" + m1::to_string(position.x));
-		m1::Log("y" + m1::to_string(position.y));
-		m1::Log("w" + m1::to_string(textures.at(blockType).GetRect().w));
-		m1::Log("h" + m1::to_string(textures.at(blockType).GetRect().h));
+		m1::log("Gameobject Stats:");
+		m1::log("x" + m1::to_string(position.x));
+		m1::log("y" + m1::to_string(position.y));
+		m1::log("w" + m1::to_string(textures.at(block_type).get_rect().w));
+		m1::log("h" + m1::to_string(textures.at(block_type).get_rect().h));
 	}
 
 	//Return the current GameObjectRect
-	virtual const double_Rect& GetRect() const
+	virtual const double_Rect& get_rect() const
 	{
 		static double_Rect r;
 		r.x = position.x;
 		r.y = position.y;
-		r.w = textures.at(blockType).GetRect().w;
-		r.h = textures.at(blockType).GetRect().h;
+		r.w = textures.at(block_type).get_rect().w;
+		r.h = textures.at(block_type).get_rect().h;
 		
 		return r;
 	}
 
-	static void InitStaticTextures();
+	static void init_static_textures();
 
 private:
 
-	static bool staticTexturesInitialized;
+	static bool static_textures_initialized;
 	
 
-	unsigned short blockType;
+	unsigned short block_type;
 	double_Coordinate position;
 
 	//Static member
-    static std::vector<C_Texture> textures;
+    static std::vector<Texture> textures;
     
 };
 
 
 
-inline void C_GameObject::MoveDirect(int x, int y)
+inline void GameObject::move_direct(int x, int y)
 {
 	position.x = x;
 	position.y = y;
 }
 
-inline void C_GameObject::MoveDirect(const double_Coordinate& newPos)
+inline void GameObject::move_direct(const double_Coordinate& new_pos)
 {
-	position = newPos;
+	position = new_pos;
 }
 
-inline void C_GameObject::Move(float& x, float& y)
+inline void GameObject::move(float& x, float& y)
 {
 	position.x += x;
 	position.y += y;
 }
 
-inline void C_GameObject::Render()
+inline void GameObject::render()
 {
-	textures.at(blockType).RenderTexture(position.x, position.y);
+	textures.at(block_type).render_texture(position.x, position.y);
 }

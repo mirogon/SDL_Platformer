@@ -1,60 +1,60 @@
 #include "GameObject.h"
 
-C_GameObject::C_GameObject()
+GameObject::GameObject()
 {
-	if (staticTexturesInitialized == false)
+	if (static_textures_initialized == false)
 	{
-		InitStaticTextures();
-		staticTexturesInitialized = true;
+		init_static_textures();
+		static_textures_initialized = true;
 	}
 
-	blockType = Dirt;
+	block_type = DIRT;
 	position.x = 0;
 	position.y = 0;
 
 }
 
 
-void C_GameObject::Init(unsigned short blockType_, double_Coordinate& pos)
+void GameObject::init(unsigned short block_type_, const double_Coordinate& pos)
 {
-	blockType = blockType_;
+	block_type = block_type_;
 	position = pos;
 
 }
 
 
 //OPERATOR OVERLOADINGS
-std::istream& operator>>(std::istream& is, C_GameObject& obj)
+std::istream& operator>>(std::istream& is, GameObject& obj)
 {
 	is >> obj.position.x;
 	is >> obj.position.y;
 
-	is >> obj.blockType;
+	is >> obj.block_type;
 
 	return is;
 }
 
-std::ostream& operator<<(std::ostream& os, const C_GameObject& obj)
+std::ostream& operator<<(std::ostream& os, const GameObject& obj)
 {
 
-	os << obj.GetRect().x <<" ";
-	os << obj.GetRect().y<<" ";
+	os << obj.get_rect().x <<" ";
+	os << obj.get_rect().y<<" ";
 
-	os << obj.blockType<<" ";
+	os << obj.block_type<<" ";
 
 	return os;
 }
 
 
 
-void C_GameObject::InitStaticTextures()
+void GameObject::init_static_textures()
 {
 	textures.clear();
 
-	textures.push_back(C_Texture());
-	textures.back().Init(_DirtPath);
+	textures.push_back(Texture());
+	textures.back().init(_PATH_DIRT);
 
 }
 
-bool C_GameObject::staticTexturesInitialized = false;
-std::vector<C_Texture> C_GameObject::textures;
+bool GameObject::static_textures_initialized = false;
+std::vector<Texture> GameObject::textures;

@@ -2,7 +2,7 @@
 #include "Texture.h"
 
 
-class C_Object : public C_Texture{
+class Object : public Texture{
 
 public:
 
@@ -10,65 +10,65 @@ public:
 //METHODS
 
 //Object class constructor
-C_Object() = default;
+Object() = default;
 
 //Object class deconstructor
-virtual ~C_Object();
+virtual ~Object();
 
-//Init the object with the image at path
-virtual void Init(std::string path);
+//init the object with the image at path
+virtual void init(std::string path);
 
-virtual void Init(SDL_Texture* newTexture, double_Rect& newRect);
+virtual void init(SDL_Texture* new_texture, double_Rect& new_rect);
 
-//Move the player to x/y
-void MoveObjectDirect(int x, int y);
+//move the player to x/y
+void move_object_direct(int x, int y);
 
-void MoveObjectDirect(const double_Coordinate& newPos);
+void move_object_direct(const double_Coordinate& new_pos);
 
 //INLINE
 
 //Return the current object rect
-const double_Rect& GetRect() const;
+const double_Rect& get_rect() const;
 
-//Move the player +x/+y from the current position
-void MoveObject(double x, double y);
+//move the player +x/+y from the current position
+void move_object(double x, double y);
 
-//Render the object at the current position
-void RenderObject();
+//render the object at the current position
+void render_object();
 
-//Render the clip of the object texture at the current position
-void RenderObject(const SDL_Rect& imageRect);
+//render the clip of the object texture at the current position
+void render_object(const SDL_Rect& image_rect);
 
 protected:
 
-double_Rect textureRectDouble;
+double_Rect texture_rect_double;
 
 }; // CLASS
 
-inline void C_Object::MoveObject(double x, double y)
+inline void Object::move_object(double x, double y)
 {
-    textureRectDouble.x += x;
-    textureRectDouble.y += y;
+    texture_rect_double.x += x;
+    texture_rect_double.y += y;
 }
 
-inline void C_Object::RenderObject()
+inline void Object::render_object()
 {
-    textureRect.x = textureRectDouble.x;
-    textureRect.y = textureRectDouble.y;
+    texture_rect.x = texture_rect_double.x;
+    texture_rect.y = texture_rect_double.y;
 
-    SDL_RenderCopy(_GetRenderer, this->texture, NULL, &textureRect);
+    SDL_RenderCopy(_get_renderer, this->texture, NULL, &texture_rect);
 }
 
-inline void C_Object::RenderObject(const SDL_Rect& imageRect)
+inline void Object::render_object(const SDL_Rect& image_rect)
 {
-	textureRect.x = textureRectDouble.x;
-	textureRect.y = textureRectDouble.y;
+	texture_rect.x = texture_rect_double.x;
+	texture_rect.y = texture_rect_double.y;
 
-	SDL_RenderCopy(_GetRenderer, this->texture, &imageRect, &textureRect);
+	SDL_RenderCopy(_get_renderer, this->texture, &image_rect, &texture_rect);
 }
 
-inline const double_Rect& C_Object::GetRect() const
+inline const double_Rect& Object::get_rect() const
 {
-    return textureRectDouble;
+    return texture_rect_double;
 }
 

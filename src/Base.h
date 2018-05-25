@@ -1,74 +1,74 @@
 #pragma once
 #include "Global.h"
 
-class C_Base{
+class Base{
 
 
 public:
 
     //INLINE
 	//Variables to store the screen dimensions
-	static int SCREEN_WIDTH;
-	static int SCREEN_HEIGHT;
-	static Uint32 WINDOWFLAGS;
+	static int screen_width;
+	static int screen_height;
+	static Uint32 windowflags;
 
 	//Variables to store the scale in comparison to 720p
-	static float SCALE_W;
-	static float SCALE_H;
+	static float scale_w;
+	static float scale_h;
 
-    static C_Base* getInstance();
+    static Base* get_instance();
 
-    SDL_Window* GetWindow();
+    SDL_Window* get_window();
 
-    SDL_Renderer* GetRenderer();
+    SDL_Renderer* get_renderer();
 
-	void SyncSettings();
+	void sync_settings();
 
-	void SetFullscreen(bool state);
+	void set_fullscreen(bool state);
 
-	void SetResolution(int w, int h);
+	void set_resolution(int w, int h);
 
-	bool IsFullscreen()
+	bool check_if_fullscreen()
 	{
-		return isFullscreen;
+		return is_fullscreen;
 	}
 
 private:
     
-    C_Base();
+    Base();
     
-    ~C_Base();
+    ~Base();
     
-    SDL_Window* mainWindow;
+    SDL_Window* main_window;
 
-    SDL_Renderer* mainRenderer;
+    SDL_Renderer* main_renderer;
 
-	bool isFullscreen;
+	bool is_fullscreen;
 
-	bool changedFullscreenState;
+	bool changed_fullscreen_state;
 
-	int resW;
-	int resH;
+	int res_w;
+	int res_h;
 
 };
 
-inline C_Base* C_Base::getInstance()
+inline Base* Base::get_instance()
 {
-    static C_Base instance;
+    static Base instance;
     return &instance;
 }
 
 
 
-inline SDL_Window* C_Base::GetWindow(){
+inline SDL_Window* Base::get_window(){
 
-    return mainWindow;
+    return main_window;
 
 };
 
-inline SDL_Renderer* C_Base::GetRenderer(){
+inline SDL_Renderer* Base::get_renderer(){
 
-    return mainRenderer;
+    return main_renderer;
 
 };
 

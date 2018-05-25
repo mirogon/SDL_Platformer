@@ -1,24 +1,24 @@
 #include "Map_GameObject.h"
 
-void C_Map_GameObject::SaveMap(const char* mapName)
+void Map_GameObject::save_map(const char* mapName)
 {
-	serialization.SerializeOut(mapName, mapObjects);
+	serialization.serialize_out(mapName, map_objects);
 }
 
-void C_Map_GameObject::LoadMap(const char* mapName)
+void Map_GameObject::load_map(const char* mapName)
 {
-	serialization.SerializeIn(mapName, mapObjects);
+	serialization.serialize_in(mapName, map_objects);
 }
 
-void C_Map_GameObject::NewObject(unsigned short blockType, double_Coordinate& rect)
+void Map_GameObject::new_object(unsigned short block_type, const double_Coordinate& rect)
 {
 
-	mapObjects.push_back(C_GameObject());
-	mapObjects.back().Init(blockType, rect);
+	map_objects.push_back(GameObject());
+	map_objects.back().init(block_type, rect);
 
 }
 
-void C_Map_GameObject::ClearMap()
+void Map_GameObject::clear_map()
 {
-	mapObjects.clear();
+	map_objects.clear();
 }

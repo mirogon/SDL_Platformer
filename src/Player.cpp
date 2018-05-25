@@ -1,13 +1,13 @@
 #include "Player.h"
 
-C_Player::C_Player()
+Player::Player()
 {
-    Init(_PlayerPath);
+    init(_PATH_PLAYER);
     
     velocity = 0;
 }
 
-void C_Player::ResetVelocity()
+void Player::reset_velocity()
 {
 	velocity = 0;
 }
