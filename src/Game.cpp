@@ -8,7 +8,6 @@ Game::Game()
 	game_map.new_object(DIRT, double_Coordinate());
 	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT / 2);
 
-
 	game_map.save_map("../data/m1map/savetest.m1map");
 	game_map.load_map("../data/m1map/savetest.m1map");
 
@@ -63,6 +62,10 @@ Game::Game()
 	//Editor_Edit Buttons
 	button_editor_save.init("Save", *font_menu_settings);
 	button_editor_save.move_object_direct(_SCREEN_WIDTH - button_editor_save.get_rect().w, _SCREEN_HEIGHT - button_editor_save.get_rect().h);
+
+	selectable_blocks.push_back( Button() );
+	selectable_blocks.back().Object::init(std::string(_PATH_DIRT));
+	selectable_blocks.back().move_object_direct({0,0});
 
 	static int l = 0;
 	l = 0;

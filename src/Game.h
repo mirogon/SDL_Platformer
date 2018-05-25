@@ -66,6 +66,7 @@ private:
 	//Editor_Edit
 	Button button_editor_save;
 	std::string current_mappath;
+	std::vector<Button> selectable_blocks;
 
 	//Game
     Player player;
@@ -151,15 +152,47 @@ inline short Game::menu(bool mouse_pressed)
 
 inline void Game::editor_edit(bool mouse_pressed)
 {
+	static GameObject current_selected_block = GameObject(-1);
+	//current_selected_block.init(-1, {0,0});
+
 	background.render_texture(0, 0);
 	game_map.render_map();
 
 	button_editor_save.mouse_on_button();
 	button_editor_save.render();
-
+   
 	if (button_editor_save.button_pressed(mouse_pressed) == true)
 	{
 		game_map.save_map(current_mappath.c_str());
+	}
+
+	int mousepos_x;
+	int mousepos_y;
+	SDL_GetMouseState(&mousepos_x, &mousepos_y);
+
+	unsigned int f_i = 0;
+	for(auto i = selectable_blocks.begin(); i != selectable_blocks.end(); ++i)
+	{
+		i->mouse_on_button();
+		i->render();
+
+		if(i->button_pressed(mouse_pressed) == true)
+		{
+			current_selected_block.init(f_i, { 0, 0 } );
+		}
+
+		++f_i;
+	}
+
+	if(current_selected_block.get_block_type() != m1::E_BlockType::NONE)
+	{
+		current_selected_block.move_direct( {mousepos_x, mousepos_y} );
+		current_selected_block.render();
+
+		if(mouse_pressed == true)
+		{
+			game_map.new_object( current_selected_block.get_block_type(), {current_selected_block.get_rect().x, current_selected_block.get_rect().y} );
+		}
 	}
 
 }

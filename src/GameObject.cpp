@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject()
+GameObject::GameObject(short block_type_)
 {
 	if (static_textures_initialized == false)
 	{
@@ -8,7 +8,7 @@ GameObject::GameObject()
 		static_textures_initialized = true;
 	}
 
-	block_type = DIRT;
+	block_type = block_type_;
 	position.x = 0;
 	position.y = 0;
 

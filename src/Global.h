@@ -82,7 +82,7 @@ namespace m1 {
 			return a.y + a.h / 2;
 		}
 	};
-	enum E_BlockType { DIRT = 0 };
+	enum E_BlockType { NONE = -1, DIRT = 0 };
 
 	enum E_GameState { state_Quit = -1, state_Menu = 0, state_menu_settings = 1, state_Play = 2, state_Editor_Edit = 3, state_Editor_Load = 4 };
 

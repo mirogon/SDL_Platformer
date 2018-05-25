@@ -11,7 +11,7 @@ class GameObject
 public:
     
 	//Default GameObject constructor is invalid
-	GameObject();
+	GameObject(short block_type = 0);
 
 	//GameObject deconstructor
     virtual ~GameObject() = default;
@@ -29,6 +29,11 @@ public:
 	//render the GameObject at the current position
     virtual void render();
     
+	short get_block_type() const
+	{
+		return block_type;
+	}
+
 	void print_gameobject_info()
 	{
 		m1::log("Gameobject Stats:");
@@ -57,7 +62,7 @@ private:
 	static bool static_textures_initialized;
 	
 
-	unsigned short block_type;
+	short block_type;
 	double_Coordinate position;
 
 	//Static member
