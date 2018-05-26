@@ -154,13 +154,22 @@ inline void Game::editor_edit(bool mouse_pressed)
 {
 	static GameObject current_selected_block = GameObject(-1);
 	//current_selected_block.init(-1, {0,0});
+	static bool hud_is_active = true;
+
+	if(m1::key_is_pressed(SDL_SCANCODE_H) == true)
+	{
+		hud_is_active = !hud_is_active;	
+	}
 
 	background.render_texture(0, 0);
 	game_map.render_map();
 
-	button_editor_save.mouse_on_button();
-	button_editor_save.render();
-   
+	if(hud_is_active == true)
+	{
+		button_editor_save.mouse_on_button();
+		button_editor_save.render();
+	}
+
 	if (button_editor_save.button_pressed(mouse_pressed) == true)
 	{
 		game_map.save_map(current_mappath.c_str());
@@ -173,14 +182,16 @@ inline void Game::editor_edit(bool mouse_pressed)
 	unsigned int f_i = 0;
 	for(auto i = selectable_blocks.begin(); i != selectable_blocks.end(); ++i)
 	{
-		i->mouse_on_button();
-		i->render();
-
-		if(i->button_pressed(mouse_pressed) == true)
+		if(hud_is_active == true)
 		{
-			current_selected_block.init(f_i, { 0, 0 } );
-		}
+			i->mouse_on_button();
+			i->render();
 
+			if(i->button_pressed(mouse_pressed) == true)
+			{
+				current_selected_block.init(f_i, { 0, 0 } );
+			}
+		}
 		++f_i;
 	}
 
@@ -189,7 +200,7 @@ inline void Game::editor_edit(bool mouse_pressed)
 		current_selected_block.move_direct( {mousepos_x, mousepos_y} );
 		current_selected_block.render();
 
-		if(mouse_pressed == true)
+		if(mouse_pressed == true && hud_is_active == false)
 		{
 			game_map.new_object( current_selected_block.get_block_type(), {current_selected_block.get_rect().x, current_selected_block.get_rect().y} );
 		}
