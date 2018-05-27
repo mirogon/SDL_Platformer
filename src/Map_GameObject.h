@@ -8,8 +8,8 @@ public:
 	Map_GameObject() = default;
 	~Map_GameObject() = default;
 
-	void save_map(const char* mapName);
-	void load_map(const char* mapName);
+	void save_map(const char* map_name);
+	void load_map(const char* map_name);
 
 	void new_object(unsigned short block_type, const double_Coordinate& rect);
 	void remove_object(std::vector<GameObject>::iterator& it);

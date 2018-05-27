@@ -11,7 +11,7 @@ Game::Game()
 
 	game_map.save_map("../data/m1map/savetest.m1map");
 	*/
-	game_map.load_map("../data/m1map/savetest.m1map");
+	//game_map.load_map("../data/m1map/savetest.m1map");
 
 	player.move_object_direct(_SCREEN_WIDTH / 2 - player.get_rect().w / 2, _SCREEN_HEIGHT - player.get_rect().h);
 	player_is_on_gameobject = false;
@@ -69,18 +69,7 @@ Game::Game()
 	selectable_blocks.back().Object::init(std::string(_PATH_DIRT));
 	selectable_blocks.back().move_object_direct({0,0});
 
-	static int l = 0;
-	l = 0;
-
-	for (auto i : std::experimental::filesystem::directory_iterator("../data/m1map"))
-	{
-		m1map_labels.push_back(Button());
-		m1map_labels.back().init(i.path().string().c_str(), *font_menu_settings);
-		m1map_labels.back().move_object_direct( _SCREEN_WIDTH / 2 - m1map_labels.back().get_rect().w / 2, _SCREEN_HEIGHT * ( 0.1 * ( l + 3) ) );
-		m1map_paths.push_back(std::string(i.path().string()));
-
-		++l;
-	}
+	sync_available_maps();
 }
 
 Game::~Game()
@@ -148,4 +137,25 @@ void Game::resolution_changed()
 	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT - game_map.get_map_objects().back().get_rect().h);
 	game_map.new_object(DIRT, double_Coordinate());
 	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT / 2);
+}
+
+void Game::sync_available_maps()
+{
+	m1map_labels.clear();
+	m1map_labels.shrink_to_fit();
+	
+	m1map_paths.clear();
+	m1map_paths.shrink_to_fit();
+	
+	static int l = 0;
+	l = 0;
+	for (auto i : std::experimental::filesystem::directory_iterator("../data/m1map"))
+	{
+		m1map_labels.push_back(Button());
+		m1map_labels.at(l).init(i.path().string().c_str(), *font_menu_settings);
+		m1map_labels.at(l).move_object_direct( _SCREEN_WIDTH / 2 - m1map_labels.back().get_rect().w / 2, _SCREEN_HEIGHT * ( 0.1 * ( l + 3) ) );
+		m1map_paths.push_back(std::string(i.path().string()));
+
+		++l;
+	}
 }

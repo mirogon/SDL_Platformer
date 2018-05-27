@@ -10,7 +10,6 @@ int main(int argc, char* argv[]){
     TTF_Init();
 
     //Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024);
-    
 	//Create a SDL_Displaymode which has information about the current screen
     SDL_DisplayMode dm;
     SDL_GetCurrentDisplayMode(0, &dm);
@@ -51,10 +50,12 @@ int main(int argc, char* argv[]){
 	//Is used to check if the main game loop is valid
     bool quit_pollevent = false;
 
-    //
+	//
 	bool left_mousebutton_pressed = false;
     bool right_mousebutton_pressed = false;
-    bool h_key_released = false;
+	bool left_mousebutton_down = false;
+	bool right_mousebutton_down = false;
+	
 
     //Event to check the current event
     SDL_Event e;
@@ -70,6 +71,10 @@ int main(int argc, char* argv[]){
         static int fps = 0;
         static Uint32 lt = 0;
         
+		//reset pressed/released states
+		left_mousebutton_pressed = false;
+		right_mousebutton_pressed = false;
+		
         //Sync the current event
         while( SDL_PollEvent(&e)!= 0 )
 		{
@@ -81,11 +86,6 @@ int main(int argc, char* argv[]){
                 
             }
 
-            //reset pressed/released states
-            left_mousebutton_pressed = false;
-            right_mousebutton_pressed = false;
-            h_key_released = false;
-            
             //CHECK FOR KEYBOARD INPUT
             if(e.type == SDL_KEYDOWN)
             {
@@ -94,25 +94,40 @@ int main(int argc, char* argv[]){
 					game_state = state_Menu;
                 }
             }
-            if(e.type==SDL_KEYUP)
-            {
-                if(e.key.keysym.sym == SDLK_h )
-                {
-                    h_key_released = true;
-                }
-            }
+			
+			if(e.type == SDL_MOUSEBUTTONUP)
+			{
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					if(left_mousebutton_down == true)
+					{
+						left_mousebutton_down = false;
+						left_mousebutton_pressed = true;
+					}
+				}
+				else if (e.button.button == SDL_BUTTON_RIGHT)
+				{
+					if(right_mousebutton_down == true)
+					{
+						right_mousebutton_down = false;
+						right_mousebutton_pressed = true;
+					}
+				}
+			}
+			
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
-					left_mousebutton_pressed = true;
+					left_mousebutton_down = true;
 				}
-                if(e.button.button == SDL_BUTTON_RIGHT)
+                else if(e.button.button == SDL_BUTTON_RIGHT)
                 {
-                    right_mousebutton_pressed = true;
+                    right_mousebutton_down = true;
                 }
 				
 			}
+
 			
 
         }

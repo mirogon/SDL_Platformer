@@ -1,13 +1,14 @@
 #include "Map_GameObject.h"
 
-void Map_GameObject::save_map(const char* mapName)
+
+void Map_GameObject::save_map(const char* map_name)
 {
-	serialization.serialize_out(mapName, map_objects);
+	serialization.serialize_out(map_name, map_objects);
 }
 
-void Map_GameObject::load_map(const char* mapName)
+void Map_GameObject::load_map(const char* map_name)
 {
-	serialization.serialize_in(mapName, map_objects);
+	serialization.serialize_in(map_name, map_objects);
 }
 
 void Map_GameObject::new_object(unsigned short block_type, const double_Coordinate& rect)

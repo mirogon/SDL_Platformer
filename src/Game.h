@@ -1,7 +1,8 @@
 #pragma once
 #include "Map_GameObject.h"
 
-class Game{
+class Game
+{
     
 public:
     
@@ -34,6 +35,10 @@ public:
 	void resolution_changed();
 
 private:
+
+	bool editor_load_newmap();
+	
+	void sync_available_maps();
 
 	//Menu
 
@@ -229,33 +234,108 @@ inline void Game::editor_edit(bool left_mousebutton_pressed, bool right_mousebut
 
 }
 
-inline bool Game::editor_load(bool mouse_pressed)
+inline bool Game::editor_load(bool left_mousebutton_pressed)
 {
+	static bool creating_new_map = false;
 	background.render_texture(0, 0);
 	button_new_map.mouse_on_button();
 	button_new_map.render();
 
-	static int l = 0;
-	l = 0;
-
-	for (auto i = m1map_labels.begin(); i != m1map_labels.end(); ++i)
-	{
-
-		i->mouse_on_button();
-		i->render();
-		if (i->button_pressed(mouse_pressed) == true)
-		{
-			game_map.load_map( m1map_paths.at(l).c_str() );
-			current_mappath = m1map_paths.at(l);
-
-			return 1;
-		}
-
-		++l;
+	if(button_new_map.button_pressed(left_mousebutton_pressed) == true)
+	{	
+		creating_new_map = true;
 	}
+	
+	if(creating_new_map == true)
+	{
+		if(editor_load_newmap() == true)
+		{
+			creating_new_map = false;
+			sync_available_maps();
+		}
+	}
+	
+	else
+	{
+		static int l = 0;
+		l = 0;
+		for (auto i = m1map_labels.begin(); i != m1map_labels.end(); i++)
+		{
+			i->mouse_on_button();
+			i->render();
+			if (i->button_pressed(left_mousebutton_pressed) == true)
+			{
+				game_map.load_map( m1map_paths.at(l).c_str() );
+				current_mappath = m1map_paths.at(l);
 
+				return 1;
+			}
+
+			++l;
+		}
+	}
+	
 	return 0;
 
+}
+
+inline bool Game::editor_load_newmap()
+{
+	static Texture label_enter_mapname;
+	static Texture label_input;
+	static std::string input_text;
+	static bool first_time = true;
+	
+	if(first_time == true)
+	{
+		first_time = false;
+		
+		label_enter_mapname.init_texture_from_text("Enter mapname:", font_menu);
+	}
+	
+	SDL_Event e;
+	SDL_StartTextInput();
+	while(SDL_PollEvent(&e) != 0)
+	{	
+		if(e.type == SDL_KEYDOWN)
+		{
+			if(e.key.keysym.sym == SDLK_BACKSPACE && input_text.size() > 0)
+			{ 
+				input_text.pop_back();
+			}
+			
+			if(e.key.keysym.sym == SDLK_RETURN)
+			{
+				std::string filename = "../data/m1map/";
+				filename+= input_text;
+				filename+= ".m1map";
+				std::ofstream o(filename.c_str(), std::ios::out | std::ios::trunc);
+				o.close();
+				
+				return true;
+			}
+		}
+		
+		else if(e.type == SDL_TEXTINPUT)
+		{
+			input_text += e.text.text;
+		}
+		
+	}
+	SDL_StopTextInput();
+	
+	if(input_text.size() >0)
+	{
+		label_input.init_texture_from_text(input_text, font_menu);
+	}
+	
+	background.render_texture(0,0);
+	
+	label_input.render_texture(_SCREEN_WIDTH / 2 , _SCREEN_HEIGHT / 2);
+	
+	return false;
+	
+	
 }
 
 inline bool Game::menu_settings(bool mouse_pressed)
