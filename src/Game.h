@@ -153,10 +153,10 @@ inline short Game::menu(bool mouse_pressed)
 inline void Game::editor_edit(bool mouse_pressed)
 {
 	static GameObject current_selected_block = GameObject(-1);
-	//current_selected_block.init(-1, {0,0});
 	static bool hud_is_active = true;
+	static m1::key_pressed_and_released h_pr{SDL_SCANCODE_H};
 
-	if(m1::key_is_pressed(SDL_SCANCODE_H) == true)
+	if( h_pr() == true)
 	{
 		hud_is_active = !hud_is_active;	
 	}

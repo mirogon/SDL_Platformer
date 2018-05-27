@@ -50,7 +50,10 @@ int main(int argc, char* argv[]){
   
 	//Is used to check if the main game loop is valid
     bool quit_pollevent = false;
+
+    //
 	bool left_mousebutton_pressed = false;
+    bool h_key_released = false;
 
     //Event to check the current event
     SDL_Event e;
@@ -76,6 +79,10 @@ int main(int argc, char* argv[]){
                 quit_pollevent = true;
                 
             }
+
+            //reset pressed/released states
+            left_mousebutton_pressed = false;
+            h_key_released = false;
             
             //CHECK FOR KEYBOARD INPUT
             if(e.type == SDL_KEYDOWN)
@@ -85,23 +92,20 @@ int main(int argc, char* argv[]){
 					game_state = state_Menu;
                 }
             }
-
+            if(e.type==SDL_KEYUP)
+            {
+                if(e.key.keysym.sym == SDLK_h )
+                {
+                    h_key_released = true;
+                }
+            }
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
 					left_mousebutton_pressed = true;
 				}
-				else
-				{
-					left_mousebutton_pressed = false;
-				}
 				
-			}
-
-			else
-			{
-				left_mousebutton_pressed = false;
 			}
 			
 

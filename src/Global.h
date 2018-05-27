@@ -262,6 +262,45 @@ namespace m1 {
 
 #endif
 
+	class key_pressed_and_released
+	{
+		public:
+		
+		key_pressed_and_released() = delete;
+
+		key_pressed_and_released(SDL_Scancode key_):
+			key_pressed{false},
+			key{key_}
+		{}
+
+		~key_pressed_and_released() = default;
+
+		bool operator() ()
+		{
+			if(key_pressed == true)
+			{
+				key_pressed = false;
+				if(m1::key_is_pressed(key)==false)
+				{
+					return true;
+				}
+			}
+
+			if( m1::key_is_pressed(key) == true )
+			{
+				key_pressed = true;
+			}
+
+			return false;
+
+		}
+
+		private:
+
+		bool key_pressed;
+		SDL_Scancode key;
+	};
+
 	//WRITE CHAR STRING IN FILE
 	inline void SDL_WriteChar(SDL_RWops* rops, const char* c)
 	{
