@@ -12,6 +12,7 @@ public:
 	void load_map(const char* mapName);
 
 	void new_object(unsigned short block_type, const double_Coordinate& rect);
+	void remove_object(std::vector<GameObject>::iterator& it);
 
 	void render_map();
 

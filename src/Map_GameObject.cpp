@@ -18,6 +18,12 @@ void Map_GameObject::new_object(unsigned short block_type, const double_Coordina
 
 }
 
+void Map_GameObject::remove_object(std::vector<GameObject>::iterator& it)
+{
+	map_objects.erase(it);
+	map_objects.shrink_to_fit();
+}
+
 void Map_GameObject::clear_map()
 {
 	map_objects.clear();

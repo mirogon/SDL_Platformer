@@ -17,7 +17,7 @@ public:
 	//Game menu function
     short menu(bool mouse_pressed);
 
-	void editor_edit(bool mouse_pressed);
+	void editor_edit(bool left_mousebutton_pressed, bool right_mousebutton_pressed);
  
 	bool editor_load(bool mouse_pressed);
 
@@ -149,8 +149,7 @@ inline short Game::menu(bool mouse_pressed)
 
 }
 
-
-inline void Game::editor_edit(bool mouse_pressed)
+inline void Game::editor_edit(bool left_mousebutton_pressed, bool right_mousebutton_pressed)
 {
 	static GameObject current_selected_block = GameObject(-1);
 	static bool hud_is_active = true;
@@ -161,49 +160,71 @@ inline void Game::editor_edit(bool mouse_pressed)
 		hud_is_active = !hud_is_active;	
 	}
 
+	//Render background and map
 	background.render_texture(0, 0);
 	game_map.render_map();
 
+	//Save button handling
 	if(hud_is_active == true)
 	{
 		button_editor_save.mouse_on_button();
 		button_editor_save.render();
+	
+		if (button_editor_save.button_pressed(left_mousebutton_pressed) == true)
+		{
+			game_map.save_map(current_mappath.c_str());
+		}
 	}
 
-	if (button_editor_save.button_pressed(mouse_pressed) == true)
-	{
-		game_map.save_map(current_mappath.c_str());
-	}
-
-	int mousepos_x;
-	int mousepos_y;
+	//Select block in hud
+	static int mousepos_x;
+	static int mousepos_y;
 	SDL_GetMouseState(&mousepos_x, &mousepos_y);
 
 	unsigned int f_i = 0;
-	for(auto i = selectable_blocks.begin(); i != selectable_blocks.end(); ++i)
+	if(hud_is_active == true)
 	{
-		if(hud_is_active == true)
+		for(auto i = selectable_blocks.begin(); i != selectable_blocks.end(); ++i)
 		{
 			i->mouse_on_button();
 			i->render();
 
-			if(i->button_pressed(mouse_pressed) == true)
+			if(i->button_pressed(left_mousebutton_pressed) == true)
 			{
 				current_selected_block.init(f_i, { 0, 0 } );
 			}
+		
+			++f_i;
 		}
-		++f_i;
 	}
 
+	//Place blocks
 	if(current_selected_block.get_block_type() != m1::E_BlockType::NONE)
 	{
 		current_selected_block.move_direct( {mousepos_x, mousepos_y} );
 		current_selected_block.render();
 
-		if(mouse_pressed == true && hud_is_active == false)
+		if(left_mousebutton_pressed == true && hud_is_active == false)
 		{
 			game_map.new_object( current_selected_block.get_block_type(), {current_selected_block.get_rect().x, current_selected_block.get_rect().y} );
 		}
+	}
+
+	//Remove blocks
+	SDL_GetMouseState(&mousepos_x, &mousepos_y);
+	for(int i = 0; i < game_map.get_map_objects().size(); ++i)
+	{
+		static std::vector<GameObject>::iterator it = game_map.get_map_objects().begin() + i;
+		it = game_map.get_map_objects().begin() + i;
+
+		if ( m1::is_in_collision_box( mousepos_x, mousepos_y, it->get_rect() ) == true )
+		{
+			if(right_mousebutton_pressed == true)
+			{
+				game_map.remove_object(it);
+			}
+		}
+
 	}
 
 }

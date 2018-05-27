@@ -3,12 +3,14 @@
 
 Game::Game()
 {
+	/*
 	game_map.new_object(DIRT, double_Coordinate());
 	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT - game_map.get_map_objects().back().get_rect().h);
 	game_map.new_object(DIRT, double_Coordinate());
 	game_map.get_map_objects().back().move_direct(_SCREEN_WIDTH / 2 - game_map.get_map_objects().back().get_rect().w / 2, _SCREEN_HEIGHT / 2);
 
 	game_map.save_map("../data/m1map/savetest.m1map");
+	*/
 	game_map.load_map("../data/m1map/savetest.m1map");
 
 	player.move_object_direct(_SCREEN_WIDTH / 2 - player.get_rect().w / 2, _SCREEN_HEIGHT - player.get_rect().h);

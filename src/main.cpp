@@ -53,6 +53,7 @@ int main(int argc, char* argv[]){
 
     //
 	bool left_mousebutton_pressed = false;
+    bool right_mousebutton_pressed = false;
     bool h_key_released = false;
 
     //Event to check the current event
@@ -82,6 +83,7 @@ int main(int argc, char* argv[]){
 
             //reset pressed/released states
             left_mousebutton_pressed = false;
+            right_mousebutton_pressed = false;
             h_key_released = false;
             
             //CHECK FOR KEYBOARD INPUT
@@ -105,6 +107,10 @@ int main(int argc, char* argv[]){
 				{
 					left_mousebutton_pressed = true;
 				}
+                if(e.button.button == SDL_BUTTON_RIGHT)
+                {
+                    right_mousebutton_pressed = true;
+                }
 				
 			}
 			
@@ -148,7 +154,7 @@ int main(int argc, char* argv[]){
         
 		else if (game_state.current_state == state_Editor_Edit)
 		{
-			main_game.editor_edit(left_mousebutton_pressed);
+			main_game.editor_edit(left_mousebutton_pressed, right_mousebutton_pressed);
 		}
 
 		else
